@@ -1,0 +1,33 @@
+0001	CyclopsUnits	1	mm		|		mm
+0002	CyclopsUnits	1	cm					|		cm
+0003	CyclopsUnits	1	kg		|		kg
+0004	CyclopsUnits	1	Altura						|		cm
+0023	CyclopsUnits	1	regular - UPM Certa         						|		 
+0024	CyclopsUnits	1	regular - UPM Duvidosa          					|		 
+0025	CyclopsUnits	1	3 <Ciclos após interrupção do contraceptivo oral        		|		 
+0026	CyclopsUnits	1	desconhecido								|		 
+0028	CyclopsUnits	1	1° semestre								|		0046|0047
+0029	CyclopsUnits	1	2° semestre								|		0046|0047
+0030	CyclopsUnits	1	3° semestre								|		0046|0047
+0036	CyclopsUnits	1	Outro									|		|0036|
+0042	CyclopsUnits	1	Negativo							|		 
+0043	CyclopsUnits	1	Positivo			|		 
+0044	CyclopsUnits	1	usa							|		 
+0045	CyclopsUnits	1	não usa		|		 
+0046	CyclopsUnits	1	sim							|		 
+0047	CyclopsUnits	1	não		|		 
+0048	CyclopsUnits	1	O		|		 
+0049	CyclopsUnits	1	A		|		 
+0050	CyclopsUnits	1	B		|		 
+0051	CyclopsUnits	1	AB		|		 
+0052	CyclopsUnits	1	DPP		|		 
+0053	CyclopsUnits	1	Data da Concepção		|		 
+0054	CyclopsUnits	1	Ùltima Menstruação Data da Concepção		|		 
+0055	CyclopsUnits	1	Espontânea		|		 
+0056	CyclopsUnits	1	Drogras indutoras de ovolução		|		 
+0057	CyclopsUnits	1	AID		|		 
+0058	CyclopsUnits	1	AIH		|		 
+0059	CyclopsUnits	1	GIFT		|		 
+0060	CyclopsUnits	1	ICSI		|		 
+0061	CyclopsUnits	1	Semanas		|		 
+0062	CyclopsUnits	1	Dias		|		 

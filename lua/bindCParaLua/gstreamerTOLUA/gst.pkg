@@ -1,0 +1,26 @@
+$#include <gst/gst.h>
+
+$pfile "gstelement.pkg"
+$pfile "gstelementfactory.pkg"
+$pfile "gstpipeline.pkg"
+$pfile "gstbin.pkg"
+$pfile "gstutils.pkg"
+
+void            gst_init                        (int *argc, gchar **argv[]);
+gboolean        gst_init_check                  (int *argc, gchar **argv[], GError ** err);
+
+GOptionGroup *  gst_init_get_option_group       (void);
+void            gst_deinit                      (void);
+
+void            gst_version                     (guint *major, guint *minor,
+                                                 guint *micro, guint *nano);
+gchar *         gst_version_string              (void);
+
+gboolean        gst_segtrap_is_enabled          (void);
+void            gst_segtrap_set_enabled         (gboolean enabled);
+
+gboolean        gst_registry_fork_is_enabled    (void);
+void            gst_registry_fork_set_enabled   (gboolean enabled);
+
+gboolean        gst_update_registry (void);
+

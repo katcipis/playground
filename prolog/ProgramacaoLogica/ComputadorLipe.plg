@@ -1,0 +1,36 @@
+/* monitor(descricao(Fabricante,Modelo,Tamanho,Resolucao,Tecnologia),Preco). */
+monitor(monitor(lg,flatron_ez_t710sh,17,23,tubo), 400).
+monitor(monitor(sony,sdm-hs75p,17,26,lcd),1100).
+monitor(monitor(lg,lg_l1753t,17,26,lcd),700).
+
+/* hd(descricao(Fabricante,Modelo,Tamanho,Velocidade),Preco). */
+hd(hd(seagate,barracuda,500,7200),700).
+hd(hd(samsung,banshee,200,7200),180).
+hd(hd(maxtor,cheetah,80,5000),100).
+
+/* memoria(descricao(Fabricante,Tecnologia,Velocidade,Capacidade),Preco). */
+memoria(memoria(samsung,ddr,400,1024),350).
+memoria(memoria(hyundae,dimm,133,256),110).
+memoria(memoria(samsung,ddr,400,512),200).
+
+/* processador(descricao(Fabricante,Modelo,Velocidade),Preco). */
+processador(processador(intel,coreDuo,3800),480).
+processador(processador(amd,athlon64bits,3400),390).
+processador(processador(intel,pentium4,2200),300).
+
+computador(Monitor,HD,Memoria,Processador,Preco):-
+		monitor(Monitor,Preco1),
+		hd(HD,Preco2),
+		memoria(Memoria,Preco3),
+		processador(Processador,Preco4),
+		Preco is (Preco1 + Preco2 + Preco3 + Preco4),
+		Preco =< PrecoF.
+
+
+computador(Monitor,HD,Memoria,Processador,Preco,PrecoF):-
+		monitor(Monitor,Preco1),
+		hd(HD,Preco2),
+		memoria(Memoria,Preco3),
+		processador(Processador,Preco4),
+		Preco is (Preco1 + Preco2 + Preco3 + Preco4),
+		Preco =< PrecoF.

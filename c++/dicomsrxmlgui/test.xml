@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<SR_IOD>
+<SRDocumentContentIOM valueType="CONTAINER" continuityOfContent="SEPARATE" >
+      <ConceptNameCodeSequenceItem codeValue="0001" codingSchemeDesignator="Mamografia" codingMeaning="Gravidez Atual       " codingSchemeVersion="1" />
+       
+
+<ContentSequenceItem valueType="CODE" relationshipType="CONTAINS">
+            <ConceptNameCodeSequenceItem codeValue="0002" codingSchemeDesignator="CyclopsUnits" codingMeaning="Data       " codingSchemeVersion="1" />
+            <contentSequence>
+                  <ContentSequenceItem valueType="DATE" relationshipType="HAS PROPERTIES">
+                        <ConceptNameCodeSequenceItem codeValue="0043" codingSchemeDesignator="CyclopsUnits" codingMeaning="Ùltima Menstruação " codingSchemeVersion="1" />
+                  </ContentSequenceItem>
+                  <ContentSequenceItem valueType="DATE" relationshipType="HAS PROPERTIES">
+                        <ConceptNameCodeSequenceItem codeValue="0044" codingSchemeDesignator="CyclopsUnits" codingMeaning="Data da Concepção" codingSchemeVersion="1" />
+                  </ContentSequenceItem>
+                  <ContentSequenceItem valueType="DATE" relationshipType="HAS PROPERTIES">
+                        <ConceptNameCodeSequenceItem codeValue="0045" codingSchemeDesignator="CyclopsUnits" codingMeaning="DPP" codingSchemeVersion="1" />
+                  </ContentSequenceItem>
+            </contentSequence>
+            
+      </ContentSequenceItem>
+      
+      <ContentSequenceItem valueType="CODE" relationshipType="CONTAINS">
+            <ConceptNameCodeSequenceItem codeValue="0002" codingSchemeDesignator="CyclopsUnits" codingMeaning="Data       " codingSchemeVersion="1" />
+            <contentSequence>
+                  <ContentSequenceItem valueType="DATE" relationshipType="HAS PROPERTIES">
+                        <ConceptNameCodeSequenceItem codeValue="0043" codingSchemeDesignator="CyclopsUnits" codingMeaning="Ùltima Menstruação " codingSchemeVersion="1" />
+                  </ContentSequenceItem>
+                  <ContentSequenceItem valueType="DATE" relationshipType="HAS PROPERTIES">
+                        <ConceptNameCodeSequenceItem codeValue="0044" codingSchemeDesignator="CyclopsUnits" codingMeaning="Data da Concepção" codingSchemeVersion="1" />
+                  </ContentSequenceItem>
+                  
+            </contentSequence>
+            
+      </ContentSequenceItem>
+      
+      
+      <ContentSequenceItem valueType="CODE" relationshipType="CONTAINS">
+          <ConceptNameCodeSequenceItem codeValue="0003" codingSchemeDesignator="CyclopsUnits" codingMeaning="Ciclo       " codingSchemeVersion="1"/>
+      </ContentSequenceItem>
+      
+      <ContentSequenceItem valueType="DATE" relationshipType="CONTAINS">
+					<ConceptNameCodeSequenceItem codeValue="0006" codingSchemeDesignator="CyclopsUnits" codingMeaning="DPP pela DUM      " codingSchemeVersion="1"/>
+			</ContentSequenceItem>
+			
+			<ContentSequenceItem valueType="DATE" relationshipType="CONTAINS">
+          <ConceptNameCodeSequenceItem codeValue="0007" codingSchemeDesignator="CyclopsUnits" codingMeaning="DPP pela ecocardiografia    " codingSchemeVersion="1"/>
+      </ContentSequenceItem>
+      
+      <ContentSequenceItem valueType="CODE" relationshipType="CONTAINS">
+          <ConceptNameCodeSequenceItem codeValue="0046" codingSchemeDesignator="CyclopsUnits" codingMeaning="Concepção" codingSchemeVersion="1"/>
+      </ContentSequenceItem>
+      
+      <ContentSequenceItem valueType="CODE" relationshipType="CONTAINS">
+          <ConceptNameCodeSequenceItem codeValue="0005" codingSchemeDesignator="CyclopsUnits" codingMeaning="Teste de Gravidez     " codingSchemeVersion="1"/>
+      </ContentSequenceItem>
+      
+      
+      <ContentSequenceItem valueType="CODE" relationshipType="CONTAINS">
+
+<ConceptNameCodeSequenceItem codeValue="0008" codingSchemeDesignator="CyclopsUnits" codingMeaning="Idade gestacional     " codingSchemeVersion="1"/>
+	<contentSequence>
+	  <ContentSequenceItem valueType="NUM" relationshipType="HAS PROPERTIES">
+       <ConceptNameCodeSequenceItem codeValue="0047" codingSchemeDesignator="CyclopsUnits" codingMeaning="Semanas" codingSchemeVersion="1"/>
+    </ContentSequenceItem>
+	  <ContentSequenceItem valueType="NUM" relationshipType="HAS PROPERTIES">
+       <ConceptNameCodeSequenceItem codeValue="0048" codingSchemeDesignator="CyclopsUnits" codingMeaning="Dias" codingSchemeVersion="1"/>
+    </ContentSequenceItem>
+  </contentSequence>
+  </ContentSequenceItem>
+			
+			
+<ContentSequenceItem valueType="CODE" relationshipType="CONTAINS">
+  <ConceptNameCodeSequenceItem codeValue="0009" codingSchemeDesignator="CyclopsUnits" codingMeaning="Grupo Sanguíneo Materno     " codingSchemeVersion="1"/>
+	  <contentSequence>
+
+	    <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+        <ConceptNameCodeSequenceItem codeValue="0010" codingSchemeDesignator="CyclopsUnits" codingMeaning="Grupo Sanguíneo (Rh D)             " codingSchemeVersion="1"/>
+      </ContentSequenceItem>
+
+	    <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+        <ConceptNameCodeSequenceItem codeValue="0011" codingSchemeDesignator="CyclopsUnits" codingMeaning="HbsAg              " codingSchemeVersion="1"/>
+      </ContentSequenceItem>
+    </contentSequence>
+</ContentSequenceItem>
+
+
+<ContentSequenceItem valueType="CODE" relationshipType="CONTAINS">
+<ConceptNameCodeSequenceItem codeValue="0049" codingSchemeDesignator="CyclopsUnits" codingMeaning="Teste Sanguineo" codingSchemeVersion="1"/>
+  <contentSequence>
+    <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+      <ConceptNameCodeSequenceItem codeValue="0050" codingSchemeDesignator="CyclopsUnits" codingMeaning="HIV" codingSchemeVersion="1"/>
+  
+      <contentSequence>
+        <ContentSequenceItem valueType="DATE" relationshipType="HAS PROPERTIES">
+          <ConceptNameCodeSequenceItem codeValue="0054" codingSchemeDesignator="CyclopsUnits" codingMeaning="Data do Teste" codingSchemeVersion="1"/>
+        </ContentSequenceItem>
+
+        <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+          <ConceptNameCodeSequenceItem codeValue="0055" codingSchemeDesignator="CyclopsUnits" codingMeaning="Resultado" codingSchemeVersion="1"/>
+        </ContentSequenceItem>
+        
+      </contentSequence>
+    </ContentSequenceItem>
+  </contentSequence>
+</ContentSequenceItem>
+
+
+<ContentSequenceItem valueType="CODE" relationshipType="CONTAINS">
+            <ConceptNameCodeSequenceItem codeValue="0012" codingSchemeDesignator="CyclopsUnits" codingMeaning="Pré-gestacional:     " codingSchemeVersion="1" />
+            <contentSequence>
+                  <ContentSequenceItem valueType="NUM" relationshipType="HAS PROPERTIES">
+                        <ConceptNameCodeSequenceItem codeValue="0013" codingSchemeDesignator="CyclopsUnits" codingMeaning="Peso       " codingSchemeVersion="1" />
+                  </ContentSequenceItem>
+                  <ContentSequenceItem valueType="NUM" relationshipType="HAS PROPERTIES">
+                        <ConceptNameCodeSequenceItem codeValue="0014" codingSchemeDesignator="CyclopsUnits" codingMeaning="Altura       " codingSchemeVersion="1" />
+                  </ContentSequenceItem>
+                  <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                        <ConceptNameCodeSequenceItem codeValue="0015" codingSchemeDesignator="CyclopsUnits" codingMeaning="Cigarros      " codingSchemeVersion="1" />
+                  </ContentSequenceItem>
+                  <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                        <ConceptNameCodeSequenceItem codeValue="0016" codingSchemeDesignator="CyclopsUnits" codingMeaning="Alcool       " codingSchemeVersion="1" />
+                  </ContentSequenceItem>
+                  
+                  <ContentSequenceItem valueType="CODE" relationshipType="HAS CONCEPT MOD">
+                        <ConceptNameCodeSequenceItem codeValue="0017" codingSchemeDesignator="CyclopsUnits" codingMeaning="Medicação/eventuais teratogénos    " codingSchemeVersion="1" />
+                        <contentSequence>
+                              <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                    <ConceptNameCodeSequenceItem codeValue="0018" codingSchemeDesignator="CyclopsUnits" codingMeaning="uso de ácido folico     " codingSchemeVersion="1" />
+                              </ContentSequenceItem>
+                              <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                    <ConceptNameCodeSequenceItem codeValue="0019" codingSchemeDesignator="CyclopsUnits" codingMeaning="problemas na gravidez atual            " codingSchemeVersion="1" />
+                                    <contentSequence>
+                                          <ContentSequenceItem valueType="CODE" relationshipType="HAS CONCEPT MOD">
+                                                <ConceptNameCodeSequenceItem codeValue="0027" codingSchemeDesignator="CyclopsUnits" codingMeaning="Hemorragia      " codingSchemeVersion="1" />
+                                                <contentSequence>
+                                                      <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                                            <ConceptNameCodeSequenceItem codeValue="0058" codingSchemeDesignator="CyclopsUnits" codingMeaning="2° semestre						" codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                      <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                                            <ConceptNameCodeSequenceItem codeValue="0057" codingSchemeDesignator="CyclopsUnits" codingMeaning="1° semestre						" codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                      <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                                            <ConceptNameCodeSequenceItem codeValue="0059" codingSchemeDesignator="CyclopsUnits" codingMeaning="3° semestre						" codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                </contentSequence>
+                                          </ContentSequenceItem>
+                                          <ContentSequenceItem valueType="CODE" relationshipType="HAS CONCEPT MOD">
+                                                <ConceptNameCodeSequenceItem codeValue="0031" codingSchemeDesignator="CyclopsUnits" codingMeaning="Contrações      " codingSchemeVersion="1" />
+                                                <contentSequence>
+                                                      <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                                            <ConceptNameCodeSequenceItem codeValue="0057" codingSchemeDesignator="CyclopsUnits" codingMeaning="1° semestre						" codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                      <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                                            <ConceptNameCodeSequenceItem codeValue="0058" codingSchemeDesignator="CyclopsUnits" codingMeaning="2° semestre						" codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                      <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                                            <ConceptNameCodeSequenceItem codeValue="0059" codingSchemeDesignator="CyclopsUnits" codingMeaning="3° semestre						" codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                </contentSequence>
+                                          </ContentSequenceItem>
+                                          <ContentSequenceItem valueType="CODE" relationshipType="HAS CONCEPT MOD">
+                                                <ConceptNameCodeSequenceItem codeValue="0032" codingSchemeDesignator="CyclopsUnits" codingMeaning="RPM       " codingSchemeVersion="1" />
+                                                <contentSequence>
+                                                      <ContentSequenceItem valueType="CODE" relationshipType="HAS CONCEPT MOD">
+                                                            <ConceptNameCodeSequenceItem codeValue="0033" codingSchemeDesignator="CyclopsUnits" codingMeaning="Hipertensão induziada pela gravidez   " codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                      <ContentSequenceItem valueType="CODE" relationshipType="HAS CONCEPT MOD">
+                                                            <ConceptNameCodeSequenceItem codeValue="0034" codingSchemeDesignator="CyclopsUnits" codingMeaning="Pré-eclampsia      " codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                      <ContentSequenceItem valueType="CODE" relationshipType="HAS CONCEPT MOD">
+                                                            <ConceptNameCodeSequenceItem codeValue="0035" codingSchemeDesignator="CyclopsUnits" codingMeaning="Diabetes gestacional     " codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                      <ContentSequenceItem valueType="TEXT" relationshipType="HAS CONCEPT MOD">
+                                                            <ConceptNameCodeSequenceItem codeValue="0036" codingSchemeDesignator="CyclopsUnits" codingMeaning="Outro       " codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                      <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                                            <ConceptNameCodeSequenceItem codeValue="0057" codingSchemeDesignator="CyclopsUnits" codingMeaning="1° semestre						" codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                      <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                                            <ConceptNameCodeSequenceItem codeValue="0058" codingSchemeDesignator="CyclopsUnits" codingMeaning="2° semestre						" codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                      <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                                            <ConceptNameCodeSequenceItem codeValue="0059" codingSchemeDesignator="CyclopsUnits" codingMeaning="3° semestre						" codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                </contentSequence>
+                                          </ContentSequenceItem>
+                                          <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                                <ConceptNameCodeSequenceItem codeValue="0056" codingSchemeDesignator="CyclopsUnits" codingMeaning="Naúsea/vomito" codingSchemeVersion="1" />
+                                          </ContentSequenceItem>
+                                          <ContentSequenceItem valueType="TEXT" relationshipType="HAS CONCEPT MOD">
+                                                <ConceptNameCodeSequenceItem codeValue="0036" codingSchemeDesignator="CyclopsUnits" codingMeaning="Outro       " codingSchemeVersion="1" />
+                                          </ContentSequenceItem>
+                                    </contentSequence>
+                              </ContentSequenceItem>
+                              <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                    <ConceptNameCodeSequenceItem codeValue="0020" codingSchemeDesignator="CyclopsUnits" codingMeaning="procedimento invasivo prévio           " codingSchemeVersion="1" />
+                                    <contentSequence>
+                                          <ContentSequenceItem valueType="CODE" relationshipType="HAS CONCEPT MOD">
+                                                <ConceptNameCodeSequenceItem codeValue="0037" codingSchemeDesignator="CyclopsUnits" codingMeaning="Amniocentese      " codingSchemeVersion="1" />
+                                                <contentSequence>
+                                                      <ContentSequenceItem valueType="DATE" relationshipType="HAS PROPERTIES">
+                                                            <ConceptNameCodeSequenceItem codeValue="0054" codingSchemeDesignator="CyclopsUnits" codingMeaning="Data do Teste" codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                      <ContentSequenceItem valueType="CODE" relationshipType="HAS PROPERTIES">
+                                                            <ConceptNameCodeSequenceItem codeValue="0055" codingSchemeDesignator="CyclopsUnits" codingMeaning="Resultado" codingSchemeVersion="1" />
+                                                      </ContentSequenceItem>
+                                                </contentSequence>
+                                          </ContentSequenceItem>
+                                          <ContentSequenceItem valueType="TEXT" relationshipType="HAS CONCEPT MOD">
+                                                <ConceptNameCodeSequenceItem codeValue="0036" codingSchemeDesignator="CyclopsUnits" codingMeaning="Outro       " codingSchemeVersion="1" />
+                                          </ContentSequenceItem>
+                                    </contentSequence>
+                              </ContentSequenceItem>
+                              <ContentSequenceItem valueType="TEXT" relationshipType="HAS CONCEPT MOD">
+                                    <ConceptNameCodeSequenceItem codeValue="0022" codingSchemeDesignator="CyclopsUnits" codingMeaning="Comentários              " codingSchemeVersion="1" />
+                              </ContentSequenceItem>
+                        </contentSequence>
+                  </ContentSequenceItem>
+                  
+            </contentSequence>
+      </ContentSequenceItem>
+
+			
+</SRDocumentContentIOM>
+ </SR_IOD>

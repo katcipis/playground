@@ -1,0 +1,27 @@
+versao do kernell utilizado:
+2.6.32-22-generic-pae
+
+Criando o device:
+	sudo mknod /dev/memory c 100 1
+
+Compilando:
+	*usar a versao do kernell adequada: no nosso caso é 2.6.32-22-generic-pae (uname -r, indica)
+	sudo make
+
+Instalando o Módulo:
+	su
+	insmod memory.ko
+
+
+Testando!! (como root)
+        Para evitar problema de permissao negada:
+        chmod 666 /dev/memory
+
+	Enviando caracteres para o driver:
+	echo string1 > /dev/memory 
+	echo string2 > /dev/memory 
+	echo string3 > /dev/memory 
+
+	Lendo:
+	cat /dev/memory
+

@@ -1,0 +1,24 @@
+limiteAprovacao(5.75).
+
+aluno(06232047, 'Tiago Katcipis', notas(4, 4, 6.0) ).
+aluno(06232046, 'Melanie Jung', notas(8, 8, 9) ).
+
+/* a variavel Matricula tem o predicado ser aprovado SE */
+aprovado(Matricula) :-
+
+/* Média é o limiteAprovação */ 
+limiteAprovacao(Media),
+
+/* o Aluno de Matricula X, Nome Y, tem as notas(Z, W, Q) */
+aluno(Matricula, Nome, notas(Nota1, Nota2, Nota3)),
+
+/* A soma das notas é Nota1 + Nota2 + Nota3 */
+SomaDasNotas is (Nota1 + Nota2 + Nota3),
+
+/* Media do Aluno é a SomaDasNotas dividido por 3 */
+MediaAluno is  ( SomaDasNotas / 3),
+
+/* MediaAluno é maior ou igual a media */
+MediaAluno >= Media.
+
+

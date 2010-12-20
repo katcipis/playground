@@ -1,0 +1,9 @@
+Node name	        Total time
+debug	                42.73
+called from debug	28.190000000002
+simulate_calc	        22.71
+cos	                4.4299999999999
+sin	                3.83
+square	                3.68
+profiler_init	        0.000000
+stop	                0.000000

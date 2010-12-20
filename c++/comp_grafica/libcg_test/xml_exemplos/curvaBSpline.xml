@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<formas>
+	<curvaBSpline nome="curvaBS" cor="0000FF">
+		<!--
+			Uma curva Bspline possui no minimo 4 pontos de controle,
+			mas nao ha um limite maximo.
+		-->
+		<ponto x="0.0" y="0.0" z="0.0"/>
+		<ponto x="100.0" y="0.0" z="0.0"/>
+                <ponto x="150.0" y="0.0" z="0.0"/>
+		<ponto x="200.0" y="200.0" z="0.0"/>
+                <ponto x="250.0" y="0.0" z="0.0"/>
+		<ponto x="300.0" y="0.0" z="0.0"/>
+		<ponto x="400.0" y="0.0" z="0.0"/>
+		<!-- <ponto> adicionais -->
+	</curvaBSpline>
+</formas>

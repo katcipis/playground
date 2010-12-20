@@ -1,0 +1,67 @@
+Pessoal,
+
+   Como comentei hoje na aula, semana que vem faremos dois testes
+relacionados aos predicados extra-lógicos ! (cut) e fail.  A título de
+preparação para os testes, implementem um programa em Prolog que resolva
+o seguinte problema (lembrem-se que a solução deve estar baseada no uso
+adequado dos predicados ! e fail):
+
+"Em um banco existem diversas contas correntes que são identificadas por
+um número e que possuem um saldo. Operações bancárias são operações que
+adicionam ou removem valores das contas.  Faça um programa que:
+
+1 - processe um conjunto de operações bancárias (créditos e débitos em
+diversas contas) de modo que, no final, cada conta tenha seu saldo correto.
+2 - caso uma operação bancária não possa ser realizada por falta de
+funtos então ela deve ser armazenada para posterior processamento.
+
+Usar os seguintes predicados:
+
+cc(numero_da_conta, saldo).
+
+ Fato que representa uma conta corrente (cc) com seu respectivo número
+e saldo.
+
+ob(numero_da_operacao_bancaria, tipo, numero_da_conta, valor).
+
+ Fato que representa uma operação bancária(ob) onde consta o número da
+operação, o tipo (c ou d) para representar operação de crédito ou de
+débito, o número da conta sobre a qual deve ser realizado o crédito ou
+débito e o valor da operação.
+
+obr(numero_da_operacao, numero_da_conta, valor)
+
+ Fato que representa uma operação bancária rejeitada(obr) onde consta o
+número da operação, o número da conta corrente e o valor que se tentou
+sacar mas não havia saldo suficiente.
+
+Exemplo:
+
+cc(100,50).  // a conta corrente número 100 tem R$50 de saldo
+cc(200,0).   // a conta corrente número 200 tem R$0 de saldo.
+
+ob(1, c, 100, 35).   // depositar R$35 na conta número 100
+ob(2, c, 200, 10).  // depositar R$10 na conta número 200.
+ob(3, d, 100, 60).  // retirar R$60 da conta número 100.
+ob(4, c, 100, 40).  // depositar R$40 na conta número 100.
+ob(5, d, 200, 30).  // retirar R$30 da conta número 200  - note que o
+saldo é R$10
+
+Fazendo a consulta:
+
+?  processeOperacoesBancarias. <enter>
+Yes
+
+?  cc(Conta, Saldo).
+ Conta = 100
+ Saldo =   65   ;
+
+ Conta = 200
+ Saldo =  10  ;
+No
+
+?  obr(Num, Conta, Valor). <enter>
+ Num = 5
+ Conta = 200
+ Valor = 30  ;
+ No

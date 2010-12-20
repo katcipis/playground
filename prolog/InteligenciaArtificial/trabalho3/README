@@ -1,0 +1,86 @@
+=============================================================================
+====================================INFO=====================================
+=============================================================================
+
+Para obter mais informações sobre as regras definidas e sobre a base da dados 
+inicial executar o comando "listing." após carregar o programa.
+
+Não foi feito um menu específico para inserir os dados em modo texto porque isso 
+tornaria a usabilidade mais complicada do que o próprio suporte nativo do prolog
+de inserção utilizando as próprias sentenças fornecidas pelo prolog.
+
+Sempre que houver um campo Data ele deve ser fornecido da seguinte maneira:
+data(DD, MM, AAAA).
+
+Ex: operar(paciente, diabetes, data(23,06,1997), fulano).
+
+Todos os testes e desenvolvimento foram feitos no compilador prolog
+SWI-Prolog version 5.6.64. O procedimento é:
+
+1- swipl -c main.plg
+2- ./a.out
+3- executar os comandos disponiveis.
+
+
+=============================================================================
+===========================COMANDOS DISPONIVEIS==============================
+=============================================================================
+
+Adcionando novo médico:
+novo_medico(Nome).
+
+
+Adcionando paciente:
+novo_paciente(Nome).
+
+
+Adcionando doença:
+nova_doenca(Nome).
+
+
+Dando baixa:
+dar_baixa(NomePaciente, Data, NumeroDoLeito, NomeMedico).
+
+
+Dando alta:
+dar_alta(NomePaciente, Data, NumeroDoLeito, NomeMedico).
+
+
+Registrando novo exame:
+novo_exame(NomePaciente, Tipo, NomeMedico, Data).
+
+Registrando o resultado de um exame previamente adcionado:
+adicionar_resultado(NomePaciente, Tipo, NomeMedico, Data, Resultado).
+
+
+Diagnosticando um paciente:
+dar_diagnostico(NomePaciente, Doenca, Data, NomeMedico).
+
+
+Operando um paciente:
+operar(NomePaciente, Doenca, Data, NomeMedico).
+
+
+Consultando baixas:
+ocorreu_baixa(NomePaciente, Data, Leito, NomeMedico).
+
+
+Consultando altas:
+ocorreu_alta(NomePaciente, Data, Leito, NomeMedico).
+
+
+Consultando sobre exames:
+ocorreu_exame(NomePaciente, Tipo, NomeMedico, Data, Resultado).
+
+
+Consultando sobre diagnosticos:
+ocorreu_diagnostico(NomePaciente, Doenca, Data, NomeMedico).
+
+
+Consultando sobre operações:
+ocorreu_operaracao(NomePaciente, Doenca, Data, NomeMedico).
+
+
+Obtendo informações sobre médicos:
+obter_atendimentos_medico(NomeMedico, PacienteAtendeu).
+obter_operacoes_medico(NomeMedico, PacienteOperou).

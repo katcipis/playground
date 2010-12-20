@@ -1,0 +1,36 @@
+<dcmz-examination requisition="HU_BRON_1248926" title="Exame do Pele">
+
+ 
+  <patient>
+    <name>Edison Arantes do Nascimento</name>
+
+    <birthdate>23/10/1940</birthdate>
+
+  </patient>
+ 
+  <doctors>
+
+    <requester>Dráuzio Varela</requester>
+
+    <executor>Louis Pasteur</executor>
+
+  </doctors>
+ 
+  <images nro="4">
+
+    <image>HU_BRON_1248926000.jpeg</image>
+
+    <image>HU_BRON_1248926001.jpeg</image>
+
+    <image>HU_BRON_1248926002.jpeg</image>
+
+    <image>HU_BRON_1248926003.jpeg</image>
+
+  </images>
+ 
+  <report>
+
+    O Pele esta doente.
+  </report>
+ 
+</dcmz-examination>

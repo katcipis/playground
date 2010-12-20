@@ -1,0 +1,46 @@
+Pessoal,
+
+   Trabalho para a próxima aula: implementar um programa que resolva o
+problema descrito a seguir.
+
+Problema: Um computador é composto por monitor, memória, hd e
+processador.  Para cada um destes itens existem diversos fabricantes e
+diversos modelos.  Cada item, além do preço, possui um conjunto de
+especificações próprias. Por exemplo, monitores possuem tamanho de tela
+(14", 15", 17", etc), resolução (.28, .25, .23, etc), tecnologia(tubo,
+lcd). Já os discos rígidos possuem capacidade de armazenamento(80GB,
+160GB, etc), velocidade(5000rpm, 7200rpm, etc). O programa deve conter
+pelo menos 3 produtos de cada tipo (3 monitores, 3 hds, etc).
+
+
+   Escreva um programa que permita ao usuário:
+
+1 - conhecer as diferentes configurações de um computador e seu
+respectivo preço.
+
+2 - conehecer as diferentes configurações de computador cujo preço estão
+dentro de um limite (preço máximo) informado pelo usuário.
+
+DICA: usem funtores (functors) na descrição dos itens. Leiam a
+documentação e/ou texto do xerox sobre este assunto.
+
+Exemplo: usando o funtor descricao para monitor
+
+/* monitor(descricao(fabricante,modelo,tamanho,resolucao,tecnologia),
+preco) */
+monitor(descricao(lg, flatron_ez_t710sh, 17, 23, tubo), 400).
+
+Notem que o predicado monitor possui DOIS termos: o funtor descricao
+(com seus 6 termos) e a constante preco.
+
+
+Assim, em uma consulta
+
+? monitor(descricao(lg,Modelo, 17, Resolucao,tubo),Preco).
+
+deseja-se saber quais são os modelos (e respectivos resolução e preço)
+de monitor da marca LG com 17" com tubo.
+
+
+** ATENÇÃO NA AULA DO DIA 26/4 FAREMOS O PRIMEIRO TESTE INDIVIDUAL. O
+TESTE ESTARÁ BASEADO NOS PROGRAMAS PROLOG DISCUTIDOS ATÉ A AULA DE 19/4.

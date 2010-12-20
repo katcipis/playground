@@ -1,0 +1,74 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<h1>E6: Epos final implementation</h1>
+
+<b> Old Fixes: </b>
+
+<b> From exec 1: </b>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec1/e1.html">Exercise 1</a></p>
+<p> 
+The idle() method of the Thread was fixed, since the old implementation allowed a suspended thread to run.
+</p>
+
+<p>
+We added a _joinedLink to be used on the _joined Queue instead of sharing the _link of the _ready / _suspended Queues.
+</p>
+
+<p>
+The join method was not disabling interruptions, so there was a chance of a deadlock happening (If the caller loses the CPU in the middle of the join() call and the callee Thread exits, when the caller Thread got the CPU back it would stay suspended forever). 
+</p>
+
+<b> From exec 2: </b>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec2/e2.html">Exercise 2</a></p>
+<p>
+We use only two links (instead of three), one to insert on the _join and the _sleeping Queues, and other link to the _ready and _suspended Queue. Saving some resources.
+</p>
+
+<b> From exec 3: </b>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec3/e3.html">Exercise 3</a></p>
+<p>
+Fixed the error on the Thread destructor when a Thread deleted itself (The thread would destroy itself and continue execution without a valid stack). 
+</p>
+
+<b> From exec 4: </b>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec4/e4.html">Exercise 4</a></p>
+<p>
+Fixed the error on thread_init where we could have a CPU interruption while creating the main and the idle threads.
+</p>
+
+<p>
+Created the idle Thread with a LOW priority to make good use of the scheduler not schedulling the idle thread all the time.
+</p>
+
+<p>
+Removed the if(_ready.empty) that was protecting the user but imposing a significant overhead on the system.
+</p>
+
+<p>
+Fixed the memory leak when the running Thread deleted itself. Just calling exit() didnt free the stack of the Thread, so we created the free_and_exit method.
+</p>
+
+<b>Timer Solution:</b>
+<p>
+Our timer solution consistis on turning the _handler on a Thread, so when it is run it will not block the timer_handler interruption and mess with the timing mechanism. To solve the delay was easy with the abstraction of handlers as Threads, we implemented a constructor that accepts a Thread instead of a Handler, and if necessary we insert it on the Queue and suspend it. The timer_handler will resume the Thread blocked on the delay call. 
+
+What wasted our time was a little but nasty bug on the Alarm constructor and on the Queue typedef. The Queue was not using the Tick as rank on the constructor, only on the timer_handler when the timer was reinserted on the Queue. So executing an Alarm::(500000) and then Alarm::(250000) would make the faster alarm to wait for the slower one to fire, because the slower was inserted first. (This also generated a lot of undesired odd behaviour with Alarm::delay).
+
+The implementation was tested with alarm_test.cc, the source of this test can be found on the app foulder.
+</p>
+
+<b> smp feature: </b>
+
+<p> 
+Since the exercise 2 we are trying to build an smp ready Epos. We implemented an int_enable int_disable using a SpinLock to guarantee atomicity on Thread calls even on smp.
+The Syncronizer_Commom also have a Spin lock for the same reason (guarantee atomicity of the sleep/wakeup calls). Of course this Epos version is not smp ready yet because
+we still have only one "_running" Thread instead of a Queue, but all exercises where resolved thinking on smp race conditions. 
+</p>
+
+<b>Final Source code:</b>
+<p><a href="https://svn.inf.ufsc.br/katcipis/c++/SO2/epos--so2-1">SVN</a></p>
+
+<p><strong>Team: </strong></p>
+<p> Felipe Teixeira   </p>
+<p> Patricia Dousseau </p>
+<p> Tiago Katcipis    </p>

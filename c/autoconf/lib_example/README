@@ -1,0 +1,26 @@
+=============================================================
+README 
+=============================================================
+
+Introduction
+------------
+
+Just a template of how to use autoconf on a new project.
+
+
+Quick start
+-----------
+
+building procedure is the usual:
+
+sh> sh autogen.sh (if building from git)
+sh> ./configure
+sh> make
+sh> make install
+
+Licensing
+---------
+
+LuaSofia is licensed under terms of the GNU LGPL.
+See the file "COPYING" for more information.
+                                                                 

@@ -1,0 +1,163 @@
+/*1*/
+
+inseridoNoInicio(X, L, [X|L]).
+
+/*2*/
+
+inseridoNoFinal(X, [], [X]).
+
+inseridoNoFinal(X, [P|R], [P|RM]) :-
+	inseridoNoFinal(X, R, RM). 
+
+/*3*/
+
+inseridoNaPos(D, 1, L, [D|L]).
+inseridoNaPos(D, Pos, [P|R], [P|LM]):-
+       Pos > 1,
+       Pos2 is Pos - 1,
+       inseridoNaPos(D, Pos2, R, LM).
+
+/*4*/
+
+removidoDoInicio([P | R], P, R).
+
+/*5*/
+
+removaDoFinal([X], X, []).
+
+removaDoFinal([P|R], X,[P|RM]) :-
+	removaDoFinal(R, X, RM).
+
+/*6*/
+
+
+removidoDaPos([X|R], 1, X, R).
+
+ removidoDaPos([P|R], Pos, X, [P|RM]):-
+       Pos > 1,
+       Pos2 is Pos - 1,
+       removidoDaPos(R, Pos2, X, RM). 
+
+
+/*7*/
+
+substituidoDoInicio(D,[_|R],[D|R]).
+
+/*8*/
+
+substituidoDoFinal(X,[],[X]).
+
+substituidoDoFinal(X,[P|R],[P|RM]) :-
+	substituidoDoFinal(X, R, RM).
+
+/*9*/
+
+substituidoDaPos(Y, 1, [_|R], [Y|R]).
+
+ substituidoDaPos(Y, Pos, [P|R], [P|RM]):-
+       Pos > 1,
+       Pos2 is Pos - 1,
+       substituidoDaPos(Y, Pos2, R, RM).
+
+
+/* 10 */
+
+acumuladorReverso([], A, A).
+acumuladorReverso([P|R], A, RM):-
+	acumuladorReverso(R, [P|A], RM).
+
+
+invertida([X],[X]).
+invertida(L, LI):-
+	acumuladorReverso(L, [], LI).
+	
+
+
+/* 
+1) Implementar o predicado _*temOcorrencias(D,L,O)*_ onde D é um dado,
+L é uma lista e O é um número que indica quantas vezes D aparece na lista L. */
+
+
+temOcorrencias(_,[],0).
+
+temOcorrencias(X,[X|R],VezesQueOcorreu):-
+	temOcorrencias(X,R,VezesQueOcorreuR),
+	VezesQueOcorreu is VezesQueOcorreuR + 1.
+
+temOcorrencias(X, [P | R], VezesQueOcorreu) :-
+  X \= P,
+  temOcorrencias(X, R, VezesQueOcorreu).
+
+
+/*  2) Implementar o predicado _*semOcorrencias(D,L,LM*_) onde D é um dado,
+L é uma lista e LM é a lista L sem a presença do dado D. A ordem dos dados em
+LM tem que ser a mesma de L. */
+
+semOcorrencias(_,[],[]).
+
+semOcorrencias(X,[P|R],[P|R]):-
+	X \= P,
+	semOcorrencias(X,R,R).
+
+/*  3) Implementar o predicado _*concatenadas(L1, L2, LC)*_ onde L1 e L2 são listas
+e LC
+é a lista contendo todos os dados de L1 seguidos de todos os dados de L2. */ 
+
+juntar([],L,L).
+
+juntar([P|R],L2,[P|L3]) :- 
+	juntar(R,L2,L3).
+
+
+
+/*  4) Implementar o predicado _*ehMaior(L,M)*_ onde L é uma lista de números e
+M é o maior dos números. */ 
+
+
+ehMaior([P],P).
+
+ehMaior([P, S | R], Maior) :-
+  ehMaior([S | R], MaiorAux),
+  maior(P, MaiorAux, Maior).
+
+maior(N1,N2,N1) :-
+  N1 > N2.
+maior(N1,N2,N2) :-
+  N2 >= N1.
+
+	/*  5) Implementar o predicado _*primeiroEUltimo(L, LPU)*_ onde L é uma lista e
+LPU é uma lista contendo o primeiro e o último dados de L. */ 
+
+primeiroEUltimo([P,U], [P,U]).
+
+primeiroEUltimo([P,_|R], [P,U]):-
+	removaDoFinal(R, U,_).
+	
+/*  BONUS Implementar o predicado alistar numeros pares e impares */ 
+
+ehPar(X) :-
+	0 is mod(X,2).
+ehImpar(X) :-
+	1 is mod(X,2).
+
+
+imparesEPares([X], [], [X]).
+
+imparesEPares([P|R], LI, [P|LP]) :-
+	ehPar(P),
+	imparesEPares(R, LI, LP).
+
+imparesEPares([P|R], [P|LI], LP) :-
+	ehImpar(P),
+	imparesEPares(R, LI, LP).
+	
+
+
+
+
+
+
+
+
+
+

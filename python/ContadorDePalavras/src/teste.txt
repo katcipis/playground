@@ -1,0 +1,51 @@
+Em 1990, Eli Biham e Adi Shamir introduziram a noção da criptoanálise 
+diferencial, um método totalmente novo. Usando esta técnica, os autores 
+encontraram um ataque de texto claro escolhido (chosen-plaintext) contra o DES, 
+mais eficiente do que o da força bruta.
+
+A criptoanálise diferencial procura por pares de texto claro e pares de texto cifrado, 
+ou seja, o ataque examina pares de texto cifrado cujos pares de texto claro correspondentes
+ apresentem determinadas diferenças. Os dois textos claros podem ser escolhidos ao acaso, 
+ mas precisam satisfazer determinadas condições, apesar do criptoanalista não precisar 
+ conhecer seus valores.
+
+Certas diferenças nos pares de texto claro têm uma grande probabilidade de reaparecerem 
+nos pares do texto cifrado resultante. Estas diferenças são chamadas de características. 
+Por exemplo, se a diferença entre dois textos claros for 0080 8200 6000 000 
+(em hexadecimal), então após três rodadas, ignorando a permutação inicial do DES, 
+a probabilidade desta diferença aparecer nos dois textos cifrados resultantes continuar 
+sendo 0080 8200 6000 000 é de (1/16)2 ou 5%.
+
+A criptoanálise diferencial usa estas características para atribuir probabilidades a 
+chaves possíveis e, eventualmente, localizar a chave mais provável, mas é preciso 
+ressaltar que o método usa um ataque estatístico e pode falhar em algumas raras ocasiões.
+
+Existem algumas aspectos que precisam ser destacados. O primeiro é que este ataque é 
+principalmente teórico porque o tempo enorme e a quantidade de dados necessária para 
+montar um ataque torna-o inacessível para a maioria das pessoas. Só para se ter uma idéia,
+ para obter os dados necessários para o ataque gasta-se cerca de 3 anos para cifrar um 
+ fluxo de dados a 1.5 Mbits/segundo de texto claro escolhido. Em segundo lugar, este é 
+ um ataque com texto claro escolhido. A criptoanálise diferencial também funciona como 
+ um ataque a um texto claro conhecido, mas é preciso "escarafunchar" todos os pares de 
+ texto claro/texto cifrado até encontrar os que possam ser usados.
+
+Para o DES com 16 etapas completas, este tipo de ataque é ligeiramente menos eficiente 
+do que o da força bruta (o ataque da criptoanálise diferencial precisa de 255.1 
+operações enquanto a força bruta precisa de 255 operações). O consenso é que, quando 
+implementado adequadamente, o DES resiste a uma criptoanálise diferencial. E aí surgem as
+perguntas: Porque o DES é tão resistente à criptoanálise diferencial? Porque as caixas
+S foram otimizadas para dificultar ao máximo este ataque? Porque existem apenas as etapas
+necessárias e não mais do que isto? A resposta é: porque os projetistas do DES já
+conheciam a criptoanálise diferencial. Don Coppersmith, da IBM, disse o seguinte num 
+newsgroup da IBM:
+
+Nós [o grupo IBM] já conhecíamos a criptoanálise diferencial desde 1974. Este é o motivo 
+pelo qual o DES resistiu a este tipo de ataque. Projetamos as caixas S e a permutação para
+que este ataque fosse neutralizado. Todos estes anos ficamos calados a respeito do assunto
+porque sabíamos que a criptoanálise diferencial é muito poderosa e porque queríamos que 
+ela não fosse descoberta e usada (tanto em projetos, quanto em ataques). Agora que a 
+técnica se tornou conhecida, achamos que chegou a hora de contar a nossa versão da 
+história.
+
+Adi Shamir desafiou Coppersmith a revelar que não havia encontrado qualquer ataque melhor 
+do que este, mas Coppersmith preferiu ficar em silêncio.

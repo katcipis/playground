@@ -1,0 +1,99 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Secure Epos</title>
+</head><body>
+<h1>Secure Epos</h1>
+
+<h2> Objectives </h2>
+<p>
+The purpose of our work is to implement a security memory mechanism in epos, a memory dump could reveal important data, the idea is to cipher the data that is resident on the memory to prevent private data to be read by a memory dump or some hardware hacking. This will be done using the idea of a Secure Segment.
+</p>
+
+<h2> Description </h2>
+<p>
+We will create a secure segment, so that any thread can have its data protected running on Address_Space that is using a Secure_Segment.
+In order to do this one we must create an authentication mechanism so that only authorized threads have access to the content of the segment, this is done by adding the thread that created the secure segment as authorized, and this thread can give permission to other Threads. Any Thread that is on the list of authorized Threads can give permission to a new one.
+</p>
+<p>
+Memory will be deciphered through the page fault mechanism, a page belonging to a Secure_Segment is marked as non-present, so if someone try to access it a page fault is generated, on the page fault handler we see if the Thread that is trying to access that segment has permission to do it, if it has the page is deciphered and the Thread can read it. Otherwise the page fault will run normally as if the thread does not have permission to access that page.
+</p>
+
+<p> 
+A Secure_Segment_Manager will periodicaly encipher the segments back in memory. This will be done using a Periodic_Thread. The Secure_Segment_Manager will have all the Secure_Segments that are running on the system and will use a LRU like system to know wich is the best deciphered segment to be ciphered back.
+</p>
+
+<p>
+The secure segment will be a segment whose data will be ciphered using simetric key. The secure segment will have a list of threads that have permission to access it. This authorization will be obtained once a thread create a secure segment, and this thread will be allowed to give permission to other threads. </p>
+
+We supose that the Cipher key is protected by some hardware mechanism and is hardcoded.
+</p>
+
+
+<p><strong> Logic Model: </strong></p>
+
+<p> Full Model Class Diagram </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/FullModelClassDiagram.png"><br>
+
+<p> Create Task </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/Create%20Task.png"><br>
+
+<p> Create Secure Segment </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/Create%20a%20Secure_Segment.png"><br>
+
+<p> Destroy Secure Segment </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/Destroy%20a%20Secure_Segment.png"><br>
+
+<p> Init Secure_Segment_Manager.png </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/Init%20Secure_Segment_Manager.png"><br>
+
+<p> Secure Segment Manager timer fired.png </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/Secure%20Segment%20Manager%20timer%20fired.png"><br>
+
+<p> Page Fault Handling.png </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/Page_Fault_Handling.png"><br>
+
+
+
+<p><strong> Implementation part 1: </strong></p>
+
+<p><strong> New Classes: </strong></p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp1/secure_segment.h">Header of the Secure_Segment Class.</a></p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp1/secure_segment.cc">Implementation of the Secure_Segment Class.</a></p>
+
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp1/secure_segment_manager.h">Header of the Secure_Segment_Manager Class.</a></p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp1/secure_segment_manager.cc">Implementation of the Secure_Segment_Manager Class.</a></p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp1/cipher.h">Cipher interface.</a></p>
+
+
+<p><strong> Changes made on existing Classes: </strong></p>
+<p> Some private data of the Chunk object has become protected. </p>
+<p> A new method on the Address_Space, so we can map a Log_Addr to a Secure_Segment. </p>
+<p> A fix on the IA32 Flags so the non-present page fault mechanism work ok. </p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp1/mmu.h">IA32 MMU.</a></p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp1/address_space.h">Address_Space.</a></p>
+
+
+<p><strong> FIXES </strong></p>
+<p> When all threads on the system exit the system keep running because the Secure_Segment_Manager periodic Thread. </p>
+<p> Now the page fault happens....everything works fine...but a GPF happens at the end of the page fault handler. </p>
+
+<p><strong> TODO </strong></p>
+<p> Implement the Secure_Segment_Manager::get_segment method efficiently, using the custom user flags of the page system. </p>
+<p> Implement the IDEA Cipher algorithm to test the whole concept. </p>
+
+<p><strong> Tests </strong></p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp1/secure_segment_test.cc">Small test showing the expected usage of the Secure_Segment.</a></p>
+
+    <p><strong>Team: </strong></p>
+    <p> Felipe Teixeira   </p>
+    <p> Fernanda Peters   </p>
+    <p> Patricia Dousseau </p>
+    <p> Tiago Katcipis    </p>
+
+</body>
+</html>

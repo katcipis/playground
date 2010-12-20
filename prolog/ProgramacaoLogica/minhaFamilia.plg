@@ -1,0 +1,66 @@
+
+homem(nicolau).
+homem(nivaldo).
+
+homem(nivaldinho).
+homem(anastacio).
+homem(esteliano).
+
+homem(tiago).
+homem(anastacinho).
+
+mulher(ivonete).
+mulher(zulma).
+
+mulher(suzane).
+
+mulher(fernanda).
+mulher(mariana).
+
+paiDe(nicolau, esteliano).
+paiDe(nicolau, anastacio).
+
+paiDe(nivaldo, nivaldinho).
+paiDe(nivaldo, suzane).
+
+paiDe(esteliano, tiago).
+paiDe(esteliano, mariana).
+paiDe(esteliano, fernanda).
+paiDe(anastacio, anastacinho).
+
+mulherDe(suzane, esteliano).
+mulherDe(ivonete, nivaldo).
+mulherDe(zulma, nicolau).
+
+irmaoDe(X, Y) :-
+	paiDe(Z, X),
+	paiDe(Z, Y),
+	X \= Y.
+
+maeDe(X, Y) :-
+	mulherDe(X, Z),
+	paiDe(Z, Y).
+
+avohDe(X, Y) :-
+	paiDe(X, Z), 
+	paiDe(Z, Y).
+
+avohDe(X, Y) :-
+	paiDe(X, Z), 
+	maeDe(Z, Y).
+
+avomDe(X, Y) :-
+	maeDe(X, Z),
+        maeDe(Z, Y).
+	
+avomDe(X, Y) :-
+	maeDe(X, Z),
+        paiDe(Z, Y).
+
+
+
+
+
+
+
+

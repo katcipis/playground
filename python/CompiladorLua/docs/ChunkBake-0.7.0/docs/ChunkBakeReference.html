@@ -1,0 +1,1671 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+  <title>ChunkBake Reference</title>
+  <meta content="Kein-Hong Man" name="author">
+  <meta name="generator" content="Mozilla 1.7 Growwwwl!!">
+  <style type="text/css">
+.SBase {
+color: #000000;
+font-size: 10pt;
+}
+.S0 {
+color: #FF0000;
+}
+.S2 {
+color: #007F00;
+}
+.S4 {
+color: #007F7F;
+}
+.S5 {
+color: #0000BF;
+}
+.S6 {
+color: #7F007F;
+}
+.S10 {
+font-weight: bold;
+}
+.S13 {
+color: #0000BF;
+background: #D0FFD0;
+}
+  </style>
+</head>
+<body>
+<h1 style="color: rgb(0, 0, 153);">ChunkBake Reference<br>
+</h1>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">Introduction</h2>
+<p>ChunkBake is a line-oriented assembler
+for Lua 5 virtual machine instructions. It produces a Lua binary chunk
+from
+assembly code, which can then be loaded and run on a Lua 5 virtual
+machine. The project is hosted on <a href="http://luaforge.net/">LuaForge</a>,
+at: <a href="http://luaforge.net/projects/chunkbake/">http://luaforge.net/projects/chunkbake/</a>.
+Currently, Lua 5.0.2 (instructions and binary chunk format) is
+supported. Lua 5.1 support is planned.<br>
+</p>
+<p>This reference guide assumes you know what Lua 5 virtual machine
+instructions do and how a binary chunk is put together.&nbsp;
+If you want to learn about Lua 5 virtual machine instructions, one
+document you can read
+is "<a href="http://luaforge.net/docman/?group_id=83">A No-Frills
+Introduction to Lua 5 VM Instructions</a>."<br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">Usage</h2>
+<p>ChunkBake currently sports a very simple interface:<br>
+</p>
+<p style="margin-left: 40px;"><code>usage: %s [options] [filenames]<br>
+<br>
+options:<br>
+&nbsp; -h, --help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prints
+usage information<br>
+&nbsp;
+--quiet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; do
+not display warnings<br>
+&nbsp; -o &lt;file&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+specify file name to write output listing<br>
+&nbsp;
+--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+stop handling arguments<br>
+<br>
+example:<br>
+&nbsp; &gt;%s myscript.asm -o myscript.out</code>
+<br>
+</p>
+<p>If an output file is not explicitly specified using the <code>-o</code>
+option, the basename of the source file is appended with <code>.out</code>
+to form the output filename. The format of the binary chunk file that
+is generated should conform to that of the platform the script is
+running on. ChunkBake uses Lua to generate a small binary chunk and
+takes those parameters as defaults. If this somehow fails (and it
+should not), the defaults are set for the x86 platform. For other
+platforms, this is untested but should work. The binary chunk format
+can also be customized using assembler directives, overriding the
+platform defaults.<br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">Overview</h2>
+<p>ChunkBake is a classic line-oriented assembler, meaning that a
+statement (which can either be an instruction or an assembler
+directive) must be in a single logical line. Usually each logical line
+occupies one physical line, but the line continuation character '<code>\</code>'
+can be used to split a long line into multiple lines. A statement can
+contain a directive or a mnemonic, plus associated operands or
+parameters.
+</p>
+<p>ChunkBake's lexer is derived from Lua's lexer. Mnemonics (e.g. <code>MOVE</code>,)
+directives (e.g. <code>.function</code>) and key names for header
+properties are not case-sensitive, but other declared symbols are
+case-sensitive.
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">Lexical Analyzer<br>
+</h2>
+<p>The lexer recognizes and handles the usual line-ending styles
+automatically: <code>LF</code>, <code>CR</code>, <code>CRLF</code>.</p>
+<p>Only Lua 5.0.2 opcodes are supported at this time. The mnemonics
+follow the symbol names defined in the Lua 5 sources (their syntax will
+be described in detail later): </p>
+<div style="margin-left: 40px;">
+<p><code>MOVE LOADK LOADBOOL LOADNIL<br>
+GETGLOBAL SETGLOBAL GETUPVAL SETUPVAL<br>
+GETTABLE SETTABLE NEWTABLE SELF<br>
+ADD SUB MUL DIV POW UNM NOT CONCAT<br>
+EQ LT LE TEST<br>
+JMP CALL TAILCALL RETURN<br>
+FORLOOP TFORLOOP TFORPREP<br>
+SETLIST SETLISTO CLOSE CLOSURE</code></p>
+</div>
+<p>Most numbers allowed by the assembler are integers. For constants, a
+number must be prefixed immediately by a '<code>#</code>' (pound or
+sharp) symbol, e.g. <code>#12, #0.123 #-123 #1.2e34</code>. When
+specifying constants, the number may have a fractional part and an
+exponent part. To differentiate numbers and numerical constants, this
+assembler calls numerical constants "immediates" (this is a pretty
+common term in assembly language.)<br>
+</p>
+<p>Expressions are supported, and the details are discussed in a later
+section. The '<code>#</code>' is still used to denote a constant,
+in order to unambiguously differentiate constants from local stack
+locations.</p>
+<p>The lexer recognizes hexadecimal numbers with the '<code>0x</code>'
+prefix as well. Examples are <code>0x1234</code>, <code>0XBEEF</code>.<br>
+</p>
+Strings are specified exactly like Lua 5 strings. Strings may be
+single-quoted or double-quoted, and the <code>[[...]]</code> form
+(where the delimiter pair can be nested) can be used as
+well. The Lua 5.1 extension to the long string form is not yet
+supported. Single- or double-quoted strings can contain the following
+escape
+sequences for control characters:
+<code>\n</code>, <code>\a</code>, <code>\b</code>, <code>\f</code>, <code>\n</code>,
+<code>\r</code>, <code>\t</code>, <code>\v</code>, the <code>\ddd</code>
+style works for 8-bit numbers in general. Single-quote and double quote
+characters can be escaped as well.<br>
+<p>
+A '<code>\</code>' at the end of a line is a generic line continuation
+character, so
+the following are equivalent:<br>
+</p>
+<div style="margin-left: 40px;"><code>move 0 1</code><br>
+<code>move \</code><br>
+<code>&nbsp;&nbsp;&nbsp; 0 \</code><br>
+<code>&nbsp;&nbsp;&nbsp; 1</code><br>
+<code></code></div>
+<p>A comment to the end of the line can use either '<code>--</code>' or
+'<code>;</code>':</p>
+<div style="margin-left: 40px;"><code>-- a comment</code><br>
+<code>; a comment</code><br>
+</div>
+<p>
+A block comment uses the Lua 5 '<code>--[[...]]</code>' style:</p>
+<div style="margin-left: 40px;"><code>--[[ this is a block comment</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp; more comments here</code><br>
+<code>--]]</code><br>
+<code></code></div>
+<p>
+Locals in the current stack frame, which works like registers in a
+register window, can use several styles. The following are equivalent:</p>
+<div style="margin-left: 40px;"><code>1&nbsp;&nbsp;&nbsp;&nbsp; ; local
+1 on current stack frame</code><br>
+<code>r1&nbsp;&nbsp;&nbsp; ; use this if you like thinking in terms of
+registers</code><br>
+<code>R1&nbsp;&nbsp;&nbsp; ; a capital 'R' probably looks better</code><br>
+<code>$1&nbsp;&nbsp;&nbsp; ; the '$' prefix is used in some assemblers</code><br>
+</div>
+<p>Mnemonics cannot be used as user-declared symbols or labels. Any
+symbol with a '<code>.</code>' as the first character (e.g. <code>.local</code>)
+is considered to be an assembler directive. The directive names
+currently used by the assembler are:<br>
+</p>
+<div style="margin-left: 40px;"><code>.header<br>
+.function .func </code><code>.end</code><br>
+<code>.param .local .upvalue .const<br>
+</code></div>
+<p>The assembler has five predefined keywords (case-sensitive) that
+are used as operands in certain instructions, directives or operators:<br>
+</p>
+<div style="margin-left: 40px;"><code>nil true false and or</code><br>
+</div>
+<p>Labels are explicitly identified when a symbol has a '<code>:</code>'
+suffix. Labels can also be placed at the beginning of most statements
+without the '<code>:</code>' suffix. All labels or symbols must be
+defined before they can be used, except for labels used in jumps, which
+can be forward-referenced. Examples:<br>
+</p>
+<div style="margin-left: 40px;"><code>FOO: move R0 R1</code><br>
+<code>BAR move $2 $3</code><br>
+<code>BAZ .function</code><br>
+<code></code></div>
+<p>As of version 0.7.0, the symbolic name table is unified, and the
+same name can no longer be used for different objects. This avoids
+ambiguity, for example, when a constant and a local have the same name.<br>
+</p>
+<p>Forward-referenced code labels cannot be used in expressions,
+because all expressions are currently evaluated immediately, except for
+the special case of a single forward-referenced code label.<br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">Expressions<br>
+</h2>
+<p>Expressions in ChunkBake are broadly similar to Lua 5 expressions.
+However, since ChunkBake exposes the more complex low-level internals
+of Lua 5, there are a few complications. In ChunkBake, a number of
+extensions to the expression parser has been made in order to make it
+possible for
+the user to flexibly write expression in a sane manner.<br>
+</p>
+<p>Some of the major issues that have cropped up in the implementation
+of
+the
+expression parser are:<br>
+</p>
+<ul>
+  <li>Most symbols (locals, upvalues, code labels, etc.) represent
+integer numbers or indices. Should symbols of different types be mixed,
+or must
+they always be separate?<br>
+  </li>
+  <li>A constant symbol can represent the index of the constant in the
+function prototype's constant pool, or the constant's value itself. A
+user has to be able to choose either one unambiguously.</li>
+  <li>An
+RK(x) operand cannot clearly differentiate between the number of a
+local and the number of a constant, unless the assembler somehow
+remembers what kind of symbol is being used in an expression. Mixing
+different symbols may cause confusion as well.<br>
+  </li>
+  <li>Previously, '#' is used as a prefix to numbers to indicate that
+the number is a constant value instead of the constant index. With
+expressions, a more general role for '#' is required.</li>
+</ul>
+<p>The implementation of expression parsing in ChunkBake as of version
+0.7.0 is still <span style="font-style: italic;">experimental</span>;
+if there are better ways to do things,
+please do tell me your views. Some use cases may not work. The
+behaviour of the expression parser
+is expected to be firmed up as the assembler matures and test coverage
+is more complete.
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">Implementing Expressions<br>
+</h2>
+<p>The ChunkBake expression parser is based on the normal Lua 5
+expression parser, with important extensions. The set of
+operators are similar, except that (a) <code>not</code> in Lua is
+changed to <code>~</code>, since <code>not</code> is already an
+instruction mnemonic, and (b) the <code>#</code> is now a unary
+operator that turns numbers into immediates, or numerical constants.<br>
+</p>
+<h3>Forward References<br>
+</h3>
+<p>The initial implementation of the expression parser performs <span
+ style="font-style: italic;">immediate </span>evaluation, therefore <span
+ style="font-style: italic;">all </span>symbols must be defined before
+they are used in an expression. A special exception is when the
+expression is a single jump label; this is the only case that can be
+forward-referenced as it does not involve any unary or binary
+operations. As such, jumping both forwards or backwards by specifying a
+single code label works. Example:<br>
+</p>
+<p style="margin-left: 40px;"><code>jmp FOO&nbsp;&nbsp; &nbsp;&nbsp; --
+single code label forward-referenced, WORKS<br>
+jmp FOO+1 &nbsp;&nbsp; -- forward-referenced code label in expression,
+FAILS<br>
+move R1, R0<br>
+FOO:<br>
+return 0 0<br>
+</code></p>
+<h3>Immediate Operator and Constant Symbols<br>
+</h3>
+<p>The immediate operator '#' turns a number into an immediate, or a
+numerical constant. The operator has no effect on immediates or
+strings, which are already constants, and is illegal for other values.
+'#' is the highest priority operator.<br>
+</p>
+<p>If '#' operates on a constant symbol, the <span
+ style="font-style: italic;">constant value </span>is returned.
+Normally, a symbol would return its integer index value and the '#'
+turns
+that into an immediate integer. The special behaviour of '#' for
+constant symbols allows the user to use either the constant's index or
+the constant's value in an unambiguous manner. Example:<br>
+</p>
+<p style="margin-left: 40px;"><code>.const MOO #0xBEEF&nbsp;&nbsp; --
+MOO's index is 0 and value is 0xBEEF<br>
+loadk R2, MOO&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; -- loads register 2 with
+constant at index 0<br>
+loadk R3, #MOO+1&nbsp;&nbsp;&nbsp;&nbsp; -- loads register 3 with a new
+constant that<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp; -- has the value of #0xBEEF+1<br>
+</code></p>
+<p>A number and an immediate, after an operation with a binary
+operator, returns an immediate, i.e. the number is automatically <span
+ style="font-style: italic;">promoted </span>into an immediate. When a
+string is used in an arithmetic operation, it is coerced into an
+immediate, not a number.<br>
+</p>
+<p>There is currently no mechanism to turn an immediate into a number,
+but the best solution, intrinsic functions, is a future to-do. Without
+intrinsic functions, the next best solution is to rewrite the
+expression, e.g. by factoring out a common part of the expression.<br>
+</p>
+<h3>Symbol Types<br>
+</h3>
+<p>A weak form of dynamic typing, by tracking the dominant <span
+ style="font-style: italic;">symbol type </span>of an expression, is
+the currently implemented solution to the problem of mixing different
+symbol types. Thus the
+mixing of different symbol types is allowed, as long as certain rules
+are followed. If symbols are mixed in an ambiguous manner, the
+assembler will warn the user of the situation. Also, different operands
+prefer different symbol types. If an expression returns a result with a
+symbol type that is not preferred by the assembler, a warning is
+generated. So, like dynamic typing
+in Lua, it is up to the user to avoid confusion, as a full-blown
+type-casting system is deemed too extreme.<br>
+</p>
+<p>The symbol types in ChunkBake are:<br>
+</p>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="0">
+  <tbody>
+    <tr>
+      <th style="vertical-align: top;">Symbol Type<br>
+      </th>
+      <th style="vertical-align: top;">Description<br>
+      </th>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">function</td>
+      <td style="vertical-align: top;">integer index of function
+prototype<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">const</td>
+      <td style="vertical-align: top;">integer index of constant in
+constant pool of a function<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">upvalue</td>
+      <td style="vertical-align: top;">integer index of upvalue in
+upvalue list<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">local</td>
+      <td style="vertical-align: top;">integer corresponding to a
+register number on the stack<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">code</td>
+      <td style="vertical-align: top;">integer corresponding to the
+location of an instruction<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-style: italic;">(none)<br>
+      </td>
+      <td style="vertical-align: top; font-style: italic;">(no symbol
+type checking is performed on operations and results)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>The user does not actually see these symbol types, as they work in
+the background. If an expression attempts something potentially
+dangerous, the warning is generated. The register notation (<code>r1</code>,
+<code>R2</code> or <code>$3</code>) produces an integer with the
+"local" symbol type, since the notation is an overt indicator of the
+intention of the user to use the number as a register.<br>
+</p>
+<p>There is also a neutral number type, which has no symbol type and
+can be used anywhere. To mix different symbol types, select a dominant
+symbol type and put the other different symbols in <span
+ style="font-style: italic;">parentheses</span>. Parentheses and
+equates (using the <code>.equ</code> directive) produces
+symbol-neutral numbers.<br>
+</p>
+<p>Here are examples of symbol mixing (the <code>move </code>instruction
+prefers a result of type "local"):<br>
+</p>
+<p style="margin-left: 40px;"><code>.local FOO&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; -- value of FOO = 0, symbol type = "local"<br>
+.const BAR, #47&nbsp; -- value of BAR = 0, symbol type = "const"<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; -- (Note: value of #BAR = #47)<br>
+BAZ:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+-- value of BAZ = 1, symbol type = "code"<br>
+<br>
+move 0, BAR&nbsp;&nbsp; &nbsp;&nbsp; -- warning, BAR is a constant, not
+a register/local<br>
+move 0, (BAR)&nbsp;&nbsp;&nbsp; -- okay, (BAR) is now symbol-neutral,
+(BAR)=0<br>
+<br>
+move 1, BAZ+2&nbsp;&nbsp;&nbsp; -- warning, BAZ is a code label<br>
+move 1, (BAZ)+2&nbsp; -- okay, (BAZ)+2 = 3, a neutral number<br>
+<br>
+move 2, 0+1&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; -- okay, operand is a
+neutral number<br>
+move 2, FOO+BAR&nbsp; &nbsp;&nbsp; -- warning, BAR is a constant<br>
+move 2, FOO+(BAR)&nbsp;&nbsp; -- okay, dominant symbol type is "local"<br>
+move 2, R1+(BAZ)&nbsp;&nbsp;&nbsp; -- okay, R1 has symbol type of
+"local" too<br>
+move 2, (BAR)+(BAZ) -- okay, expression is a neutral number<br>
+</code></p>
+<p>Although such expressions are not expected to be common, it is
+important that the assembler does not disallow them. Somewhere down the
+line, a user might require to write such tricky expressions. So instead
+of putting up unnecessary barriers,
+there is
+only a <span style="font-style: italic;">clearly specified behaviour </span>with
+respect to symbol type mixing, plus a <span style="font-style: italic;">visual
+cue </span>as to which symbol is dominant. The user has the choice of
+making expressions simple and clear, and the user also has the
+choice of making expressions very complex.<br>
+</p>
+<p>An important use of symbol type tracking is for RK(x)-type operands.
+The assembler needs to add <code>MAXSTACK</code> to constant indices
+(this is for Lua 5.0.2, for Lua 5.1, a 1-bit flag is used),
+so it has to know the dominant symbol type of the expression. If the
+dominant symbol type is "const", then <code>MAXSTACK</code> is added,
+since it is implied that the expression is meant to be used as a
+constant pool index. Example:<br>
+</p>
+<p style="margin-left: 40px;"><code>.const FOO, #24</code><br>
+<code>.const BAR, #42<br>
+add R2, R0, #FOO&nbsp;&nbsp; &nbsp;&nbsp; -- operand C is a constant, a
+lookup gives FOO<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; -- C calculated as 0+MAXSTACK<br>
+add R2, RO, BAR &nbsp; &nbsp;&nbsp;&nbsp; -- operand C is a constant,
+symbol type = "const"<br>
+</code><code>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; -- C calculated as 1+MAXSTACK</code><br>
+<code>add R2, R0, (BAR)&nbsp;&nbsp; &nbsp; -- operand C is a local,
+(BAR) is symbol-neutral<br>
+</code><code>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; -- C calculated as 1</code><br>
+</p>
+<p>For certain instructions with operands used to specify a boolean or
+a skip condition (<code>LT</code>, <code>EQ</code>, <code>LE</code>,
+and <code>TEST</code>) the expression for that operand must be a
+neutral number. This forces the user to add parentheses so that there
+is a visual cue as to what kind of number is produced.<br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">Operators</h2>
+<p>ChunkBake has the same set of operators as Lua 5, except for the
+change of <code>not</code> to <code>~</code>, and the addition of the
+immediate operator, <code>#</code>. In addition, parentheses can be
+used. Parentheses always produces numbers that are symbol-neutral. The
+loss of symbol type information in this way may not be ideal, because a
+user may wish to preserve symbol type information for a very complex
+expression. Practically however, a user who writes such a complex
+expression <span style="text-decoration: underline;">had better</span>
+know very well what he or she is doing.<br>
+</p>
+<p>Versions of ChunkBake prior to 0.7.0 uses the '..' operator as a
+range operator (it is really more of a lexical element, or token, as it
+does not result in any operation being performed) for certain
+instructions. In order to avoid confusion and to allow the expression
+parser to work, the range operator has been changed to '...' so that
+string concatenation can use '..' just like in Lua 5. This may break
+your older assembly programs.<br>
+</p>
+<p>The following is a list of operator classes and their behaviour:<br>
+</p>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="0">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold;">Class<br>
+      </td>
+      <th style="vertical-align: top; font-weight: bold;">Operator<br>
+      </th>
+      <th style="vertical-align: top; font-weight: bold;">Operands<br>
+      </th>
+      <td style="vertical-align: top; font-weight: bold;">Result<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Immediate<br>
+      </td>
+      <td style="vertical-align: top;"><code>#<br>
+      </code></td>
+      <td style="vertical-align: top;">Number, immediate, string<br>
+      </td>
+      <td style="vertical-align: top;">Immediate, string<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Arithmetic<br>
+      </td>
+      <td style="vertical-align: top;"><code>* / + - ^<br>
+- </code>(unary)<code><br>
+      </code></td>
+      <td style="vertical-align: top;">Number, immediate, string<br>
+(warning if different symbol type)<br>
+(strings are coerced, error possible)<br>
+      </td>
+      <td style="vertical-align: top;">Number, immediate, string<br>
+(symbol type preserved)<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">String<br>
+      </td>
+      <td style="vertical-align: top;"><code>..<br>
+      </code></td>
+      <td style="vertical-align: top;">Number, immediate, string<br>
+(non-strings are coerced)<br>
+      </td>
+      <td style="vertical-align: top;">String<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Equality<br>
+      </td>
+      <td style="vertical-align: top;"><code>== ~=</code></td>
+      <td style="vertical-align: top;">Valid for any type<br>
+      </td>
+      <td style="vertical-align: top;">Boolean<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Comparison<br>
+      </td>
+      <td style="vertical-align: top;"><code></code><code>&lt; &lt;=
+&gt; &gt;=</code></td>
+      <td style="vertical-align: top;">Number, immediate, string<br>
+(both operands must be of the same type)<br>
+      </td>
+      <td style="vertical-align: top;">Boolean<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Unary logical<br>
+      </td>
+      <td style="vertical-align: top;"><code>~ </code>(unary)<code><br>
+      </code></td>
+      <td style="vertical-align: top;">Valid for any type</td>
+      <td style="vertical-align: top;">Boolean<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Binary logical<br>
+      </td>
+      <td style="vertical-align: top;"><code>and or<br>
+      </code></td>
+      <td style="vertical-align: top;">Valid for any type</td>
+      <td style="vertical-align: top;">Depends on operation<br>
+(symbol type preserved)<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>The <code>and</code> and <code>or</code> operators work like their
+counterparts in Lua 5, so the type of the result depends on whether the
+first operand or the second operand is chosen as the result. Immediate,
+arithmetic, string and comparison operators cannot use <code>nil</code>,
+<code>true</code> or <code>false</code> as operands.<br>
+</p>
+<p>The precedence of the operators is the same as that of Lua 5, and in
+addition, the new immediate operator <code>#</code> has the highest
+priority. Note that a boolean result cannot be used directly as a
+constant when the assembler is targeted to Lua 5.0.2 binary chunks.
+Instructions that has operands that specify a boolean accepts a boolean
+expression, though. Lua 5.1 will allow a boolean true or
+false to be indexed as a constant, so the assembler's behaviour may
+change in the future.<br>
+</p>
+<p>Tip for users: when using expressions, it is better to explicitly
+separate operands with commas. Although commas are optional, writing
+expressions without commas is quite dangerous. For example, two
+operands, "<code>1 -1</code>", will actually be interpreted as a single
+operand of value 0 (<code>1-1=0</code>!) so it is better to write it as
+"<code>1,-1</code>". In addition, "<code>1--1</code>" is interpreted as
+1 plus a line comment.<br>
+</p>
+<p>Future planned extensions to expressions are: intrinsic constants
+and intrinsic functions, and possibly bitwise operators.<br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">Assembler Directives</h2>
+<p>There are three kinds of directives:</p>
+<ul>
+  <li>Header directives:</li>
+  <ul>
+    <li><code>.header</code> is used to set global binary chunk header
+parameters and global characteristics.</li>
+    <li><code>.function</code> is used to set a function header's
+characteristics, and is paired with <code>.end</code> to contain the
+assembly code for a single function.</li>
+    <li>These two directives have a similar syntax for parameters;
+parameters are supplied as key-value pairs separated by optional commas
+like this: <code>version=0x50, size_t=2<br>
+      </code><br>
+    </li>
+  </ul>
+  <li>Resource directives:</li>
+  <ul>
+    <li><code>.param</code> is for declaring named parameters. The
+assembler will keep track of the number of parameters and update the <code>numparams</code>
+function header field automatically for you.<br>
+    </li>
+    <li><code>.local</code> is for declaring named locals. You may
+specify the exact stack location for the declared local, instead of
+letting the assembler allocate the next available location.<br>
+    </li>
+    <li><code>.upvalue</code> is for declaring named upvalues. You may
+specify the exact index for the declared upvalue, instead of
+letting the assembler allocate the next available index. </li>
+    <li><code>.const</code> is for declaring named constants. Constant
+handling is special, as the assembler accepts constants used directly
+as operands in an instruction. This greatly simplifies assembler code
+in many cases. The choice whether to declare explicitly or
+automatically is up to you.<code><br>
+      </code><br>
+    </li>
+  </ul>
+  <li>Global directives:</li>
+  <ul>
+    <li><code>.equ</code> is the assembler's version of the classic
+assembler equate directive. Equates live in a global namespace, as
+opposed to resource directives, which live a namespace local to a
+function. Labels associated with equates are also global. Equates can
+be redefined.<br>
+    </li>
+  </ul>
+</ul>
+<p>As ChunkBake provide sane defaults, there is often little need to
+use header directives unless you are generating a non-standard binary
+chunk. Likewise, you can choose not to specify constants explicitly
+using resource directives and let the assembler handle it for you.<br>
+</p>
+<p>Most value operands accept expressions, as long as the result of the
+expression is valid.<br>
+</p>
+<p>In the following sections, each directive will be described in more
+detail.<br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">.header</h2>
+<blockquote><code style="font-weight: bold;">.header
+[key=&lt;string&gt;|&lt;number&gt;[,]]...</code><br>
+</blockquote>
+<p>The <code>.header</code> directive is an optional directive; you
+only need to use it to enforce a value for a particular global header
+parameter. If you are generating a generic binary chunk targeted
+towards the platform the assembler is running on, you will not need to
+use it at all.<br>
+</p>
+<p>Apart from being able to customize the global header elements of a
+Lua 5 binary chunk, the <code>.header</code> directive is also able to
+set a number of other parameters that governs the generation of the
+binary chunk, e.g. the maximum number of allowed upvalues can be
+changed.<br>
+</p>
+<p>Parameters are specified as key-value pairs, optionally separated by
+a comma. If a statement is very long, it can be split into multiple <code>.header</code>
+directives, or the line can be split into several physical lines using
+the '<code>\</code>' line continuation character. If a key is specified
+a number of times, the last value is taken as the final valid value.
+The <code>.header</code> directive can only be used before the
+definition of the first function prototype.<br>
+</p>
+<p>Keys are case-insensitive names, while values can be numbers
+(usually integers) or strings. For example:<br>
+</p>
+<div style="margin-left: 40px;"><code>.header signature="\27Foo"</code><br>
+</div>
+<p>The directive changes the binary chunk signature from the usual
+"\27Lua" to "\27Foo". In most cases, illegal values are flagged as
+errors. The assembler
+allows binary chunk signatures that are not 4 bytes in length; a
+warning message is generated instead of an error.<br>
+</p>
+<p>
+The parameters that can be changed are as follows:</p>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="0">
+  <tbody>
+    <tr>
+      <th style="vertical-align: top;">Key<br>
+      </th>
+      <th style="vertical-align: top;">Type/Unit<br>
+      </th>
+      <th style="vertical-align: top;">Example<br>
+      </th>
+      <th style="vertical-align: top;">Default (x86)<br>
+      </th>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">signature</td>
+      <td style="vertical-align: top;">string<br>
+      </td>
+      <td style="vertical-align: top;"><code>signature = "ABCD"</code></td>
+      <td style="vertical-align: top;"><code>"\27Lua"</code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">version<br>
+      </td>
+      <td style="vertical-align: top;">number<br>
+      </td>
+      <td style="vertical-align: top;"><code>version = 0x55<br>
+      </code></td>
+      <td style="vertical-align: top;"><code>0x50<br>
+      </code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">endianness<br>
+      </td>
+      <td style="vertical-align: top;">number, 0 or 1<br>
+      </td>
+      <td style="vertical-align: top;"><code>endianness = 0</code></td>
+      <td style="vertical-align: top;"><code>1<br>
+      </code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">int<br>
+      </td>
+      <td style="vertical-align: top;">number, bytes<br>
+      </td>
+      <td style="vertical-align: top;"><code>int = 8<br>
+      </code></td>
+      <td style="vertical-align: top;"><code>4<br>
+      </code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">size_t<br>
+      </td>
+      <td style="vertical-align: top;">number, bytes</td>
+      <td style="vertical-align: top;"><code>size_t = 6<br>
+      </code></td>
+      <td style="vertical-align: top;"><code>4<br>
+      </code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">instruction</td>
+      <td style="vertical-align: top;">number, bytes</td>
+      <td style="vertical-align: top;"><code>instruction = 6</code></td>
+      <td style="vertical-align: top;"><code>4<br>
+      </code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">size_op</td>
+      <td style="vertical-align: top;">number, bits</td>
+      <td style="vertical-align: top;"><code>size_op =
+8</code></td>
+      <td style="vertical-align: top;"><code>6<br>
+      </code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">size_a</td>
+      <td style="vertical-align: top;">number, bits</td>
+      <td style="vertical-align: top;"><code>size_a =
+9</code></td>
+      <td style="vertical-align: top;"><code>8<br>
+      </code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">size_b</td>
+      <td style="vertical-align: top;">number, bits</td>
+      <td style="vertical-align: top;"><code>size_b =
+10</code></td>
+      <td style="vertical-align: top;"><code>9<br>
+      </code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">size_c</td>
+      <td style="vertical-align: top;">number, bits</td>
+      <td style="vertical-align: top;"><code>size_c =
+10</code></td>
+      <td style="vertical-align: top;"><code>9<br>
+      </code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: middle;">number_type<sup>1</sup></td>
+      <td style="vertical-align: middle;">string, data type<br>
+      </td>
+      <td style="vertical-align: middle;"><code>number_type = "single"</code></td>
+      <td style="vertical-align: middle;"><code>"double"</code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">maxstack</td>
+      <td style="vertical-align: top;">number</td>
+      <td style="vertical-align: top;"><code>maxstack = 100</code></td>
+      <td style="vertical-align: top;"><code>250</code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">maxvars</td>
+      <td style="vertical-align: top;">number</td>
+      <td style="vertical-align: top;"><code>maxvars =
+50</code></td>
+      <td style="vertical-align: top;"><code>200</code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">maxupvalues</td>
+      <td style="vertical-align: top;">number</td>
+      <td style="vertical-align: top;"><code>maxupvalues = 10</code></td>
+      <td style="vertical-align: top;"><code>32</code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">maxparams</td>
+      <td style="vertical-align: top;">number</td>
+      <td style="vertical-align: top;"><code>maxparams = 50</code></td>
+      <td style="vertical-align: top;"><code>100</code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">fpf</td>
+      <td style="vertical-align: top;">number</td>
+      <td style="vertical-align: top;"><code>fpf =
+16</code></td>
+      <td style="vertical-align: top;"><code>32<br>
+      </code></td>
+    </tr>
+  </tbody>
+</table>
+<sup>1</sup> accepts "double", "single", "int", "long long"<br>
+<p>The first 11 keys in the list are almost equivalent to their
+counterpart fields in a standard Lua 5 binary chunk header. The last 5
+keys are constants you probably shouldn't touch unless you are running
+a Lua binary that has non-standard constraints and you know what to do
+and what the keys mean.<br>
+</p>
+<p>Note that the Lua binary chunk format may change with different
+versions of Lua. The upcoming Lua 5.1 has a slightly different binary
+chunk from that of Lua 5.0.2, so beware when changing <code>version</code>.<br>
+</p>
+<p>Errors may be generated if you run afoul of internal constraints,
+e.g. the instruction opcode field <code>SIZE_OP</code> must exceed 6
+bits. Here is an example of a custom <code>.header</code> directive:<br>
+</p>
+<div style="margin-left: 40px;"><code>.header signature = "Dude", \</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+version = 0x57, \</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+endianness = 0, \</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int
+= 6, size_t = 7, \</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+instruction = 5, \</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SIZE_OP=8, SIZE_A=10, \</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SIZE_B=11, SIZE_C = 11, \</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+number_type = "single"</code><br>
+</div>
+<p>If you don't want to change the detected default parameters, you
+don't need to use <code>.header</code> at all.</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">.function and .end<br>
+</h2>
+<blockquote><code style="font-weight: bold;">.func</code><code
+ style="font-weight: bold;">|.function
+[key=&lt;string&gt;|&lt;number&gt;[,]]...</code><code
+ style="font-weight: bold;"><br>
+  </code><code style="font-weight: bold;">.end</code><br>
+</blockquote>
+<p>Each function must be started by a single <code>.function</code>
+directive and ended by a <code>.end</code> directive. <code>.func</code>,
+an alias of <code>.function</code> can also be used. There can be only
+one top-level function and functions must have at least one valid
+instruction. Thus the simplest assembly listing that can be written is:</p>
+<div style="margin-left: 40px;"><code>.func</code><br>
+<code>return 0 0</code><br>
+<code>.end</code><br>
+<code></code></div>
+<p>The key-value pairs for customizing a function are:</p>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="0">
+  <tbody>
+    <tr>
+      <th style="vertical-align: top;">Key<br>
+      </th>
+      <th style="vertical-align: top;">Type/Unit<br>
+      </th>
+      <th style="vertical-align: top;">Example<br>
+      </th>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">source_name</td>
+      <td style="vertical-align: top;">string<br>
+      </td>
+      <td style="vertical-align: top;"><code>source_name="foo.lua"</code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">line_defined</td>
+      <td style="vertical-align: top;">number<br>
+      </td>
+      <td style="vertical-align: top;"><code>line_defined=10</code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">numparams</td>
+      <td style="vertical-align: top;">number<br>
+      </td>
+      <td style="vertical-align: top;"><code>numparams=2</code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">is_vararg</td>
+      <td style="vertical-align: top;">number, 0 or 1<br>
+      </td>
+      <td style="vertical-align: top;"><code>is_vararg=1</code></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">maxstacksize</td>
+      <td style="vertical-align: top;">number<br>
+      </td>
+      <td style="vertical-align: top;"><code>maxstacksize=10</code></td>
+    </tr>
+  </tbody>
+</table>
+<p>Unlike <code>.header</code> parameters, you usually don't need to
+customize a
+<code>.function</code> directive. Normally, the assembler will fill in
+the parameters for you. The <code>source_name</code> parameter is set
+by the assembler for the top-level function, as is <code>line_defined</code>.
+<code>numparams </code>is automatically calculated when you use the <code>.param</code>
+directive, and the assembler keeps track of stack locations used in
+order to set <code>maxstacksize</code>, so usually it is wiser to
+leave them be.<br>
+</p>
+<p>For functions that accept a variable number of arguments, <code>is_vararg</code>
+should be set to 1, and the implicit parameter <code>arg</code> will
+be in stack position 0. An example of a function that accepts a
+variable number of arguments is <code>printf.asm</code> in the <code>/test</code>
+directory.<br>
+</p>
+<p>Here is an example of function header customization:</p>
+<div style="margin-left: 40px;"><code>.function source_name =
+"Morpheus", \</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+line_defined = 1234, \</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+numparams=6, is_vararg=1, \</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+maxstacksize=47</code><code></code><br>
+</div>
+<p>So, for normal use, you won't need to specify anything for the <code>.function</code>
+directive, except for <code>is_vararg </code>when you need functions
+that accept a variable number of arguments.<br>
+</p>
+<p>Functions can be named using labels, so that names can be used
+instead of numbers when writing a <code>closure</code> instruction.
+The following are two functions named <code>ONE</code> and <code>TWO</code>:<br>
+</p>
+<div style="margin-left: 40px;"><code>ONE .function<br>
+return 0 0<br>
+.end<br>
+<br>
+TWO: .function<br>
+return 0 0<br>
+.end<br>
+</code></div>
+<p>Next comes directives that are used to declare named resources for a
+function.<br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">.param</h2>
+<blockquote><code style="font-weight: bold;">.param &lt;symbol&gt;</code><br>
+</blockquote>
+<p><code>.param</code> declares a register location as a function
+parameter, or argument, and assigns a name to the parameter. Since
+parameters occupy the lowest register numbers, the assembler assigns
+the locations for you automatically, starting from location 0. You are
+not allowed to declare any local variables before parameter
+declarations. The <code>numparams</code> field in the function header
+is automatically updated by the assembler.<br>
+</p>
+<blockquote><code>.function<br>
+.param Var<br>
+.param Pos<br>
+add 2, Var, Pos<br>
+; more instructions here<br>
+.end<br>
+  </code><code></code></blockquote>
+<p>In the example above, <code>Var</code> is assigned register
+location 0 while <code>Pos</code> is assigned register location 1. The
+<code>add</code> instruction adds parameters <code>Var</code> and <code>Pos</code>
+and saves the result in register 2. You can still use 0 and 1 as the
+parameter locations in an instruction; the usage of symbolic names and
+numbers is up to the user.<br>
+</p>
+<p>A parameter declaration need not be placed immediately after <code>.function</code>.
+You only need to ensure that all local variables are declared after
+parameter declarations, and that symbolic names names are declared
+before they are used.<br>
+</p>
+<h2 style="color: rgb(102, 0, 0);">
+</h2>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">.local</h2>
+<blockquote><code style="font-weight: bold;">.local &lt;symbol&gt; [[,]
+&lt;number&gt;]</code><br>
+</blockquote>
+<p><code>.local</code> declares local variable names. You can either
+let the assembler assign the next lowest available location that does
+not have a symbolic name associated with it (either from a <code>.param</code>
+or <code>.local</code> declaration.) Alternatively, the register
+number can be explicitly specified.<br>
+</p>
+<blockquote><code>.function<br>
+.param Foo<br>
+.local Bar<br>
+.local Baz, 4<br>
+; rest of function goes here<br>
+.end<br>
+  </code><code></code></blockquote>
+<p>Since location 0 is occupied by <code>Foo</code>, the first <code>.local</code>
+directive associates the name <code>Bar</code> to location 1. The next
+<code>.local</code> directive explicitly assigns the name <code>Baz</code>
+to location 4. The comma separator is optional. Now, if there is
+another <code>.local</code> directive in the function without a
+specified location number, location 2 will be used.<br>
+</p>
+<p>Locals must be declared after all parameters have been declared.
+Other than that, locals can be declared anywhere inside a function, as
+long as symbolic names are declared before they are used.</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">.upvalue</h2>
+<blockquote style="font-weight: bold;"><code>.upvalue</code><code>
+&lt;symbol&gt; [[,]
+&lt;number&gt;]</code></blockquote>
+<p>The syntax of <code>.upvalue</code> is exactly like the syntax of <code>.local</code>.
+Assignment of upvalue numbers is always explicit, so each upvalue must
+be defined using this directive. The
+assembler sets the number of upvalues (which is a byte-sized field) in
+the function header for you.<br>
+</p>
+<blockquote><code>.function</code><br>
+  <code>.upvalue Larry</code><br>
+  <code>.upvalue Moe 2</code><br>
+  <code></code><code>; rest of function goes here</code><br>
+  <code>.end</code><br>
+  <code></code></blockquote>
+<p>Upvalue number 0 is assigned the name <code>Larry</code>, while
+upvalue number 2 is assigned the name <code>Moe</code>. The operands
+of the directive can be optionally separated by a comma. When the
+upvalue list is written out, non-declared values in the upvalue list is
+assigned the name "<code>(none)</code>" so that loaders don't complain
+of zero-length names.<br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">.const</h2>
+<blockquote style="font-weight: bold;"><code>.const [&lt;symbol&gt; [,]]</code><code>
+&lt;number&gt;|&lt;immediate&gt;|&lt;string&gt;|nil [[,] &lt;number&gt;]</code></blockquote>
+<p>Constants are declared using the <code>.const</code> directive. For
+constants, both the constant number and the symbolic name of the
+constant is optional. Leaving out the constant number forces automatic
+constant number assignment. If no name is associated with a constant,
+it must be accessed using the constant number.<br>
+</p>
+<p>The constant may be a string, an immediate number (with a leading '<code>#</code>'),
+a number or <code>nil</code>. A number is interpreted as an immediate,
+but if you are
+not comfortable with the ambiguity, you can always declare numbers
+using the immediate syntax.</p>
+<p>Here are some unnamed constant declarations with automatic constant
+number assignment:</p>
+<div style="margin-left: 40px;"><code>.function<br>
+.const 7.8e-9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;
+constant number 0, a number, 7.8e-9<br>
+.const #12345&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;
+constant number 1, a number, 12345<br>
+.const "Eastwood"&nbsp;&nbsp;&nbsp;&nbsp; ; constant number 2, a
+string, "Eastwood"<br>
+.const
+nil&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;
+constant number 3, a nil<br>
+; rest of the function goes here<br>
+</code></div>
+<p>Constants can be declared anywhere within a function as long as
+symbolic names are declared before use. Here are more constant
+declarations:<br>
+</p>
+<div style="margin-left: 40px;"><code>.const FOO
+#12.34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; FOO is a constant
+with value 12.34</code><br>
+<code>.const BAR, "Eastwood"&nbsp;&nbsp; ; BAR is a constant with value
+</code><code>"Eastwood"</code><br>
+<code>.const Beef, #0xBEEF, 3&nbsp; ; constant number 3 is named Beef,
+value 0xBEEF</code><br>
+<code>.const #0xDEAD 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; constant number 2 has value 0xDEAD</code><br>
+</div>
+<p>Commas between operands is optional. Constant declarations with
+identical values are not merged; as far as the assembler is concerned,
+it is dealing with separate constants.<br>
+</p>
+<p>In order to simplify the writing of Lua assembly code, it is
+possible to write code without a single <code>.const</code>
+declaration. The assembler allows constants to be used directly as
+operands wherever there is an <code>RK(x)</code> operand or a <code>Kst(x)</code>
+operand. This is also
+why numbers need to be disambiguated from numerical constants
+(immediates). When constants are used directly as instruction operands,
+the assembler will automatically assign constant numbers to the
+constants and duplicates constants will use the same constant number.<br>
+</p>
+<p>The user is given the ultimate control as to how constants are
+declared or used in functions in the assembly code. The intent of the
+handling system for constants is that important variables can be
+declared as named symbols, while trivial constants can be used directly
+as operands in instructions.<br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">.equ</h2>
+<div style="margin-left: 40px;"><code style="font-weight: bold;">.equ
+&lt;symbol&gt; [,]
+&lt;expression&gt;</code></div>
+<p><code>.equ</code> is a generic mechanism for setting an expression's
+result to a symbol, much like the classic assembler <code>equ</code>
+directive. Equates and labels associated with them are the only symbols
+in the global namespace; all
+other symbols are local to a particular function prototype. Evaluation
+of expressions is immediate, so local symbols can be used, and in
+addition equate
+symbols can be redefined. Equates can appear anywhere in a program;
+they affect output only when used as symbols in expressions.<br>
+</p>
+<p>Equates that produces numbers do not have any associated symbol type
+information, so they are an alternative to using parentheses in
+expressions when mixing different symbol types. As with languages with
+dynamic data types, the onus is on the user to code responsibly.<br>
+</p>
+<p style="margin-left: 40px;"><code>.equ SIZE 800*600&nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; ; a number<br>
+.equ BIG (SIZE &gt; 32000)&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ; a
+boolean result<br>
+.equ MODE "Large"<br>
+.equ Version, 4.7&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; ; a number<br>
+.equ ID, MODE..Version &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; ; a string<br>
+...<br>
+.function<br>
+.const MySize #SIZE/1000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; MySize=#480<br>
+.const MyID ID&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp; ; MyID="Large4.7"<br>
+...<br>
+loadbool R1, BIG, 0&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+; loads a boolean (true)<br>
+...<br>
+.end<br>
+</code></p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">Labels and Symbols<br>
+</h2>
+<p>Labels can be used for <code>.param</code>, <code>.local</code>, <code>.upvalue</code>,
+<code>.const</code>, <code>.function</code> and <code>.equ</code>.
+For <code>.function </code>labels, the top-level function cannot have
+one, since the label is local to the <span style="font-style: italic;">parent
+</span>function prototype and the top-level function doesn't have a
+parent. For <code>.equ</code>, the label is in the global namespace,
+just like the equate directive.<br>
+</p>
+<p>Since you can name a function's resources
+using the declarations only, labels are a kind of aliasing mechanism.
+For example:<br>
+</p>
+<div style="margin-left: 40px;"><code>Neo: .const Anderson, "Thomas
+Anderson"</code><br>
+</div>
+<p>In the example above, both <code>Anderson</code> and <code>Neo</code>
+points to the same constant number that holds the string "Thomas
+Anderson". Although mechanism is available to the user, it is probably
+a good idea to use it only when there are good reasons to do so.<br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">Instruction Operands</h2>
+The following are descriptions of common Lua 5 virtual machine
+instruction operands:<br>
+<ul>
+  <li><code>R(x)</code>: A register location in the current function's
+stack frame. E.g. <code>R(A)</code> means that opcode field A
+specifies a register location. A register can be written in a few ways:
+For example, register 2 can be written as <code>2</code>, <code>$2</code>
+or <code>R2</code>. It can also be a name that refers to a parameter
+or a local variable. The name can be defined as a label or in a <code>.param</code>
+or <code>.local</code> directive.<br>
+    <br>
+  </li>
+  <li><code>RK(x)</code>: The operand may be a register location or it
+may point to a constant in the constant pool of the function. A
+register location is specified in the same manner as in an <code>R(x)</code>
+operand. Constant numbers can be explicitly specified, but note that
+they must be greater or equal to <code>maxstack</code>, which is
+normally 250. Note that <code>maxstack</code> can be customized in a <code>.header</code>
+directive. So, a <code>250</code> will normally point to constant
+number 0. In theory, <code>R250</code> can also be used, but this is
+misleading; constant numbers should be written as bare numbers.
+Alternatively, constants can be referenced using a name or a label.
+Constants can also be used, e.g. <code>#47</code>, <code>nil</code>
+or <code>"Foo"</code>
+are legal operands. Such constants are allocated a number
+automatically, and identical values or strings share the same constant
+number. This is to allow trivial constants to be used very easily,
+without the hassle of declaring each and every constant. The scheme is
+very flexible, it is up to the user to write clear and readable code.<br>
+    <br>
+  </li>
+  <li><code>Kst(x)</code>: This operand denotes a constant only.
+Constant numbers, names or labels, or immediate constants in the form
+of immediate numbers (e.g. <code>#123</code>), strings or the <code>nil</code>
+keyword can be used.
+Like <code>RK(x)</code>, if constants are used directly, the assembler
+handles allocation automatically.<br>
+    <br>
+  </li>
+  <li><code>Disp</code>: Denotes a displacement. A number (e.g. <code>20</code>)
+denotes an absolute target location. An immediate number (e.g. <code>#1</code>,
+    <code>#-10</code>) denotes a relative displacement which
+corresponds directly to the value in the <code>sBx</code> field of the
+assembled instruction. A label name makes writing jump targets much
+easier. The target label must be somewhere within the same function
+body, and forward and backward reference is allowed.<br>
+  </li>
+</ul>
+<p>The assembler tracks register usage by noting the <code>R(x)</code>
+and <code>RK(x)</code> operands and sets the <code>maxstacksize</code>
+field in a function header accordingly. So normally, the user does not
+need to do anything about the <code>maxstacksize</code> field. You can
+explicitly set <code>maxstacksize</code> too, but if your custom value
+is too small, then the assembler will flag an error.<br>
+</p>
+<p>Most value operands accept expressions, as long as the result of the
+expression is valid.
+</p>
+<p>Other operands are described within the descriptions of Lua 5
+virtual machine instructions in the next section.<br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">Lua 5 Instructions<br>
+</h2>
+<p>Like most classic assemblers, instruction statements are written on
+a per-line basis. In the case of ChunkBake, 'per-line' refers to a
+logical line, since a '<code>\</code>' can be used as a line
+continuation character. Also, long strings can occupy more than one
+line.<br>
+</p>
+<p>Operands are optionally separated by commas. Thus, in the syntax
+descriptions below, any comma can be omitted. This relaxed rule is to
+allow for different writing styles. It is recommended that the user
+stick to a single style in a program. In some cases, '<code>...</code>'
+can be optionally used to replace a comma to denote a range of
+registers or values. Note: '<code>...</code>'
+was changed from '<code>..</code>'&nbsp;
+in version 0.7.0 because the latter need to be used for string
+concatenation. This helps to make the intent of the instruction
+clear, e.g. <code>loadnil 0...2</code>.</p>
+<p>Many illegal conditions are trapped by the assembler, however,
+writing illegal or incorrect instructions is by no means impossible.
+The assembler lacks a comprehensive warning system at the moment, so it
+is largely up to the user to enforce some discipline in coding.<br>
+</p>
+<p>The following describes only <span style="font-style: italic;">how
+instructions are written </span>in the ChunkBake assembler, it <span
+ style="font-style: italic;">does not</span> describe what each
+instruction does. For help on the latter, please see the beginning of
+this document. Most of the examples in the following are copied from
+the automatic test script, <code>TestRig.lua</code>.<br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">MOVE
+R(A) , R(B)</code><br>
+</div>
+<p>Moves values between register locations. Examples:<br>
+</p>
+<div style="margin-left: 40px;"><code>MOVE 0 1<br>
+move R3 R4<br>
+move $5, $6<br>
+move $7, R8<br>
+move FOO, BAR<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">LOADK
+R(A) , Kst(Bx)</code><br>
+</div>
+<p>Loads a constant into a register. Examples:</p>
+<div style="margin-left: 40px;"><code>loadk $1, 0<br>
+LOADK R1, FOO<br>
+loadk 2, "foobar"<br>
+loadk $0 #1234<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">LOADBOOL
+R(A) , B(0|1|true|false) , C(0|1)</code><br>
+</div>
+<p>Loads a boolean into a register. The boolean value can be specified
+as a number (<code>0</code> for false, <code>1</code> for true) or the
+<code>true</code> and <code>false</code> keywords can be used. The
+flag in field C for skipping the next instruction may be specified as a
+<code>0</code> (don't skip) or <code>1</code> (skip the next
+instruction.) Examples:</p>
+<div style="margin-left: 40px;"><code>loadbool R0, 0, 0<br>
+loadbool $1, 1, 1<br>
+loadbool 2 true 0<br>
+loadbool 3 false, 1<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">LOADNIL
+R(A) (,|..) R(B)</code><br>
+</div>
+<p>Sets a range of registers to <code>nil</code>. In order to make the
+intent of the instruction clear, '<code>..</code>' can be used instead
+of a comma to separate the two operands, thus showing that the
+instruction is operating on the given register range. The second
+register must be greater than or equal to the first register. Examples:</p>
+<div style="margin-left: 40px;"><code>loadnil
+0,0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; a
+single register<br>
+loadnil R1..R3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; makes it
+clear R1,R2,R3 are set<br>
+loadnil 2 $4<br>
+loadnil FOO .. BAR<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">GETUPVAL
+R(A) , Upvalue[Bx]</code><br style="font-weight: bold;">
+<code style="font-weight: bold;">SETUPVAL R(A) , Upvalue[Bx]</code><br>
+</div>
+<p>Loads or saves an upvalue. Examples:</p>
+<div style="margin-left: 40px;"><code>getupval $1, 0<br>
+setupval R2 FOO<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">GETGLOBAL
+R(A) , Kst(Bx)</code><br style="font-weight: bold;">
+<code style="font-weight: bold;">SETGLOBAL R(A) , Kst(Bx)</code><br>
+</div>
+<p>Loads or saves a global variable. Examples:</p>
+<div style="margin-left: 40px;"><code>getglobal R0, FOO<br>
+setglobal $1, FOO<br>
+getglobal 1, 0<br>
+setglobal 2, "bar"<br>
+getglobal 3 #0xBEEF<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">GETTABLE
+R(A) , R(B) , RK(C)</code><br style="font-weight: bold;">
+<code style="font-weight: bold;">GETTABLE R(A) , R(B) "[" RK(C) "]"</code><br>
+</div>
+<p>Gets a value from a table. The table key can be enclosed in square
+brackets for increased readability. Examples:</p>
+<div style="margin-left: 40px;"><code>gettable 1 0 2<br>
+gettable 1, R2, 250<br>
+gettable $2 3 #0xBEEF<br>
+gettable R4 R5 "foobar"<br>
+gettable R0, $1[251]<br>
+gettable 1 2[3]<br>
+gettable $3, 2["trinity"]<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">SETTABLE
+R(A) , RK(B) , RK(C)</code><br style="font-weight: bold;">
+<code style="font-weight: bold;">SETTABLE R(A) "[" RK(B) "]" , RK(C)</code><br>
+</div>
+<p>Sets the value of a given table key. The table key can be enclosed
+in square brackets for increased readability. Examples:</p>
+<div style="margin-left: 40px;"><code>settable 1 2 3<br>
+settable R2, 250, $1<br>
+settable $1 #0xDEAD, 3<br>
+settable R4 "foobar" R5<br>
+settable R4 R2 "foobar"<br>
+settable $1[251], R0<br>
+settable 2["trinity"] $3<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">NEWTABLE
+R(A) , (&lt;number&gt;|&lt;immediate&gt;) , (</code><code
+ style="font-weight: bold;">&lt;number&gt;|&lt;immediate&gt;</code><code
+ style="font-weight: bold;">)</code><br>
+</div>
+<p>Creates a new table object and assigns it to the given register. The
+assembler accepts either encoded size values (as integer numbers) or
+raw size values (as immediate numbers). Examples:</p>
+<div style="margin-left: 40px;"><code>newtable 2 0
+0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; table of: array=0, hash=0<br>
+newtable R1, 10,
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; </code><code>table
+of: </code><code>array=4, hash=16<br>
+newtable 1 #200 #200&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; </code><code>table
+of: </code><code>array=224, hash=256<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">SELF
+R(A) , R(B) , RK(C)</code><br style="font-weight: bold;">
+<code style="font-weight: bold;">SELF R(A) , R(B) "[" RK(C) "]"</code><br>
+</div>
+<p>Sets up an object call. Part of the operation includes a table
+lookup, hence the syntax of <code>self</code> is similar to the syntax
+of <code>gettable</code>. Examples:</p>
+<div style="margin-left: 40px;"><code>self R1 R2 R3<br>
+self 1,2,3<br>
+self $2 3[R4]<br>
+self R1 R0[FOO]<br>
+self R2 R1,250<br>
+self $1 BAR[BAR]<br>
+self BAR $1[#0xBEEF]<br>
+self BAR $1["morpheus"]<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">ADD
+R(A) , RK(B) , RK(C)</code><br style="font-weight: bold;">
+<code style="font-weight: bold;">SUB R(A) , RK(B) , RK(C)</code><br
+ style="font-weight: bold;">
+<code style="font-weight: bold;">MUL R(A) , RK(B) , RK(C)</code><br
+ style="font-weight: bold;">
+<code style="font-weight: bold;">DIV R(A) , RK(B) , RK(C)</code><br
+ style="font-weight: bold;">
+<code style="font-weight: bold;">POW R(A) , RK(B) , RK(C)</code><br>
+</div>
+<p>Binary arithmetic operations. Examples:</p>
+<div style="margin-left: 40px;"><code>add 0,0,0<br>
+add $0,R1,2<br>
+add FOO, 0, BAR<br>
+sub R1, #123, #456<br>
+mul $2, "foo", "bar"<br>
+div 3, FOO, 250<br>
+pow 0, R1, BAR<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">UNM
+R(A) , R(B)</code><br style="font-weight: bold;">
+<code style="font-weight: bold;">NOT R(A) , R(B)</code><br>
+</div>
+<p>Unary minus and logical not operations. Examples:</p>
+<div style="margin-left: 40px;"><code>unm 1, $2<br>
+not R3 R4<br>
+unm FOO, BAR<br>
+not BAR FOO<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">CONCAT
+R(A) , R(B) (,|...) R(C)</code><br>
+</div>
+<p>Concatenates a range of registers and assigns the result to a
+register. A '<code>...</code>' can be used instead of a comma to
+separate the operands that make up the range of registers. Examples:</p>
+<div style="margin-left: 40px;"><code>concat $0 $1 $3<br>
+concat 0,1,1<br>
+concat R1 R2...R4<br>
+concat 0, FOO...BAR<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">EQ
+(0|1) , RK(B) , RK(C)</code><br style="font-weight: bold;">
+<code style="font-weight: bold;">LT (0|1) , RK(B) , RK(C)</code><br
+ style="font-weight: bold;">
+<code style="font-weight: bold;">LE (0|1) , RK(B) , RK(C)</code><br>
+</div>
+<p>Relational operations. The A field can be 0 or 1, which signifies
+the result to be tested for. The next instruction is skipped if the
+comparison result is not the same as the expected result. Examples:</p>
+<div style="margin-left: 40px;"><code>eq 0, 1, 2<br>
+eq 1 $2 $1<br>
+eq 0 R1 R2<br>
+eq 0 250 251<br>
+lt 0, FOO, BAR<br>
+lt 1 #123 #456<br>
+le 0 "foo" "bar"<br>
+le 1 #47 "47"<br>
+</code><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">TEST
+R(A) , R(B) , (0|1)</code><br>
+</div>
+<p>Text operation. The C field can be 0 or 1, which signifies the
+result to be tested for. The next instruction is skipped if the
+comparison result is not the same as the expected result. Examples:</p>
+<div style="margin-left: 40px;"><code>test 1, 2, 0<br>
+test $2 $1, 1<br>
+test R1 R2 0<br>
+test FOO BAR 0<br>
+</code><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">JMP
+label|disp</code><br>
+</div>
+<p>Performs an unconditional jump. Jumps can be to absolute positions,
+to relative positions or to a label. Absolute jumps must be a positive
+integer, but bounds checking is not currently performed, so illegal
+instructions can be coded. Likewise for relative jumps. Also, the
+assembler does not currently check the case where the <code>jmp</code>
+instruction jumps to itself, creating an infinite loop. In future
+versions of ChunkBake, the user will be warned of such cases. Examples:</p>
+<div style="margin-left: 40px;"><code>jmp
+#0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; relative jumps<br>
+jmp #-10<br>
+jmp #10<br>
+jmp 3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; absolute
+jump<br>
+jmp BAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; labeled jump<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">CALL
+R(A) , B , C</code><br>
+</div>
+<p>Calls a closure. Examples:</p>
+<div style="margin-left: 40px;"><code>call $0, 0, 0<br>
+call R1, 2, 3<br>
+call 2 3 1<br>
+</code><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">TAILCALL
+R(A) , B</code><br style="font-weight: bold;">
+<code style="font-weight: bold;">RETURN R(A) , B</code><br>
+</div>
+<p>Returns to calling function or performs a tail call. Examples:</p>
+<div style="margin-left: 40px;"><code>return $1 2<br>
+return R2 20<br>
+return 3, 4<br>
+return FOO, 8<br>
+tailcall $1 2<br>
+tailcall R2 20<br>
+tailcall 3, 4<br>
+tailcall BAR, 66<br>
+</code><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">FORLOOP
+R(A) , label|disp</code><br>
+</div>
+<p>Performs an iteration of a numeric <span style="font-weight: bold;">for</span>
+loop. See the <code>jmp</code> instruction on the use and
+specification of jumps. Examples:</p>
+<div style="margin-left: 40px;"><code>forloop 1 FOO<br>
+forloop R1, BAR<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">TFORLOOP
+R(A) , C</code><br>
+</div>
+<p>Performs an iteration of a generic <span style="font-weight: bold;">for</span>
+loop. Examples:</p>
+<div style="margin-left: 40px;"><code>tforloop 0 0<br>
+tforloop $1, 4<br>
+tforloop R2, 10<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">TFORPREP
+R(A) , label|disp</code><br>
+</div>
+<p>Performs the initialization for a generic <span
+ style="font-weight: bold;">for</span> loop. See the <code>jmp</code>
+instruction on the use and
+specification of jumps. Examples:</p>
+<div style="margin-left: 40px;"><code>tforprep 1 FOO<br>
+tforprep R1, BAR<br>
+<br>
+</code></div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">SETLIST
+R(A) , Bx</code><br style="font-weight: bold;">
+<code style="font-weight: bold;">SETLIST R(A) , start [...] end</code><br
+ style="font-weight: bold;">
+<code style="font-weight: bold;">SETLISTO R(A) , Bx</code><br
+ style="font-weight: bold;">
+<code style="font-weight: bold;">SETLISTO R(A) , start [...] end</code><br>
+</div>
+<p>Sets a table with a list of values in a range of registers. You can
+either encode the range and specify a single number, or specify a range
+and let the assembler calculate the <code>Bx</code> value. <code>setlisto</code>
+is
+used when the final element of the list is a function call, which has
+an indeterminate number of return values. Examples:</p>
+<div style="margin-left: 40px;"><code>setlist $1,
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; index 1 to 11<br>
+setlist R2,
+40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; index 33 to 41<br>
+setlist 0
+1...10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; index 1 to 10<br>
+setlist 1,
+33...42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; index 33 to 42<br>
+setlisto 1, 65...74&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;
+index 65 to top<br>
+</code></div>
+<p>The encoded number and the range specification must be valid, or
+else the assembler will report an error. Note that <code>FIELDS_PER_FLUSH</code>
+(or <code>fpf</code> in the <code>.header</code> directive) can be
+customized, so the index range calculations will be adjusted
+accordingly.<br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">CLOSE
+R(A)</code><br>
+</div>
+<p>Closes local variables on the stack from the specified register
+onwards. Examples:</p>
+<div style="margin-left: 40px;"><code>close 0<br>
+close FOO</code><br>
+<br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="margin-left: 40px;"><code style="font-weight: bold;">CLOSURE
+R(A) , Bx</code><br>
+</div>
+<p>Creates a closure or instantiation of a function, assigning the
+result to a register. If the function prototype has a label, the label
+can be used to refer to it. Examples:</p>
+<div style="margin-left: 40px;"><code>closure 1, 0<br>
+closure R2 1<br>
+closure FOO 2<br>
+closure $0
+PRINTF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;
+see the printf.asm test example<br>
+</code><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<h2 style="color: rgb(102, 0, 0);">Examples</h2>
+<p>A number of examples can be found in the <code>test</code>
+directory of the ChunkBake distribution. The automatic test system, <code>TestRig.lua</code>
+in the <code>misc</code> directory, has a pretty complete coverage of
+both legal and illegal forms of all instructions.</p>
+<hr style="width: 100%; height: 2px;"><font size="2">This page
+Copyright
+© 2005 </font><a href="mailto:mkh.nospam@pl.jaring.my"><font size="2">KHMan</font></a><font
+ size="2"> under the same terms as ChunkBake. See ChunkBake for
+license information (MIT-style). </font><font
+ style="font-style: italic;" size="2">
+Last
+Revised: 2005-05-12. </font><font size="2">Personal: </font><a
+ href="http://www.geocities.com/keinhong/"><font size="2">http://www.geocities.com/keinhong/</font></a><font
+ size="2">
+| Project URL: <a href="http://luaforge.net/projects/chunkbake/">http://luaforge.net/projects/chunkbake/</a></font><font
+ size="2"> </font>
+</body>
+</html>

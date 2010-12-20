@@ -1,0 +1,163 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Secure Epos</title>
+</head><body>
+<h1>Secure Epos</h1>
+
+<h2> Objectives </h2>
+<p>
+The purpose of our work is to implement a security memory mechanism in epos, a memory dump could reveal important data, the idea is to cipher the data that is resident on the memory to prevent private data to be read by a memory dump or some hardware hacking. This will be done using the idea of a Secure Segment.
+</p>
+
+<h2> Description </h2>
+<p>
+We will create a secure segment, so that any thread can have its data protected running on Address_Space that is using a Secure_Segment.
+In order to do this one we must create an authentication mechanism so that only authorized threads have access to the content of the segment, this is done by adding the thread that created the secure segment as authorized, and this thread can give permission to other Threads. Any Thread that is on the list of authorized Threads can give permission to a new one.
+</p>
+<p>
+Memory will be deciphered through the page fault mechanism, a page belonging to a Secure_Segment is marked as non-present, so if someone try to access it a page fault is generated, on the page fault handler we see if the Thread that is trying to access that segment has permission to do it, if it has the page is deciphered and the Thread can read it. Otherwise the page fault will run normally as if the thread does not have permission to access that page.
+</p>
+
+<p> 
+A Secure_Segment_Manager will periodicaly encipher the segments back in memory. This will be done using a Periodic_Thread. The Secure_Segment_Manager will have all the Secure_Segments that are running on the system and will use a LRU like system to know wich is the best deciphered segment to be ciphered back.
+</p>
+
+<p>
+The secure segment will be a segment whose data will be ciphered using simetric key. The secure segment will have a list of threads that have permission to access it. This authorization will be obtained once a thread create a secure segment, and this thread will be allowed to give permission to other threads. </p>
+
+We supose that the Cipher key is protected by some hardware mechanism and is hardcoded.
+</p>
+
+
+<p><strong> Logic Model: </strong></p>
+
+<p> Full Model Class Diagram </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/FullModelClassDiagram.png"><br>
+
+<p> Create Task </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/Create%20Task.png"><br>
+
+<p> Create Secure Segment </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/Create%20a%20Secure_Segment.png"><br>
+
+<p> Destroy Secure Segment </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/Destroy%20a%20Secure_Segment.png"><br>
+
+<p> Init Secure_Segment_Manager </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/Init%20Secure_Segment_Manager.png"><br>
+
+<p> Secure Segment Manager timer fired </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/Secure%20Segment%20Manager%20timer%20fired.png"><br>
+
+<p> Page Fault Handling </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/Page_Fault_Handling.png"><br>
+
+<p> Address Space Attach call </p>
+<img src="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/png/Address_Space%20Attach.png"><br>
+
+
+<p><strong> Implementation final: </strong></p>
+
+<p><strong> New Classes: </strong></p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp/secure_segment.h">Header of the Secure_Segment Class.</a></p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp/secure_segment.cc">Implementation of the Secure_Segment Class.</a></p>
+
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp/secure_segment_manager.h">Header of the Secure_Segment_Manager Class.</a></p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp/secure_segment_manager.cc">Implementation of the Secure_Segment_Manager Class.</a></p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp/cipher.h">Cipher interface.</a></p>
+
+
+<p> We tried to used IDEA Cipher Algorithm based on Pate Williams implementation but we found some difficulties related to fixed chunk size block. Source Code available throught Schneier's Book site. (http://www.schneier.com/sccd/IDEA-WIL.ZIP) </p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp/idea_cipher.h">IDEA Cipher Header.</a></p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp/idea_cipher.cc">IDEA Cipher Implementation.</a></p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp/xor_cipher.h">XOR Cipher Header.</a></p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp/xor_cipher.cc">XOR Cipher Implementation.</a></p>
+
+
+<p><strong> Changes made on existing Classes: </strong></p>
+<p> Some private data of the Chunk object has become protected. </p>
+<p> A new method on the Address_Space, so we can map a Log_Addr to a Secure_Segment. </p>
+<p> A fix on the IA32 Flags so the non-present page fault mechanism work ok. </p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp/mmu.h">IA32 MMU.</a></p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp/address_space.h">Address_Space.</a></p>
+
+
+<p><strong> FIXES </strong></p>
+<p> 
+Something seems to be wrong on the stack of the interrupt handler, so after everything is done on the handler and we return from it, we got a GPF. To help debug we inserted a stack frame debug inside the interrupt handler, the output is: 
+</p>
+
+<p>
+Interrupt_Id i address [0x003ffecc] = [0x0000000e]
+Reg32 error address [0x003ffed0] = [0x0001b5eb]
+Reg32 eip address [0x003ffed4] = [0x02400000]
+Reg32 cs address [0x003ffed8] = [0x003fffbc]
+Reg32 eflags address [0x003ffedc] = [0x003ffef0]
+
+Stack address [0x003ffea4] = [0x003ffeb0]
+Stack address [0x003ffea8] = [0x003ffef8]
+Stack address [0x003ffeac] = [0x000187ef]
+Stack address [0x003ffeb0] = [0x00000020]
+Stack address [0x003ffeb4] = [0x000003f8]
+Stack address [0x003ffeb8] = [0x0001b623]
+Stack address [0x003ffebc] = [0x02400000]
+Stack address [0x003ffec0] = [0x0001b5eb]
+Stack address [0x003ffec4] = [0x003fffbc]
+Stack address [0x003ffec8] = [0x000187ef]
+<p><strong>
+Stack address [0x003ffecc] = [0x0000000e]
+Stack address [0x003ffed0] = [0x0001b5eb]
+Stack address [0x003ffed4] = [0x02400000]
+Stack address [0x003ffed8] = [0x003fffbc]
+Stack address [0x003ffedc] = [0x003ffef0]
+</strong></p>
+
+Stack address [0x003ffee0] = [0x0001b623]
+Stack address [0x003ffee4] = [0x02000000]
+Stack address [0x003ffee8] = [0x00000000]
+Stack address [0x003ffeec] = [0x00002710]
+Stack address [0x003ffef0] = [0x00000002]
+Stack address [0x003ffef4] = [0x00008f1f]
+</p>
+
+<p>
+The interrupt id is ok (14), the error code could be right, since the first bit is 1 (indicating a non present fault) and the second bit indicates an write. The odd this is that the RSVD bit is 1, the description of this bit is:
+</p>
+
+<p>
+The RSVD flag indicates that the processor detected 1s in reserved bits of the
+page directory, when the PSE or PAE flags in control register CR4 are set to 1.
+Notes:
+   The PSE flag is only available in recent Intel 64 and IA-32 processors
+   including the Pentium 4, Intel Xeon, P6 family, and Pentium processors.
+   The PAE flag is only available on recent Intel 64 and IA-32 processors
+   including the Pentium 4, Intel Xeon, and P6 family processors.
+   In earlier IA-32 processors, the bit position of the RSVD flag is reserved
+   and is cleared to 0.
+</p>
+
+<p>
+After the next bit indicating that the page fault was not caused by an instruction fetch the rest of the error code is reserved. The eip seems to be wrong for sure, and the rest of the values remain a mistery. The page fault handler can be found on the implementation of the Secure_Segment_Manager class.
+</p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp/pf_intel.pdf">More info about page fault.</a></p>
+
+<p><strong> Tests </strong></p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/proj_page/imp/secure_segment_test.cc">Small test showing the expected usage of the Secure_Segment.</a></p>
+
+
+<p><strong>Team: </strong></p>
+<p> Felipe Teixeira   </p>
+<p> Fernanda Peters   </p>
+<p> Patricia Dousseau </p>
+<p> Tiago Katcipis    </p>
+
+</body>
+</html>

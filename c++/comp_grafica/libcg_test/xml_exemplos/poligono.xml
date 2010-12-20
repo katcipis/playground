@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<formas>
+	<!-- o atributo "cheio" indica se o poligono eh preenchido ou nao -->
+	<poligono nome="polNaoCheio" cor="000000" cheio="falso">
+		<!-- os pontos indicam os vertices do poligono. Sao ligados na ordem
+		em que aparecem, com o ultimo ligando de volta no primeiro -->
+		<ponto x="10.0" y="10.0" z="0.0"/>
+		<ponto x="10.0" y="20.0" z="0.0"/>
+		<ponto x="20.0" y="20.0" z="0.0"/>
+		<ponto x="20.0" y="10.0" z="0.0"/>
+		<!-- <ponto> adicionais -->
+	</poligono>
+
+        <poligono nome="polCheio" cor="FF0A01" cheio="verdadeiro">
+                <!-- os pontos indicam os vertices do poligono. Sao ligados na ordem
+                em que aparecem, com o ultimo ligando de volta no primeiro -->
+                <ponto x="20.0" y="20.0" z="0.0"/>
+                <ponto x="20.0" y="30.0" z="0.0"/>
+                <ponto x="30.0" y="30.0" z="0.0"/>
+                <ponto x="30.0" y="20.0" z="0.0"/>
+                <!-- <ponto> adicionais -->
+        </poligono>
+</formas>

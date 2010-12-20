@@ -1,0 +1,84 @@
+/************
+PROBLEMA:
+
+Uma universidade oferece dois cursos de graduação: Computação e Direito.
+No curso de Computação existem duas disciplinas, INE5364 Programação em Lógica e INE5384 Estruturas
+de Dados. No curso de Direito existe 1 disciplina: DIR1020 Direito Tributário I.
+A disciplina DIR1001 Ética no Trabalho é oferecida tanto no curso de Direito como no de Computação.
+Alexandre e Marcelo são dois alunos do curso de Computação. Lalau é aluno de direito.
+
+Pelas regras da universidade, um aluno só pode cursar uma disciplina se esta for oferecida 
+para o seu curso.
+
+*************/
+
+/***
+Requisitos: o programa deve permitir ao usuário:
+
+1) verificar se um determinado curso é oferecido pela ufsc
+2) conhecer todos os cursos oferecidos pela ufsc.
+3) verificar qual o nome de uma disciplina com um determinado código
+4) verificar qual o código de uma discplina com um determinado nome.
+5) conhecer todas as disciplinas cadastradas.
+6) verificar se um determinado aluno está matriculado em algum curso.
+7) verificar se um determinado aluno está matriculado em um determinado curso.
+8) conhecer todos os alunos matriculados em um determinado curso.
+9) verificar se um determinado aluno pode cursar uma determinada disciplina.
+10) verificar quais disciplinas um determinado aluno pode cursar.
+11) verificar quais alunos podem cursar determinada disciplina.
+
+***/
+
+/***********
+UMA SOLUÇÃO
+************/
+
+/* computação é um curso. */
+curso(computacao).
+
+/* direito é um curso. */
+curso(direito).
+
+/* ine5364 é o código da disciplina programação em lógica */
+disciplina(ine5364, 'Programação em Lógica').
+
+/* ine5384 é o código da discplina estruturas de dados */
+disciplina(ine5384, 'Estruturas de Dados').
+
+/* dir1020 é o código da disciplina direito tributário */ 
+disciplina(dir1020, 'Direito Tributário').
+
+/* dir1001 é o código da disciplina ética no trabalho */
+disciplina(dir1001, 'Ética no Trabalho').
+
+/* a disciplina ine5384 é oferecida no curso de computação. */
+oferecida(ine5384, computacao).
+
+/* a disciplina ine5364 é oferecida no curso de computação. */
+oferecida(ine5364, computacao).
+
+/* a disciplina dir1001 é oferecida no curso de computação */
+oferecida(dir1001, computacao).
+
+/* a disciplina dir1020 é oferecida no curso de direito. */
+oferecida(dir1020, direito).
+
+/* a disciplina dir1001 é oferecida no curso de direito */
+oferecida(dir1001, direito).
+
+
+/* alexandre é um aluno do curso de computação */
+aluno(alexandre, computacao).
+
+/* marcelo é um aluno do curso de computação */
+aluno(marcelo, computacao).
+
+/* nicolau é um aluno do curso de direito */
+aluno(nicolau, direito).
+
+/* um aluno X pode cursar uma disciplina Y se este aluno estiver matriculado em um curso Z e
+esta disciplina for oferecida neste curso Z. */
+
+podeCursar(X, Y) :-
+	aluno(X, Z),
+	oferecida(Y, Z).

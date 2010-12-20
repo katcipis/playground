@@ -1,0 +1,11 @@
+copy the src folder to the /usr/src folder of the minix system.
+after the copy there should be a compile_work.sh script on 
+/usr/src, run this script and it will compile all the minix system
+and install a new minix image. Just reboot the system and choose
+the custom boot option (option 2).
+
+This code works only on minix 3.14 out of the box since it
+makes use of code that belongs to minix 3.14, overwriting it
+on a moded minix or a diferent version may have unexpected
+behaviour.
+

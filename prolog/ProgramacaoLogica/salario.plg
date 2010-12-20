@@ -1,0 +1,46 @@
+/*
+ INE5364 - Programação em Lógica
+ Prof.: Leandro J. Komosinski 2007/1
+ Arquivo: salario.plg
+*/
+
+/*
+  Problema: 
+Escrever um programa que dado um salário bruto possa 
+determinar o valor do salário líquido. O desconto no salário bruto é 
+calculado conforme a tabela abaixo.
+
+Salário          Desconto(%)
+0 a 5000          0
+5001 a 10000      10 sobre o que exceder a 5000
+acima de 10000    20 sobre o que exceder a 10000 
+
+Por exemplo: se salário bruto for R$5200 então deve-se descontar 10% 
+sobre 200. Assim o salário líquido será 5000 + 180 = 5180.
+
+*/
+
+/* salario(bruto, liquido) */
+
+/* o salario liquido será igual ao bruto se o bruto for menor ou igual a 5000 */
+salario(S,S) :-
+	S =< 5000.
+
+/* Dado um determinado Salario Bruto o Salario Liquido será o valor SL SE */
+salario(SB,SL) :-
+	/* SB for maior que 5000*/
+        SB > 5000,
+        /* igual ou menos a 10000*/
+	SB =< 10000,
+        /* T é SB - 500*/
+	T is (SB - 5000),
+        /* SL é SB - (T * 0.1) */
+	SL is SB - (T * 0.1).
+
+salario(SB,SL) :-
+	SB > 10000,
+	T10 is 5000,
+	T20 is (SB - 10000),
+	SL is (SB - T10 * 0.1 - T20 * 0.2).
+
+

@@ -1,0 +1,9 @@
+#Tue Aug 11 20:34:49 BRT 2009
+eclipse.preferences.version=1
+encoding//src/abstrato/ParametroDePesquisa.py=utf-8
+encoding//src/eventos/eventos_sistema.py=utf-8
+encoding//src/modelo/EnderecoVO.py=utf-8
+encoding//src/modelo/PacienteDAO.py=utf-8
+encoding//src/modelo/PacienteVO.py=utf-8
+encoding//src/modelo/testes/TestePacienteDAO.py=utf-8
+encoding//src/modelo/tratador_eventos.py=utf-8

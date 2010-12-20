@@ -1,0 +1,14 @@
+Node name	Total time
+tostring	41.91
+log	        38.320000000001
+debug	        37.830000000001
+simulate_calc	35.66
+concat	        17.27
+format	        14.33
+type	        9.5599999999998
+cos	        5.8799999999999
+sin	        4.6999999999999
+assert	        4.24
+square	        4.21
+stop	        0.000000
+profiler_init	0.000000

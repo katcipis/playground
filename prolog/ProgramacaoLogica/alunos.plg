@@ -1,0 +1,13 @@
+alunos([gleber,05232546, cesar,06232084, guilherme,06232022, tiago,06232047]).
+
+
+temMatricula(Aluno, Matricula):-
+	
+	alunos(ListaDeAlunos),
+	possui(Aluno, Matricula, ListaDeAlunos).
+
+possui(Aluno, Matricula, [Aluno, Matricula|_]).
+
+possui(Aluno, Matricula, [Aluno2,_,|R]) :-
+	Aluno \= Aluno2,
+	possui(Aluno, Matricula, R).

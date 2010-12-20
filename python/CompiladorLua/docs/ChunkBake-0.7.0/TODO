@@ -1,0 +1,37 @@
+TODO list for ChunkBake.
+
+MAJOR FEATURES TODO
+
+* listing mode (generation of assembler LST-style files)
+  - low priority: ChunkSpy can do this quite well for now
+* assembler syntax: macros
+* assembler syntax: conditionals
+* assembler syntax: include files
+* stripped binary chunk mode (don't write debug information)
+* assembler source generation mode for ChunkSpy
+* intrinsic functions and constants in expressions
+* search local symbol tables to auto-detect valid upvalues
+
+OTHER STUFF TODO
+
+* initialize labels before related statement is processed, as the
+  operands in the statements may refer to the said labels
+* TAILCALL might be allowed as a last instruction, need to check lvm.c
+* check what Lua reports when an error occurs, see if the error
+  message can be properly traced back to the assembly source
+* complete more examples of assembly code
+* review tests and refine behaviour of ChunkBake
+* improve error messages by handling stuff after all of a statement is
+  parsed, don't start setting stuff during parsing
+* how to set a local's scope? an assembler should be able to control
+  the startpc and endpc fields of a local specification
+* should labels tag directives if they are on separate lines? right
+  now labels must be tied to a statement
+
+WARNING NOTIFICATIONS TODO
+
+These should be made optional:
+* warn of unused items like unused parameters, upvalues, etc.
+* warn of named local colliding with use of numbered registers
+* verify existence of upvalues, perhaps simplify declaration of upvalues
+

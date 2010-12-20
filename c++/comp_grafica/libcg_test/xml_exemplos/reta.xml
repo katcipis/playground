@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<formas>
+	<!-- 
+		para todos os objetos, o atributo cor eh opcional e sua ausencia 
+		indica cor preta (000000) 
+	-->
+	<reta nome="reta_teste_xml">
+		<!-- Retas precisam de dois pontos - a ordem importa-->
+		<ponto x="11" y="12" z="13"/>
+		<ponto x="21" y="22" z="23"/>
+	</reta>
+</formas>

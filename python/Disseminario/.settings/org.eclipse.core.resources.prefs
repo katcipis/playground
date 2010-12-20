@@ -1,0 +1,22 @@
+#Sun Feb 15 16:51:48 BRT 2009
+eclipse.preferences.version=1
+encoding//src/gui/AplicacaoPrincipal.py=latin1
+encoding//src/gui/FramePrincipal.py=latin1
+encoding//src/gui/PainelDaAssistencia.py=latin1
+encoding//src/gui/PainelDaDataDeInicio.py=latin1
+encoding//src/gui/PainelDaDataDeTermino.py=latin1
+encoding//src/gui/PainelDaDescricao.py=latin1
+encoding//src/gui/PainelDaDisponibilidade.py=latin1
+encoding//src/gui/PainelDasInstrucoes.py=latin1
+encoding//src/gui/PainelDeAdicaoDeMaterial.py=latin1
+encoding//src/gui/PainelDeEscolhaDeSeminarios.py=latin1
+encoding//src/gui/PainelDoCoordenador.py=latin1
+encoding//src/gui/PainelMaterialDisponivel.py=latin1
+encoding//src/gui/abstrato/CaixaDeTextoRotulada.py=latin1
+encoding//src/gui/abstrato/CaixaMultiplaEscolhaRotulada.py=latin1
+encoding//src/gui/abstrato/CampoDeDataRotulado.py=latin1
+encoding//src/gui/abstrato/ComponenteGenerico.py=latin1
+encoding//src/gui/abstrato/ComponenteRotulado.py=latin1
+encoding//src/gui/testes/TesteAplicacaoPrincipal.py=latin1
+encoding//src/main.py=latin1
+encoding/<project>=UTF-8

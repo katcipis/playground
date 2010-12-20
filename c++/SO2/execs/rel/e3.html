@@ -1,0 +1,51 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<h1>E3: system object destruction</h1>
+
+<b> problem </b>
+
+<p>
+EPOS abstracts system entities as ordinary C++ objects, thus promoting usability. At some points, however, the semantics of operating system and programming language do not seem to fit together easily. Consider for instance the case in which a system abstraction (say thread), created by the application programmer with new, is destroyed by the operating system (e.g. exit). Or the counterpart situation: the application programmer deleting a thread that is currently being manipulated by the operating system
+
+A careful binding between programming language and operating system must be defined to prevent undesirable side effects.</p>
+
+<b>Solution:</b>
+
+<p>
+On Thread destructor it was necessary to verify if the Thread was sleeping, and in case it was sleeping remove it from the Queue it was sleeping.
+We also resumed all the Threads that joined the Thread, if we dont do this all the joining Threads may wait forever. 
+It was also added on a _exit_status holding the status of the exit when the Thread finishes normaly, and
+when a Thread joins another it is used on the caller Thread to hold the exit status of the callee Thread, when the callee is deleted we dont have a stack to
+hold the exit status code, so joining a Thread that has been deleted would take garbage as status. In this case the exit status is stored
+on the Thread that called join(), preventing the status from being lost (-1 is returned signalizing an error when the thread is deleted before exiting).
+</p>
+
+<p> 
+The sleep and wakeup methods also become static, and they receive the Queue where the Thread is going to be inserted to sleep.
+A lock is also passed to the sleep method to guarantee that the Syncronizer_Commom lock is released only when the Thread is
+inserted on the sleeping Queue, but before setting the Thread to sleep. This guarantee atomicity on the Syncronizer calls (see Mutex and Semaphore implementation).
+
+The Queue is manipulated only inside the Thread class after we guarantee that only one Thread will be editing the _sleeping Queue. The old implementation used
+to edit the Queue outside (on Syncronizer_Commom), but this could cause a race condition between a call to sleep() / wakeup() and the destruction of a Thread.
+
+The Syncronizer_Commom implementation is pretty straightforward.
+</p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec3/thread.h">Header of the Thread Class.</a></p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec3/thread.cc">Implementation of the Thread Class.</a></p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec3/synchronizer.h">Implementation of the Synchronizer_Common Class.</a></p>
+
+<p> To test object destruction we used a simple test:</p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec3/destroy_obj_test.cc">Object destruction test.</a></p>
+
+<p> 
+The semaphore had a inconsistency when a Thread that was sleeping on the Semaphore was deleted. 
+We could have a Semaphore with a _value that does not reflect the amount of Thread that are
+sleeping on the Semaphore. Because of that we could have a situation where a Thread that calls
+p() is put to sleep (because of _value) but there is no one to wakeup the Thread. To fix that
+we always check if there is any Thread to be waked before calling wakeup.. if there is no one we found
+the inconsistency (a Thread has been deleted). So we reset _value to 1. 
+</p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec3/semaphore.h">Semaphore implementation</a></p>
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec3/mutex.h">Mutex implementation</a></p>

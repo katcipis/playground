@@ -1,0 +1,36 @@
+circuito2:-
+	verificarEntradas(E1,E2),
+	circuito1(E1,E1,E2,S1),
+	portaE(S1,E2,S2),
+	imprimirSaida(S2).
+
+circuito1(E1,E2,E3,S3):-
+	portaE(E1,E2,S1),
+	portaNo(E3,S2),
+	portaOu(S1,S2,S3).
+
+verificarEntradas(E1,E2):-
+	print('Entrada 1: '),
+	read(E1),
+	nl,
+	print('Entrada 2: '),
+	read(E2),
+	nl.
+
+imprimirSaida(S3):-
+	print('A saida do circuito é: '),
+	print(S3),
+	nl.
+
+portaNo(1,0).
+portaNo(0,1).
+
+portaOu(0,0,0).
+portaOu(1,0,1).
+portaOu(0,1,1).
+portaOu(1,1,1).
+
+portaE(0,0,0).
+portaE(0,1,0).
+portaE(1,0,0).
+portaE(1,1,1).

@@ -1,0 +1,9 @@
+package listasDeTestesDaTransformacaoParaXMLDosComponentesGedix;
+
+public interface ListaDeTestesDaTransformacaoParaXMLDoComponenteGedixComOpcoes {
+	
+    public void dadoUmComponenteGedixComOpçõesPodeGerarOsElementosDasOpções();
+	
+	public void podeGerarOXMLCompletoComAsOpçõesComoFilhosDAMarcaçãoXMLDoComponenteGedixComOpções();
+
+}

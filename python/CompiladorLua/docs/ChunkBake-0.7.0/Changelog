@@ -1,0 +1,246 @@
+Changelog for ChunkBake by Kein-Hong Man
+----------------------------------------
+
+2005-05-12  Kein-Hong Man  <khman@users.sf.net>
+
+	* docs/ChunkBakeReference.html: updated
+	* finalized files for major release
+	* Version: 0.7.0
+
+2005-05-11  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua (Parse:OperandUpval): moved code out, to make it
+	consistent with the rest of the operand parsing functions
+	* misc/TestRig.lua: added test cases for expressions
+	* ChunkBake.lua (Parse:OperandNum): changed to accept only neutral
+	numbers without any symbol type
+	* misc/TestRig.lua: completed test cases for expressions
+
+2005-05-11  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua (Parse:Subexpr): missing return variable assignment
+	cause loss of data/symbol type updated information
+	* misc/TestRig.lua: added test cases for expressions
+	* ChunkBake.lua (Parse:ExecUnop): bug fix, # operator forces
+	TK_STRING into TK_IMM (should stay as TK_STRING)
+	* misc/TestRig.lua: added test cases for expressions
+	* ChunkBake.lua (Code:GetSymbol): fixed attempt to index local
+	symbol table before it is initialized
+	* misc/TestRig.lua: added test cases for expressions
+
+2005-05-10  Kein-Hong Man  <khman@users.sf.net>
+
+	* misc/TestRig.lua: added basic test cases for expressions
+
+2005-05-10  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua: restructured parsing for .equ directive,
+	removed test for data type (anything parsed is valid)
+	* ChunkBake.lua (Parse:EndOfLine): changed error message
+	* misc/TestRig.lua: updated test cases for the above
+	* ChunkBake.lua (Code:SetGlobLabel): fixed table index bug
+	* ChunkBake.lua (Code:SetEqu): fixed to avoid redefining
+	global labels to equates
+	* misc/TestRig.lua: added test cases for the above
+	* ChunkBake.lua (Parse:LookAhead): for OperandDisp...
+	* ChunkBake.lua (OperandDisp): detects single-symbols properly
+	for forward-reference cases
+	* ChunkBake.lua (Code:GetLabel, Code:SetLabel): fixed forward-
+	referenced label tracking and detection
+	* ChunkBake.lua (Code:Init): proper initialization of local
+	symbol tables
+	* misc/TestRig.lua: added test cases for the above
+
+2005-05-09  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua (Parse:ExecBinop): result becomes a neutral
+	TK_NUM after a warning about symbol mixing
+
+2005-05-08  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua (OperandRK, OperandNum): converted to support
+	expression parsing, updated some instructions
+	* misc/TestRig.lua: updated test cases for the above
+	* ChunkBake.lua: instructions SETLIST and SETLISTO changed
+	to use a proper range operator ('...')
+	* ChunkBake.lua (OperandDisp): converted to support expression
+	parsing and added support for single-label forward referencing
+	* ChunkBake.lua (OperandProto): added for CLOSURE instruction
+	* misc/TestRig.lua: updated test cases for the above
+	* ChunkBake.lua: all directives and instructions converted
+	* misc/TestRig.lua: all existing test cases passed
+
+2005-05-07  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua: adjusted # operator to highest priority
+	* ChunkBake.lua: # has no effect on strings, strings are
+	understood to be constant
+	* ChunkBake.lua: expression parser warns if potentially
+	dangerous mixing of symbols performed; (expr) disambiguates
+	* ChunkBake.lua: returns and checks symboltype result of
+	expression
+	* ChunkBake.lua (Lex:Lex): added range operator '...' to lexer,
+	revised lexing of tokens with dots in front
+	* misc/TestRig.lua: updated test cases for the above
+	* ChunkBake.lua: changed use of ... to .., because .. clashes
+	with the use of .. as the concatenation operator in expressions,
+	renamed OptionalCommaConcat function to OptionalCommaRange,
+	syntax of LOADNIL, CONCAT affected
+	* misc/TestRig.lua: updated test cases for the above
+	* ChunkBake.lua (OperandBool, Operand01): new, supports parsing
+	of certain instructions (LOADBOOL, etc.)
+	* ChunkBake.lua: upvalues symbols no longer auto-added
+	* misc/TestRig.lua: updated test cases for the above
+
+2005-05-07  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua (OperandR, OperandKst): rewritten to perform
+	expression parsing
+	* ChunkBake.lua: changed constant referencing semantics to
+	differentiate constant index (SYM) and constant value (#SYM)
+	* misc/TestRig.lua: updated existing test cases for
+	OperandR, OperandKst expression parsing
+
+2005-05-06  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua: partial integration of expression parser;
+	integrated into directive parsing
+	* misc/TestRig.lua: updated to run existing directive tests
+	only with new expression parser
+
+2005-05-06  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua (Lex:Lex): '#' now lexed as a simple operator,
+	needed for expression parser
+	* misc/TestRig.lua: updated to reflect lexer's '#' behaviour
+	* ChunkBake.lua: some cosmetic changes to comment blocks
+	* removed TODO note from Geocities webpage URL
+	* ChunkBake.lua (Code:GetSymbol): added global lookups, single
+	point lookup for TK_SYM tokens for expression parser
+
+2005-05-04  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua: added preliminary .equ handling code
+	* ChunkBake.lua: added new keywords to lexer: and or
+	* ChunkBake.lua: added lexing for two-character operators:
+	~=, ==, <=, >= (to support expression parsing)
+	* ChunkBake.lua: changed "TK_CONCAT", ".." to "TK_OP", ".."
+	* misc/TestRig.lua: added tests for new keywords, double-character
+	operators, changed tests affected by "TK_CONCAT" change
+
+2005-05-04  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua (Code:SetLabel): fixed error message
+	* ChunkBake.lua: fixed bug encoding SETUPVAL/GETUPVAL, value in
+	field B instead of field Bx
+	* misc/TestRig.lua: added additional test for better symbol error
+	handling, covered unified symbol table tests too
+	* COPYRIGHT_Lua5: added to better reflect origin of certain parts
+	* Version: 0.6.2
+
+2005-05-03  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua: unified symbol namespace/lookup, improved errors
+	when handling symbols, removed redundant lookup tables, removed
+	redundant functions, adjusted some error messages
+	* misc/TestRig.lua (ParseTest): minor changes to notification
+	messages, added line spacing
+	* misc/TestRig.lua: removed rksym[] asserts in tests, no longer
+	exposed to the tester, with unified symbols
+	* misc/TestRig.lua: fixed changes to error messages in tests
+	* docs/ChunkBakeReference.html: updated
+
+2005-04-29  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua: Added support for +/- infinity for double/single
+	number conversion
+
+2005-04-14  Kein-Hong Man  <khman@users.sf.net>
+
+	* moved project to a Subversion repository
+	* changed shellbang to a more portable env
+
+2005-03-08  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua (Code:FunctionEnd): added warning for instructions
+	jumping to itself (infinite loops)
+	* misc/TestRig.lua: added tests for instructions jumping to itself
+	* misc/TestRig.lua (WriteChunk): now automatically runs ChunkSpy
+	to produce sample.txt from sample.out
+	* misc/TestRig.lua: updated notes on how to write parser tests
+
+2005-03-07  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua: added warning for MOVE to same register
+	* misc/TestRig.lua: fixed test logic for warnings, added warning
+	test for MOVE to same register, fixed older tests which broke
+	* ChunkBake.lua: added line parm to Code:Warn, Code:Error, fixed
+	line number when reporting forward reference resolution error
+	* ChunkBake.lua: added error if last instruction not RETURN|JMP
+	* misc/TestRig.lua: updated tests with valid last instruction
+	* ChunkBake.lua: added validity tests for NEWTABLE operands,
+	improved Parse:OperandNum to trap negative numbers
+	* misc/TestRig.lua: updated NEWTABLE tests
+	* ChunkBake.lua: added code to verify jump bounds, +Code:AddJmp,
+	modified Parse:OperandNum, mnemonic decoding, etc.
+	* misc/TestRig.lua: updated tests, +tests for out-of-bounds jumps
+	* Version: 0.6.1
+
+2005-03-05  Kein-Hong Man  <khman@users.sf.net>
+
+	* test/luac.asm: added example
+	* test/luac.lua: added example
+	* test/luac.out: added example
+	* test/luac-annot.asm: added example
+	* test/luac-cb.out: added example
+	* test/cf.asm: added example
+	* test/cf.lua: added example
+	* test/cf.out: added example
+	* test/cf-annot.asm: added example
+	* test/cf-cb.out: added example
+	* Version: 0.6.0
+
+2005-03-04  Kein-Hong Man  <khman@users.sf.net>
+
+	* ChunkBake.lua: added TK_KEY in lexer for nil, true, false
+	* ChunkBake.lua: added handling for nil .const declarations
+	* ChunkBake.lua: added nil handling in RK(x), Kst(x) operands
+	* misc/TestRig.lua: added tests for the above nil constant cases
+	* test/env-cb.out: added example
+	* test/env.asm: added example
+	* test/env.lua: added example
+	* test/env.out: added example
+	* test/env-annot.asm: added example
+	* test/env-cb.out: added example
+	* docs/ChunkBakeReference.html: preliminary version done
+
+2005-02-15  Kein-Hong Man  <khman@users.sf.net>
+
+	* COPYRIGHT: fixed copyright year
+
+2005-02-10  Kein-Hong Man  <khman@users.sf.net>
+
+	* docs/ChunkBake.html: created
+	* docs/ChunkBakeReference.html: created
+
+2005-02-07  Kein-Hong Man  <khman@users.sf.net>
+
+	* completed preliminary test script, covered all mnemonics
+	* adapted some examples based on Lua 5's test scripts
+	* fixed bug in handling of function labels
+	* prepared partially-complete basic documentation in README
+	* first public release prepared
+	* Version: 0.5.0
+
+2004-12-16  Kein-Hong Man  <khman@users.sf.net>
+
+	* done parser and code generator; completed draft
+	* start debugging and writing test suite
+
+2004-11-18  Kein-Hong Man  <khman@users.sf.net>
+
+	* completed lexical analyzer
+
+2004-11-13  Kein-Hong Man  <khman@users.sf.net>
+
+	* start of development, opcodes/operand notes mostly done

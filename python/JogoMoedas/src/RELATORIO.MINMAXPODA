@@ -1,0 +1,55 @@
+1188518 function calls (261 primitive calls) in 18.943 CPU seconds
+
+   Ordered by: standard name
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000   18.943   18.943 <string>:1(<module>)
+        2    0.000    0.000    0.000    0.000 Jogador.py:11(__init__)
+       37    0.000    0.000    0.000    0.000 Jogador.py:18(__str__)
+        1    0.000    0.000    0.000    0.000 Jogador.py:4(<module>)
+        1    0.000    0.000    0.000    0.000 Jogador.py:6(Jogador)
+        1    0.000    0.000    0.000    0.000 JogadorAlfaBeta.py:17(__init__)
+594153/38    0.301    0.000    0.599    0.016 JogadorAlfaBeta.py:25(calculaJogadaMax)
+594164/22    0.299    0.000    0.599    0.027 JogadorAlfaBeta.py:45(calculaJogadaMin)
+        1    0.000    0.000    0.000    0.000 JogadorAlfaBeta.py:5(<module>)
+       12    0.000    0.000    0.599    0.050 JogadorAlfaBeta.py:64(obterProximaJogada)
+        1    0.000    0.000    0.000    0.000 JogadorAlfaBeta.py:9(JogadorAlfaBeta)
+        1    0.000    0.000    0.000    0.000 JogadorCPU.py:4(<module>)
+        1    0.000    0.000    0.000    0.000 JogadorCPU.py:8(JogadorCPU)
+        1    0.000    0.000    0.000    0.000 JogadorHumano.py:13(__init__)
+       11    0.000    0.000    8.967    0.815 JogadorHumano.py:20(obterProximaJogada)
+        1    0.000    0.000    0.000    0.000 JogadorHumano.py:4(<module>)
+        1    0.000    0.000    0.000    0.000 JogadorHumano.py:8(JogadorHumano)
+        1    0.000    0.000    0.000    0.000 JogoDasMoedas.py:11(__init__)
+        2    0.000    0.000    0.000    0.000 JogoDasMoedas.py:15(adicionarJogador)
+        1    0.001    0.001    9.568    9.568 JogoDasMoedas.py:19(iniciar)
+        1    0.000    0.000    0.001    0.001 JogoDasMoedas.py:4(<module>)
+        1    0.000    0.000    0.000    0.000 JogoDasMoedas.py:44(__terminar)
+        1    0.000    0.000    0.000    0.000 JogoDasMoedas.py:7(JogoDasMoedas)
+        1    0.000    0.000    0.000    0.000 __future__.py:48(<module>)
+        1    0.000    0.000    0.000    0.000 __future__.py:74(_Feature)
+        7    0.000    0.000    0.000    0.000 __future__.py:75(__init__)
+        1    0.000    0.000   18.943   18.943 main.py:4(<module>)
+        1    0.000    0.000    0.000    0.000 os.py:747(urandom)
+        1    0.000    0.000    0.000    0.000 random.py:263(shuffle)
+        1    0.000    0.000    0.000    0.000 random.py:40(<module>)
+        1    0.000    0.000    0.000    0.000 random.py:643(WichmannHill)
+        1    0.000    0.000    0.000    0.000 random.py:71(Random)
+        1    0.000    0.000    0.000    0.000 random.py:793(SystemRandom)
+        1    0.000    0.000    0.000    0.000 random.py:90(__init__)
+        1    0.000    0.000    0.000    0.000 random.py:99(seed)
+        1    0.000    0.000    0.000    0.000 {binascii.hexlify}
+        1    0.000    0.000   18.943   18.943 {execfile}
+        1    0.000    0.000    0.000    0.000 {function seed at 0x7f0f92786a28}
+       28    0.000    0.000    0.000    0.000 {len}
+        1    0.000    0.000    0.000    0.000 {math.exp}
+        2    0.000    0.000    0.000    0.000 {math.log}
+        1    0.000    0.000    0.000    0.000 {math.sqrt}
+        2    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+        1    0.000    0.000    0.000    0.000 {method 'random' of '_random.Random' objects}
+        1    0.000    0.000    0.000    0.000 {posix.close}
+        1    0.000    0.000    0.000    0.000 {posix.open}
+        1    0.000    0.000    0.000    0.000 {posix.read}
+       15   18.341    1.223   18.341    1.223 {raw_input}
+       46    0.000    0.000    0.000    0.000 {time.time}

@@ -1,0 +1,163 @@
+% =================== Dados ============================
+leito(1). leito(2). leito(3). leito(4). leito(5).
+leito(6). leito(7). leito(8). leito(9). leito(10).
+resultado('positivo'). resultado('negativo'). resultado('em andamento').
+
+:- dynamic 
+    paciente/1,
+    medico/1,
+    doenca/1,
+    data/3,
+    alta/4,
+    baixa/4,
+    tipo_exame/1,
+    exame/5,
+    leito_ocupado_por/2,
+    diagnostico/4,
+    operacao/4.
+
+
+% ================ Base de Dados Inicial ====================
+paciente('joao'). paciente('guilherme').
+medico('joao'). medico('edson').
+tipo_exame('hemograma'). tipo_exame('urina').
+doenca('cancer de pele'). doenca('diabetes').
+baixa(paciente('joao'), data(13,2,2010), leito(1), medico('edson')).
+alta(paciente('joao'), data(1,1,2010), leito(1), medico('joao')).
+exame(paciente('joao'), tipo_exame('hemograma'), medico('edson'), data(2,1,2010), resultado('positivo')).
+diagnostico(paciente('joao'), doenca('diabetes'), data(1,1,2010), medico('edson')).
+operacao(paciente('joao'), doenca('diabetes'), data(1,1,2010), medico('edson')).
+
+
+% =================== Util ======================
+existem([Algo]):-
+    existe(Algo),!.
+existem([Primeiro|Resto]):-
+    existe(Primeiro),
+    existem(Resto).
+
+existe(Algo):-
+    call(Algo),!.
+existe(Algo):-
+    write('Nao existe '),
+    write(Algo), nl,
+    fail.
+
+depois_de(data(_,_,Ano1), data(_,_,Ano2)) :-
+    Ano1 > Ano2, !.
+depois_de(data(_,Mes1,Ano1), data(_,Mes2,Ano2)) :-
+    Ano1 = Ano2,
+    Mes1 > Mes2, !.
+depois_de(data(Dia1,Mes1,Ano1), data(Dia2,Mes2,Ano2)) :-
+    Ano1 = Ano2,
+    Mes1 = Mes2,
+    Dia1 >= Dia2, !.
+depois_de(data(_, _, _), data(_, _, _)) :-
+    fail.
+
+ocupar_leito(Nome, Numero):-
+    existe(leito(Numero)),
+    not(existe(leito_ocupado_por(_, Numero))),
+    assert(leito_ocupado_por(Nome, Numero)).
+
+desocupar_leito(Nome, Numero):-
+    existe(leito_ocupado_por(Nome, Numero)),
+    retract(leito_ocupado_por(_, Numero)).
+
+
+% =================== CRUD simples ====================
+novo_medico(Nome):-
+    not(medico(Nome)),
+    assert(medico(Nome)).
+
+novo_paciente(Nome):-
+    not(paciente(Nome)),
+    assert(paciente(Nome)).
+
+nova_doenca(Nome):-
+    not(doenca(Nome)),
+    assert(doenca(Nome)).
+
+data(Dia, Mes, Ano):-
+    integer(Dia), Dia >= 1, Dia =< 31,
+    integer(Mes), Mes >= 1, Mes =< 12,
+    integer(Ano), Ano > 0,
+    assert(data(Dia, Mes, Ano)),!.
+
+
+% =================== Baixa =========================
+dar_baixa(NomeP, Data, NumeroDoLeito, NomeM):-
+    existem([paciente(NomeP), Data, medico(NomeM)]),
+    ocupar_leito(NomeP, NumeroDoLeito),
+    assert(baixa(paciente(NomeP), Data, leito(NumeroDoLeito), medico(NomeM))).
+
+
+% ================== Alta =============================
+dar_alta(NomeP, Data, NumeroDoLeito, NomeM):-
+    existem([paciente(NomeP), Data, medico(NomeM)]),
+    desocupar_leito(NomeP, NumeroDoLeito),
+    assert(alta(paciente(NomeP), Data, leito(NumeroDoLeito), medico(NomeM))).
+
+
+% ====================== Exame =========================
+novo_exame(NomePaciente, Tipo, NomeMedico, Data, Resultado):-
+    existem([paciente(NomePaciente), tipo_exame(Tipo), medico(NomeMedico), Data, resultado(Resultado)]),
+    assert(exame(paciente(NomePaciente), tipo_exame(Tipo), medico(NomeMedico), Data, resultado(Resultado))).
+
+novo_exame(NomePaciente, Tipo, NomeMedico, Data):-
+    novo_exame(NomePaciente, Tipo, NomeMedico, Data, 'em andamento').
+
+adicionar_resultado(NomePaciente, Tipo, NomeMedico, Data, Resultado):-
+    retract(exame(paciente(NomePaciente), tipo_exame(Tipo), medico(NomeMedico), Data, resultado('em andamento'))),
+    novo_exame(NomePaciente, Tipo, NomeMedico, Data, Resultado).
+
+
+% ==================== Diagnostico ===================
+dar_diagnostico(NomeP, Doenca, Data, NomeM):-
+    existem([paciente(NomeP), doenca(Doenca), Data, medico(NomeM)]),
+    assert(diagnostico(paciente(NomeP), doenca(Doenca), Data, medico(NomeM))).
+
+
+% ==================== Operacao ======================
+operar(NomeP, Doenca, Data, NomeMedico):-
+    existem([paciente(NomeP), doenca(Doenca), medico(NomeMedico)]),
+    assert(operacao(paciente(NomeP), doenca(Doenca), Data, medico(NomeMedico))).
+
+
+
+%======================= Consultas ========================
+
+%========== Obter info da baixa do paciente  ==============
+ocorreu_baixa(NomePaciente, Data, Leito, NomeMedico) :-
+    baixa(paciente(NomePaciente), Data, leito(Leito), medico(NomeMedico)).
+
+
+%========== Obter info da alta do paciente  ==============
+ocorreu_alta(NomePaciente, Data, Leito, NomeMedico) :-
+    alta(paciente(NomePaciente), Data, leito(Leito), medico(NomeMedico)).
+
+
+%========== Obter info dos exames do paciente  ==============
+ocorreu_exame(NomePaciente, Tipo, NomeMedico, Data, Resultado) :-
+    exame(paciente(NomePaciente), tipo_exame(Tipo), medico(NomeMedico), Data, resultado(Resultado)).
+
+
+%========== Obter info dos diagnosticos do paciente  ==============
+ocorreu_diagnostico(NomePaciente, Doenca, Data, NomeMedico) :-
+    diagnostico(paciente(NomePaciente), doenca(Doenca), Data, medico(NomeMedico)).
+
+
+%=========== Obter info das operacoes do paciente.===========
+ocorreu_operaracao(NomePaciente, Doenca, Data, NomeMedico):-
+    operacao(paciente(NomePaciente), doenca(Doenca), Data, medico(NomeMedico)).
+
+
+%=========== Obter info sobre o medico. ===========
+obter_atendimentos_medico(NomeMedico, PacienteAtendeu):-
+    exame(paciente(PacienteAtendeu), _, medico(NomeMedico), _, _) ; 
+    diagnostico(paciente(PacienteAtendeu), _, _, medico(NomeMedico)) ;
+    alta(paciente(PacienteAtendeu), _, _, medico(NomeMedico)) ;
+    baixa(paciente(PacienteAtendeu), _, _, medico(NomeMedico)).
+
+obter_operacoes_medico(NomeMedico, PacienteOperou) :-
+    operacao(paciente(PacienteOperou), _, _, medico(NomeMedico)).

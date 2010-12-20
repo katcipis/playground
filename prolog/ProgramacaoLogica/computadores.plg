@@ -1,0 +1,63 @@
+/* monitor(descricao(fabricante,modelo,tamanho,resolucao,tecnologia),
+preco) */
+
+
+monitor(descricao(lg,flatron_ez_t710sh,17,23,tubo), 400).
+monitor(descricao(lg,flatron_ez_t910b,19,25,tubo), 600).
+monitor(descricao(lg,flatron_l1740pq,17,28,lcd), 800).
+
+/* memoria(descricao(fabricante,modelo,tamanho,tecnologia),
+preco) */
+
+memoria(descricao(samsung,samsung_cl3_ddr400,512,ddr1), 200).
+memoria(descricao(samsung,samsung_cl3_ddr400,1024,ddr1), 400).
+memoria(descricao(ocz,ocz_cl2_ddr400,1024,ddr1), 500).
+
+/* hd(descricao(fabricante,modelo,tamanho,velocidade,tecnologia),
+preco) */
+
+
+hd(descricao(seagate,seagate_barracuda80,80,7200,pata), 200).
+hd(descricao(western_digital,western160,160,7200,sata), 300).
+hd(descricao(seagate,seagate_barracuda_ultra200,200,7200,sata), 400).
+
+/* processador(descricao(fabricante,modelo,velocidade,tecnologia),
+preco) */
+
+processador(descricao(amd, amd_athlon64_3500,2200,single_core), 250).
+processador(descricao(amd, amd_athlon64X2_3800,2000,dual_core), 450).
+processador(descricao(intel, intel_c2d,1800,dual_core), 600).
+
+configuracoes(Valor, configuracao(ConfigMon, ConfigMem, ConfigHD, ConfigProc, ValorTotal)) :-
+
+monitor(ConfigMon, Preco1),
+memoria(ConfigMem, Preco2),
+hd(ConfigHD, Preco3),
+processador(ConfigProc, Preco4),
+
+ValorTotal is (Preco1 + Preco2 + Preco3 + Preco4),
+
+T is Valor,
+T >= ValorTotal.
+
+todasConfiguracoes(ValorTotal , configuracao(ConfigMon, ConfigMem, ConfigHD, ConfigProc)) :-
+
+monitor(ConfigMon, Preco1),
+memoria(ConfigMem, Preco2),
+hd(ConfigHD, Preco3),
+processador(ConfigProc, Preco4),
+
+ValorTotal is (Preco1 + Preco2 + Preco3 + Preco4).
+
+
+
+
+
+
+
+
+
+
+
+
+

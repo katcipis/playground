@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<formas>
+	<!-- 
+		para pontos, x y e z sao atributos. A cor eh opcional e sua ausencia
+		significa cor preta (000000) (para todos os objetos)
+	-->
+	<ponto nome="ponto_xml_teste" cor="FF0000" x="10.0" y="10.0" z="2.2"/>
+</formas>

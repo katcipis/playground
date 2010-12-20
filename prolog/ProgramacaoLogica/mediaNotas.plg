@@ -1,0 +1,22 @@
+limiteAprovacao(5.75).
+
+aluno(06232047, 'Tiago Katcipis', notas(4, 4, 6.0) ).
+aluno(06232046, 'Melanie Jung', notas(8, 8, 9) ).
+
+
+aprovado(Matricula) :-
+	limiteAprovacao(Media),
+	aluno(Matricula, Nome, notas(Nota1, Nota2, Nota3)),
+	SomaDasNotas is (Nota1 + Nota2 + Nota3),
+	MediaAluno is  ( SomaDasNotas / 3),
+	MediaAluno >= Media.
+
+aprovados(NomeAprovado, MatriculaAprovado, MediaAprovado) :-
+	limiteAprovacao(Media),
+	aluno(MatriculaAprovado, NomeAprovado, notas(Nota1, Nota2, Nota3) ),
+	SomaDasNotas is (Nota1 + Nota2 + Nota3),
+	MediaAluno is ( SomaDasNotas / 3),
+	MediaAluno >= Media,
+	MediaAprovado is MediaAluno.
+
+

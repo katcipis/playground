@@ -1,0 +1,5 @@
+1 - Functions like gst_element_link_many wont work because the arbitrary number of arguments, find a way to fix this.
+2 - Need to wrap some Glib functions to work properly
+3 - Where is gchar* it was used char*, is there a better way? (if use gchar* lua cant pass a string as argument (conversion fails), maybe need to use typemap)
+4 - Couldnt wrap macro functions like GST_BIN(), so i had to build a handmade cast function direct on gstbin.i  
+

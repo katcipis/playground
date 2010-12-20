@@ -1,0 +1,15 @@
+$#include <gst/gstbin.h>
+$#include <gst/gstelement.h>
+$#include <gst/gstiterator.h>
+$#include <gst/gstbus.h>
+
+GstElement*     gst_bin_new                     (const char *name);
+gboolean        gst_bin_add                     (GstBin *bin, GstElement *element);
+gboolean        gst_bin_remove                  (GstBin *bin, GstElement *element);
+
+GstElement*     gst_bin_get_by_name              (GstBin *bin, const char *name);
+GstElement*     gst_bin_get_by_name_recurse_up   (GstBin *bin, const char *name);
+GstElement*     gst_bin_get_by_interface         (GstBin *bin, GType iface);
+
+gboolean        gst_bin_recalculate_latency      (GstBin * bin);
+

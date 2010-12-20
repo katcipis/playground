@@ -1,0 +1,12 @@
+export PATH=$PATH:/home/leonardo/avr/gcc-4.0.2/bin:/home/leonardo/avr/tools/bin
+
+
+Compile our simple program:
+avr-g++ -Os -mmcu=atmega128 -o main main.cc
+//avr-gcc -Os -mmcu=atmega128 -o main main.cc
+
+Convert the executable to the IHEX format:
+avr-objcopy -O ihex main main.hex
+
+Uploading intel hex images with avrdude (STK500 with 2.x firmware):
+avrdude -P /dev/ttyUSB0 -c stk500v2 -p m128 -U flash:w:main.hex

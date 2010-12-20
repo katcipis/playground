@@ -1,0 +1,76 @@
+<?xml version="1.0" ?>
+<formas>
+	<ponto nome="ponto_xml_teste" cor="FF0000" x="10.0" y="10.0" z="1.0"/>
+        <reta nome="reta_teste_xml">
+		<ponto x="10" y="10" z="0.0"/>
+		<ponto x="-100" y="-100" z="0.0"/>
+	</reta>
+        <poligono nome="polNaoCheio" cor="000000" cheio="falso">
+		<ponto x="10.0" y="10.0" z="0.0"/>
+		<ponto x="10.0" y="20.0" z="0.0"/>
+		<ponto x="20.0" y="20.0" z="0.0"/>
+		<ponto x="20.0" y="10.0" z="0.0"/>
+	</poligono>
+
+        <poligono nome="polCheio" cor="FF0A01" cheio="verdadeiro">
+                <ponto x="20.0" y="20.0" z="0.0"/>
+                <ponto x="20.0" y="30.0" z="0.0"/>
+                <ponto x="30.0" y="30.0" z="0.0"/>
+                <ponto x="30.0" y="20.0" z="0.0"/>
+        </poligono>
+        <objeto3d nome="objeto3d" cor="FF0000">
+		<pontos>
+			<ponto x="100.0" y="100.0" z="0.0"/>
+			<ponto x="100.0" y="150.0" z="0.0"/>
+			<ponto x="150.0" y="150.0" z="0.0"/>
+                        <ponto x="150.0" y="100.0" z="0.0"/>
+		</pontos>
+
+		<arestas>
+			<!-- Esta aresta possui pontos[0] e pontos[1] como vertices -->
+			<aresta v1="0" v2="1"/>
+			<aresta v1="1" v2="2"/>
+			<aresta v1="2" v2="3"/>
+			<aresta v1="3" v2="0"/>
+		</arestas>
+	</objeto3d>
+        <curvaHermite nome="curvaH" cor="000000">
+		<geometria>
+			<p1 x="0.0"   y="0.0"    z="0.0"/>
+			<p4 x="200.0" y="0.0"    z="0.0"/>
+			<r1 x="100.0" y="400.0"  z="0.0"/>
+			<r4 x="100.0" y="-400.0" z="0.0"/>
+		</geometria>
+	</curvaHermite>
+
+        <curvaHermite nome="curvaHC" cor="AF0570">
+                <geometria>
+                        <p1 x="0.0"    y="0.0"    z="0.0"/>
+                        <p4 x="-200.0" y="0.0"    z="0.0"/>
+                        <r1 x="-100.0" y="400.0"  z="0.0"/>
+                        <r4 x="-100.0" y="400.0"  z="0.0"/>
+                </geometria>
+                <geometria>
+                        <p1 x="-200.0" y="0.0"    z="0.0"/>
+                        <p4 x="-400.0" y="0.0"    z="0.0"/>
+                        <r1 x="-300.0" y="-400.0" z="0.0"/>
+                        <r4 x="-300.0" y="-400.0" z="0.0"/>
+                </geometria>
+        </curvaHermite>
+        <curvaBSpline nome="curvaBS" cor="0000FF">
+		<ponto x="0.0" y="0.0" z="0.0"/>
+		<ponto x="100.0" y="0.0" z="0.0"/>
+                <ponto x="150.0" y="0.0" z="0.0"/>
+		<ponto x="200.0" y="200.0" z="0.0"/>
+                <ponto x="250.0" y="0.0" z="0.0"/>
+		<ponto x="300.0" y="0.0" z="0.0"/>
+		<ponto x="400.0" y="0.0" z="0.0"/>
+	</curvaBSpline>
+        <window>
+		<cop x="0.0" y="0.0" z="0.0"/>
+		<vpn x="0.0" y="0.0" z="1.0"/>
+		<vup x="0.0" y="1.0" z="0.0"/>
+		<wmin x="-10.0" y="-10.0" z="10.0"/>
+		<wmax x="10.0" y="10.0" z="10.0"/>
+	</window>
+</formas>

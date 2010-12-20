@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<formas>
+	<window>
+		<!-- 
+			Sao cinco os atributos da window:
+			cop -> o centro de projecao, que fica fora da window
+			vpn -> o vetor vpn de direcao da window
+			vup -> o vetor que indica a direcao "pra cima" da window
+			wmin e wmax -> os pontos limitantes da window, em coordenadas do mundo 
+		
+			Outros atributos podem ser deduzidos por estes. Por exemplo, a distancia "d" 
+			usada em projecao em Perspectiva eh a distancia entre cop e o centro da window
+			(media aritmetica de wmin e wmax)
+		-->
+		<cop x="0.0" y="0.0" z="0.0"/>
+		<vpn x="0.0" y="0.0" z="1.0"/>
+		<vup x="0.0" y="1.0" z="0.0"/>
+		<wmin x="-10.0" y="-10.0" z="10.0"/>
+		<wmax x="10.0" y="10.0" z="10.0"/>
+	</window>
+</formas>

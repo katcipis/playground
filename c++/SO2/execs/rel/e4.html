@@ -1,0 +1,34 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<h1>E4: idle thread</h1>
+
+<b>Problem: </b><p>
+
+Some operating systems use an idle thread to handle cases in which the ready queue would otherwise become empty. Instead of handling those cases individually, the idle thread is simply scheduled. The idle thread, with some infamous exceptions, then puts the machine in a low-power state until an event (e.g. interrupt) enables another thread to run.<p>
+
+The initial version of EPOS-- you are currently working with implements the idle thread as a function that is called whenever there is no other thread on the ready queue to run.<p>
+
+<b>Solution:</b><p>
+
+First of all, it was necessary to create an idle Thread in the system, this thread is created together with the main thread of the system and is scheduled like any other thread. The creation of the idle Thread can be seen on thread_init.cc.<p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec4/thread_init.cc">Thread Init.</a></p>
+
+Then we change the Thread::idle static method in to verify if it is possibly or not to scheduled any other Thread besides Idle, if it is, we schedule it, otherwise, we verify if _suspended queue is empty, if it is empty that means there isn't any other Thread in the system and this is an error (One or more threads where destroyed during execution), if there is at least one Thread in _suspended queue, then we halt CPU waiting for the suspended Thread.<p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec4/thread.cc">Thread Class.</a></p>
+
+<p>
+We still dont have a good implementation of Machine::shutdown and Machine::reboot for the IA32 arch, the actual methods only makes the CPU stay in halt() forever.
+</p>
+
+<p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec4/pc.h">PC Class.</a></p>
+
+<p>
+This solution is quite simple (since the idle thread is only another thread on the _ready queue) and seems to work fine, but it has the cost to always make a context change to the idle thread, even when it is not necessary (there are other threads on the ready Queue).
+</p>
+
+<p><strong>Team: </strong></p>
+<p> Felipe Teixeira   </p>
+<p> Patricia Dousseau </p>
+<p> Tiago Katcipis    </p>

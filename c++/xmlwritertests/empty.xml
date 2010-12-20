@@ -1,0 +1,13 @@
+<ApplicationEntities>
+    <configuration>
+        <institution>
+            <sectors id="3" />
+            <overwrited />
+            <erase_me id="just_testing">
+                <overwrited id="1"></overwrited>
+                <overwrited id="2"></overwrited>
+                <overwrited id="3"></overwrited>
+            </erase_me>
+        </institution>
+    </configuration>
+</ApplicationEntities>

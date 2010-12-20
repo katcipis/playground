@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TransformationHandlerGUI</class>
+ <widget class="QDialog" name="TransformationHandlerGUI">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>686</width>
+    <height>579</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Transformar objeto</string>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <item>
+    <layout class="QVBoxLayout" name="base_verticalLayout">
+     <item>
+      <widget class="QGroupBox" name="transformation_groupBox">
+       <property name="title">
+        <string>Transformações</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QTabWidget" name="tranformation_tab">
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <widget class="QWidget" name="translacao_tab">
+             <attribute name="title">
+              <string>Translação / Escalonamento</string>
+             </attribute>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <item>
+                 <widget class="QGroupBox" name="escalonamento">
+                  <property name="title">
+                   <string>Escalonamento</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_7">
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_10">
+                     <item>
+                      <widget class="QLabel" name="sclaleX_label_2">
+                       <property name="text">
+                        <string>sX:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="escalonaX"/>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_11">
+                     <item>
+                      <widget class="QLabel" name="sclaleY_label_2">
+                       <property name="text">
+                        <string>sY:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="escalonaY"/>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_14">
+                     <item>
+                      <widget class="QLabel" name="sclaleY_label_3">
+                       <property name="text">
+                        <string>sZ:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="escalonaZ"/>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="adcionaEscalonamento">
+                     <property name="text">
+                      <string>Adiciona</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QGroupBox" name="translacao">
+                  <property name="title">
+                   <string>Translação</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_8">
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_12">
+                     <item>
+                      <widget class="QLabel" name="sclaleX_label_3">
+                       <property name="text">
+                        <string>dX:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="translacaoX"/>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_13">
+                     <item>
+                      <widget class="QLabel" name="sclaleX_label_4">
+                       <property name="text">
+                        <string>dY:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="translacaoY"/>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_15">
+                     <item>
+                      <widget class="QLabel" name="sclaleX_label_5">
+                       <property name="text">
+                        <string>dZ:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="translacaoZ"/>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="adcionaTranslacao">
+                     <property name="text">
+                      <string>Adiciona</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="rotation_tab">
+             <attribute name="title">
+              <string>Rotação</string>
+             </attribute>
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <item>
+               <layout class="QVBoxLayout" name="opces_verticalLayout">
+                <item>
+                 <widget class="QGroupBox" name="pontoRotacao">
+                  <property name="title">
+                   <string>Ponto de rotação</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_4">
+                   <item>
+                    <layout class="QVBoxLayout" name="opcoes_verticalLayout">
+                     <item>
+                      <widget class="QRadioButton" name="rotacionarCentro">
+                       <property name="text">
+                        <string>Rotacionar sobre o centro do objeto</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="rotacionarOrigem">
+                       <property name="text">
+                        <string>Rotacionar sobre a origem</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_3">
+                       <item>
+                        <widget class="QRadioButton" name="rotacionarPonto">
+                         <property name="text">
+                          <string>Rotacionar sobre o ponto</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="x_label">
+                         <property name="text">
+                          <string>x</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLineEdit" name="rotacionaX"/>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="y_label">
+                         <property name="text">
+                          <string>y</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLineEdit" name="rotacionaY"/>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_2">
+                         <property name="text">
+                          <string>z</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLineEdit" name="rotacionaZ"/>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QGroupBox" name="eixoRotacao">
+                  <property name="title">
+                   <string>Eixo de rotação</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_5">
+                   <item>
+                    <layout class="QVBoxLayout" name="opcoes_verticalLayout_2">
+                     <item>
+                      <widget class="QRadioButton" name="rotacionarEixoX">
+                       <property name="text">
+                        <string>Rotacionar sobre o eixo X</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="rotacionarEixoY">
+                       <property name="text">
+                        <string>Rotacionar sobre o eixo Y</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QRadioButton" name="rotacionarEixoZ">
+                       <property name="text">
+                        <string>Rotacionar sobre o eixo Z</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_4">
+                       <item>
+                        <widget class="QRadioButton" name="rotacionarEixoArb">
+                         <property name="text">
+                          <string>Rotacionar sobre o eixo: </string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="x_label_2">
+                         <property name="text">
+                          <string>x</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLineEdit" name="eixoArbX"/>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="y_label_2">
+                         <property name="text">
+                          <string>y</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLineEdit" name="eixoArbY"/>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_3">
+                         <property name="text">
+                          <string>z</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLineEdit" name="eixoArbZ"/>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QGroupBox" name="rotacionar_groupBox">
+                  <property name="title">
+                   <string>Rotacionar</string>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_8">
+                   <item>
+                    <layout class="QHBoxLayout" name="rotacionar_horizontalLayout">
+                     <item>
+                      <widget class="QGroupBox" name="anglo_rotacao_groupBox">
+                       <property name="title">
+                        <string>Angulo de rotação</string>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout">
+                        <item>
+                         <spacer name="verticalSpacer">
+                          <property name="orientation">
+                           <enum>Qt::Vertical</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>20</width>
+                            <height>40</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <layout class="QHBoxLayout" name="anglo_rotacao_horizontalLayout">
+                          <item>
+                           <widget class="QLabel" name="label">
+                            <property name="text">
+                             <string>Ângulo:</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLineEdit" name="angulo"/>
+                          </item>
+                         </layout>
+                        </item>
+                        <item>
+                         <spacer name="verticalSpacer_2">
+                          <property name="orientation">
+                           <enum>Qt::Vertical</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>20</width>
+                            <height>40</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="adicionaRotacao">
+                          <property name="text">
+                           <string>Adiciona</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="qadro_transfor_verticalLayout">
+            <item>
+             <widget class="QGroupBox" name="quadro_tranfor_groupBox">
+              <property name="title">
+               <string>Transformações pendentes:</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item>
+                <widget class="QListWidget" name="transformacoesPendentes"/>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="confirmation_buttonBox">
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>confirmation_buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>TransformationHandlerGUI</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>342</x>
+     <y>403</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>342</x>
+     <y>213</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>confirmation_buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>TransformationHandlerGUI</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>342</x>
+     <y>403</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>342</x>
+     <y>213</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

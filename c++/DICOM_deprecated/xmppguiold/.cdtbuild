@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 3.1.0?>
+
+<ManagedProjectBuildInfo>
+<project id="XmppGui.cdt.managedbuild.target.gnu.cygwin.exe.627772030" name="Executable (Gnu on Windows)" projectType="cdt.managedbuild.target.gnu.cygwin.exe">
+<configuration artifactExtension="exe" artifactName="XmppGui" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.cygwin.exe.debug.1387875007" name="Debug" parent="cdt.managedbuild.config.gnu.cygwin.exe.debug">
+<toolChain id="cdt.managedbuild.toolchain.gnu.cygwin.exe.debug.458712194" name="GCC Tool Chain" superClass="cdt.managedbuild.toolchain.gnu.cygwin.exe.debug">
+<builder command="mingw32-make" id="cdt.managedbuild.target.gnu.builder.cygwin.exe.debug.982388756" name="Gnu Make.Debug" superClass="cdt.managedbuild.target.gnu.builder.cygwin.exe.debug"/>
+<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug.1948467712" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.debug">
+<option id="gnu.cpp.compiler.option.include.paths.1784613975" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+<listOptionValue builtIn="false" value="&quot;${workspace_loc:/XmppGui/include}&quot;"/>
+<listOptionValue builtIn="false" value="&quot;/mingw/lib/wx/include/msw-ansi-release-2.8&quot;"/>
+<listOptionValue builtIn="false" value="&quot;/mingw/include/wx-2.8&quot;"/>
+<listOptionValue builtIn="false" value="&quot;F:\Users\Prusse\libjingle\libjingle-0.4.0_mingw&quot;"/>
+</option>
+<option id="gnu.cpp.compiler.option.other.other.953482258" superClass="gnu.cpp.compiler.option.other.other" value="-mthreads -c -fmessage-length=0" valueType="string"/>
+<option id="gnu.cpp.compiler.option.preprocessor.def.137344421" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
+<listOptionValue builtIn="false" value="WXUSINGDLL"/>
+<listOptionValue builtIn="false" value="__WXMSW__"/>
+<listOptionValue builtIn="false" value="USE_WX"/>
+</option>
+<option id="gnu.cpp.compiler.option.warnings.allwarn.1026552176" superClass="gnu.cpp.compiler.option.warnings.allwarn" value="false" valueType="boolean"/>
+<option id="gnu.cpp.compiler.option.warnings.syntax.1997569607" superClass="gnu.cpp.compiler.option.warnings.syntax" value="false" valueType="boolean"/>
+</tool>
+<tool id="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.debug.121853204" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.debug">
+<option id="gnu.c.compiler.option.warnings.syntax.1842776632" superClass="gnu.c.compiler.option.warnings.syntax" value="true" valueType="boolean"/>
+<option id="gnu.c.compiler.option.warnings.allwarn.1060618010" superClass="gnu.c.compiler.option.warnings.allwarn" value="false" valueType="boolean"/>
+</tool>
+<tool id="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.debug.1008586079" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.debug"/>
+<tool id="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.debug.1498956800" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.debug">
+<option id="gnu.cpp.link.option.libs.1254794512" superClass="gnu.cpp.link.option.libs" valueType="libs">
+<listOptionValue builtIn="false" value="wx_msw$(UNICODE_FLAG)_aui-$(WX_VERSION)$(WX_EXTENSION)"/>
+<listOptionValue builtIn="false" value="wx_msw$(UNICODE_FLAG)_xrc-$(WX_VERSION)$(WX_EXTENSION)"/>
+<listOptionValue builtIn="false" value="wx_msw$(UNICODE_FLAG)_qa-$(WX_VERSION)$(WX_EXTENSION)"/>
+<listOptionValue builtIn="false" value="wx_msw$(UNICODE_FLAG)_html-$(WX_VERSION)$(WX_EXTENSION)"/>
+<listOptionValue builtIn="false" value="wx_msw$(UNICODE_FLAG)_adv-$(WX_VERSION)$(WX_EXTENSION)"/>
+<listOptionValue builtIn="false" value="wx_msw$(UNICODE_FLAG)_core-$(WX_VERSION)$(WX_EXTENSION)"/>
+<listOptionValue builtIn="false" value="wx_msw$(UNICODE_FLAG)_richtext-$(WX_VERSION)$(WX_EXTENSION)"/>
+<listOptionValue builtIn="false" value="wx_base$(UNICODE_FLAG)_xml-$(WX_VERSION)$(WX_EXTENSION)"/>
+<listOptionValue builtIn="false" value="wx_base$(UNICODE_FLAG)_net-$(WX_VERSION)$(WX_EXTENSION)"/>
+<listOptionValue builtIn="false" value="wx_base$(UNICODE_FLAG)-$(WX_VERSION)$(WX_EXTENSION)"/>
+<listOptionValue builtIn="false" value="cricketexampleslogin"/>
+<listOptionValue builtIn="false" value="cricketsessionphone"/>
+<listOptionValue builtIn="false" value="cricketsessionfileshare"/>
+<listOptionValue builtIn="false" value="cricketsessiontunnel"/>
+<listOptionValue builtIn="false" value="cricketp2pclient"/>
+<listOptionValue builtIn="false" value="cricketp2pbase"/>
+<listOptionValue builtIn="false" value="cricketxmpp"/>
+<listOptionValue builtIn="false" value="cricketxmllite"/>
+<listOptionValue builtIn="false" value="cricketbase"/>
+<listOptionValue builtIn="false" value="expat"/>
+<listOptionValue builtIn="false" value="ws2_32"/>
+<listOptionValue builtIn="false" value="ssl"/>
+<listOptionValue builtIn="false" value="secur32"/>
+<listOptionValue builtIn="false" value="quickstream"/>
+<listOptionValue builtIn="false" value="ortp"/>
+<listOptionValue builtIn="false" value="mediastreamer"/>
+<listOptionValue builtIn="false" value="iphlpapi"/>
+</option>
+<option id="gnu.cpp.link.option.paths.1360313004" superClass="gnu.cpp.link.option.paths" valueType="stringList">
+<listOptionValue builtIn="false" value="/mingw/lib"/>
+<listOptionValue builtIn="false" value="&quot;F:\Users\Prusse\libjingle\lib&quot;"/>
+</option>
+<option id="gnu.cpp.link.option.flags.346138009" superClass="gnu.cpp.link.option.flags" value="-mthreads  -Wl,--subsystem,windows -mwindows &quot;F:\Users\Prusse\libjingle\libjingle-0.4.0_mingw\talk\session\text2\textsessionclient.o&quot;" valueType="string"/>
+</tool>
+<tool id="cdt.managedbuild.tool.gnu.assembler.cygwin.exe.debug.484099181" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.cygwin.exe.debug"/>
+<macros/>
+</toolChain>
+</configuration>
+<configuration artifactExtension="exe" artifactName="XmppGui" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.MakeErrorParser;org.eclipse.cdt.core.GCCErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.GASErrorParser" id="cdt.managedbuild.config.gnu.cygwin.exe.release.1830406554" name="Release" parent="cdt.managedbuild.config.gnu.cygwin.exe.release">
+<toolChain id="cdt.managedbuild.toolchain.gnu.cygwin.exe.release.1803795083" name="GCC Tool Chain" superClass="cdt.managedbuild.toolchain.gnu.cygwin.exe.release">
+<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.release.895301171" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.cygwin.exe.release"/>
+<tool id="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.release.1349384099" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.cygwin.exe.release"/>
+<tool id="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.release.569845206" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.cygwin.exe.release"/>
+<tool id="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.release.1905578823" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.cygwin.exe.release"/>
+<tool id="cdt.managedbuild.tool.gnu.assembler.cygwin.exe.release.929046035" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.cygwin.exe.release"/>
+</toolChain>
+</configuration>
+<macros/>
+</project>
+</ManagedProjectBuildInfo>

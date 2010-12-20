@@ -1,0 +1,135 @@
+
+  ChunkBake
+  A Lua 5 binary chunk assembler.
+
+  Copyright (c) 2005 Kein-Hong Man <khman@users.sf.net>
+  The COPYRIGHT file describes the conditions under which this
+  software may be distributed (basically a Lua 5-style license.)
+
+  http://luaforge.net/projects/chunkbake/
+  http://www.geocities.com/keinhong/chunkbake.html
+
+--
+
+INTRODUCTION
+
+ChunkBake is an assembler for Lua 5 virtual machine instructions. It
+produces a binary chunk which can then be loaded and run on a Lua
+virtual machine. ChunkBake complements ChunkSpy, a binary chunk
+disassembler. Its syntax bears a resemblance to luas assembly code, with
+differences. I have written the front end to accept a variety of coding
+styles, e.g. registers can be written as 0, R0 or $0.
+
+One of the reasons ChunkBake was written was that I could not find a
+distribution of luas anywhere. So instead of trying to find an elusive
+assembler, I decided to write one myself. ChunkBake is written in Lua so
+that it is portable and easy to hack. Number conversion code copied from
+ChunkSpy also allows ChunkBake-generated binary chunks to be customized
+with different data and field sizes and number types. If you want a
+smaller assembler, a lot of code can be ripped out of ChunkBake.
+
+ChunkSpy currently works only for Lua 5 instructions. Processing speed
+is brisk so there shouldn't be speed issues. For pre-1.0 releases, the
+syntax is open for fixes or changes. If there are better ways to write
+some of the assembly syntax, or if there is a defacto standard for such
+things, the assembler syntax MAY CHANGE for pre-1.0 releases.
+
+Version 0.7.0 implements expression parsing for most values and
+operands. The syntax and the operator set is quite complete, but should
+be considered experimental. If there are better ways to implement
+expressions in a Lua assembler, please let me know.
+
+Note that Lua 5.1 will see some changes to the instruction set and the
+binary chunk format, so in all likelihood, the assembler will either be
+forked into one for Lua 5.0.2 and another for Lua 5.1, or the user will
+be given the option to select output file format via the version number.
+
+This is an early release, so it is NOT bug-free. Everything was done on
+self-compiled Lua 5.0.2 executables, on Win32. Bug reports are welcome,
+as are enhancements (see FEEDBACK at the end of this document.) Feature-
+wise, there are still many things to do, see the TODO file.
+
+--
+
+WHAT'S NEW
+
+Major changes for version 0.7.0 (see the ChangeLog as well):
+* number conversion supports positive and negative infinity
+* unified symbols/names into single per-function namespaces
+* fixed bug encoding for setupval/getupval instructions
+* upvalues no longer automatic, must be added by .upvalue directive
+* .equ directive to define global equate values
+* range operator separating operands '..' changed to '...'
+* you can now write expressions for most operands and values
+  (see the reference document for the details)
+
+Major changes for version 0.6.1 (see the ChangeLog as well):
+* added warning for MOVE to same register
+* added error if last instruction not RETURN or JMP
+* added error if NEWTABLE settings not valid
+* added error if any instruction can jump out of bounds
+
+Major changes for version 0.6.0 (see the ChangeLog as well):
+* constant declaration and operands can use nil
+* added a few more examples
+* basic reference document completed
+
+Major changes for version 0.5.0 (see the ChangeLog as well):
+* This is a preliminary release. Rudimentary but complete. Many bugs
+  have been ironed out by the test script. Quite usable.
+
+--
+
+USING CHUNKBAKE
+
+If you are impatient to see what the assembler can do, see the examples
+in the /test directory. The automatic test script, TestRig.lua in the
+/misc directory, also demonstrates most styles of writing assembly code
+on ChunkBake.
+
+If you want to learn about Lua 5 virtual machine instructions, you can
+read a document, "A No-Frills Introduction to Lua 5 VM Instructions"
+(SXW and PDF formats) written by me for ChunkSpy, a binary chunk
+disassembler. That will have to do until I find time to write a proper
+one for writing Lua 5 assembly code.
+
+--
+
+MISCELLANEOUS NOTES
+
+These are some behaviour notes, or things that might need fixing.
+The TODO file has much more stuff...
+
+- A mini assembler can be made much smaller.
+- For long lines, use '\' to break it up.
+- Locals can only be set for the entire function scope for now.
+- Constants cannot be null due to internal handling.
+- An upvalue table with holes is probably illegal.
+- Named constants are always unique, even if same value.
+- Auto-constants may use value of named constants.
+- get/setglobal currently allows numbers as indices.
+
+--
+
+ACKNOWLEDGEMENTS
+
+Thanks to the LuaForge people for hosting this.
+Developed on SciTE http://www.scintilla.org/. Two thumbs up.
+
+--
+
+FEEDBACK
+
+Feedback and contributions are welcome. Your name will be acknowledged,
+as long as you are willing to comply with COPYRIGHT. If your material is
+self-contained, you can retain a copyright notice for those material in
+your own name, as long as you use the same Lua 5/MIT-style copyright.
+
+I am on dial-up, so I might not be able to reply immediately. My
+alternative e-mail address is: mkh AT pl DOT jaring DOT my
+
+Enjoy!!
+
+Kein-Hong Man (esq.)
+Kuala Lumpur
+Malaysia 20050512

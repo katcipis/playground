@@ -1,0 +1,20 @@
+Node name	Total time
+connect	        158.99
+log	        59.089999999997
+prepareLogMsg	55.589999999998
+append	        42.33
+debug	        42.25
+tostring	38.300000000001
+gsub	        37.240000000001
+simulate_calc	32.84
+concat	        27.780000000002
+tcp	        22.100000000001
+date	        19.84
+type	        19.76
+format	        14.33
+cos	        5.7799999999999
+sin	        4.4599999999999
+square	        4.41
+assert	        4.37
+stop	        0.000000
+profiler_init	0.000000

@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ApplicationEntities>
+    <configuration>
+        <!-- ===================== General Configuration      =====================-->
+        <general>
+            <demoVersion>version</demoVersion>
+            <languange>MODIFICADO</languange>
+            <delayDbIsAlive>MODIFICADO</delayDbIsAlive>
+            <!-- The time in seconds the default database connection will be tested -->
+            <maxVideoLength>MODIFICADO</maxVideoLength>
+            <visitorAccess>bjhbsahjdsah</visitorAccess>
+            <userPermissions>
+                <publish>true</publish>
+                <recordVideo>true</recordVideo>
+                <sendMail>true</sendMail>
+                <dicom>true</dicom>
+                <print>true</print>
+                <burnCd>true</burnCd>
+            </userPermissions>
+            <guestPermissions>
+                <publish>false</publish>
+                <recordVideo>false</recordVideo>
+                <sendMail>false</sendMail>
+                <dicom>false</dicom>
+                <print>false</print>
+                <burnCd>false</burnCd>
+            </guestPermissions>
+        </general>
+        <!-- ===================== Institution Configuration ===================== -->
+        <institution>
+            <name>Hospital Universitário</name>
+            <city>Florianópolis</city>
+            <cnpj>41228651000110</cnpj>
+            
+            <test id="RZ" value="X2dDL" cpp="b23ea">Radiologia</test>
+            <test id="BC" value="R23D" cpp="bee3x">Broncoscopia</test>
+            <test id="CL" value="D3dL" cpp="bsdfal">Colonoscopia</test>
+            
+            <test value="XdfeL" cpp="asd">Radiologia</test>
+            <test id="Rsfe"  cpp="dfsdf">Radiologia</test>
+            <test id="sfaD" value="fdsfe">Radiologia</test>
+            
+            <sectors default="BCP">
+                <sector id="RDL">Radiologia</sector>
+                <sector id="BCP">Broncoscopia</sector>
+                <sector id="CLP">Colonoscopia</sector>
+                <sector id="BCP" default="MN" etc="CLP">Radiologia</sector>
+            </sectors>
+        </institution>
+        <!-- ===================== Modalities Configuration      =====================-->
+        <modalities default="MN">
+            <modality id="MN">Medicina nuclear</modality>
+            <modality id="US">Ultrassonografia</modality>
+        </modalities>
+        <!-- ===================== Persistence Configuration  =====================-->
+        <portals default="lapix">
+            <portal id="hu">
+                <name>Hospital Universitário</name>
+                <databaseName>telemedicina2</databaseName>
+                <hostname>150.162.67.6</hostname>
+                <port>5432</port>
+                <timeout>3</timeout>
+                <!--It is not recommended to use a timeout of less than 2 seconds. -->
+                <login>pgsql</login>
+                <password>phigres*</password>
+                <videoType>mpeg</videoType>
+            </portal>
+            <portal id="lapix">
+                <name>Lapix</name>
+                <databaseName>portal</databaseName>
+                <hostname>150.162.202.28</hostname>
+                <port>5432</port>
+                <timeout>3</timeout>
+                <!--It is not recommended to use a timeout of less than 2 seconds. -->
+                <login>postgres</login>
+                <password>phigres*</password>
+                <videoType>flash</videoType>
+            </portal>
+            <portal id="dmi">
+                <name>Clínica DMI</name>
+                <databaseName>radiologia</databaseName>
+                <hostname>coral</hostname>
+                <port>5432</port>
+                <timeout>3</timeout>
+                <!--It is not recommended to use a timeout of less than 2 seconds. -->
+                <login>postgres</login>
+                <password>phigres*</password>
+                <videoType>mpeg</videoType>
+            </portal>
+            <portal id="cyclops" test="test">
+                <name>Cyclops</name>
+                <databaseName>radiologia</databaseName>
+                <hostname>coral</hostname>
+                <port>5432</port>
+                <timeout>3</timeout>
+                <!--It is not recommended to use a timeout of less than 2 seconds. -->
+                <login>postgres</login>
+                <password>phigres*</password>
+                <videoType>mpeg</videoType>
+            </portal>
+            
+            <portal test="test">
+                <name>Clínica DMI</name>
+                <databaseName>radiologia</databaseName>
+                <hostname>coral</hostname>
+                <port>5432</port>
+                <timeout>3</timeout>
+                <!--It is not recommended to use a timeout of less than 2 seconds. -->
+                <login>postgres</login>
+                <password>phigres*</password>
+                <videoType>mpeg</videoType>
+            </portal>
+            <localDatabase>
+                <name>Dicomizer Local Database</name>
+                <databaseName>dicomizer_sqlite3.s3db</databaseName>
+                <videoType>mpeg</videoType>
+            </localDatabase>
+        </portals>
+        <!-- ===================== Mailer Configuration      =====================-->
+        <mail>
+            <server type="smtp">
+                <serverName>Telemedicina SMTP Server</serverName>
+                <smptAddress>smtp.telemedicina.ufsc.br</smptAddress>
+                <serverPort>25</serverPort>
+                <usingAuthentication>true</usingAuthentication>
+                <sender>elinton@telemedicina.ufsc.br</sender>
+                <username>elinton</username>
+                <password>cyclops01</password>
+                <usingTLS>true</usingTLS>
+                <usingSASL>false</usingSASL>
+            </server>
+        </mail>
+        <!-- ===================== Capure Card Configuration      =====================-->
+        <captureCard>
+            <device>/dev/video0</device>
+            <inputs default="SVHS">
+                <input id="SVHS">SVHS</input>
+                <input id="VHS">VHS</input>
+                <input id="NTSC">TUNER</input>
+            </inputs>
+            <standards default="PALM">
+                <standard id="PAL">PAL</standard>
+                <standard id="PALM">PALM</standard>
+                <standard id="NTSC">NTSC</standard>
+            </standards>
+            <palette>RGB24</palette>
+            <codecs default="MP4">
+                <codec id="MJPEG">mjpeg</codec>
+                <!-- used under linux -->
+                <codec id="MP4">Microsoft MPEG-4 Video Codec V3</codec>
+                <!-- used under windows -->
+            </codecs>
+            <initializationDelay>1024</initializationDelay>
+        </captureCard>
+    </configuration>
+</ApplicationEntities>
+

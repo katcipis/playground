@@ -1,0 +1,15 @@
+package testesDaTransformacaoParaXMLDosComponentesGedix;
+
+import static edugraf.jadix.fachada.TiposDeComponentesDix.ÁREA_DE_TEXTO;
+import edugraf.jadix.fachada.TiposDeComponentesDix;
+import testesAbstratosDaTransformacaoParaXMLDosComponentesGedix.TesteAbstratoDaTransformacaoParaXMLDoComponenteGedixRotulavel;
+
+public class TesteDaTransformacaoParaXMLDaAreaDeTexto extends TesteAbstratoDaTransformacaoParaXMLDoComponenteGedixRotulavel{
+
+	@Override
+	protected TiposDeComponentesDix retornarTipoDoComponenteDixQueSeráTestado() {
+		
+		return ÁREA_DE_TEXTO;
+	}
+	
+}

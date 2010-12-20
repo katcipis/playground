@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>E1: Idle-waiting Thread Joining</title>
+</head><body>
+<p></p><h1>E1: Idle-waiting Thread Joining</h1><p></p>
+<strong>Problem:</strong>
+              
+    <p>The initial version of EPOS-- you are currently working with implements thread joining with a simple trick:</p>
+                  
+    <table width="100%" border="0">
+
+      <tbody>
+	<tr>
+	  <td width="1%" align="right"><font color="#cc0000"><code lang="c">
+		1.<br>
+		2.<br>
+		3.<br>
+		4.<br>
+
+		5.
+	      </code></font></td>
+	  <td><code lang="c">
+	      int Thread::join() {<br>
+	      &nbsp; &nbsp; while(_state != FINISHING)<br>
+	      &nbsp; &nbsp; &nbsp; &nbsp; yield();<br>
+
+	      &nbsp; &nbsp; return *((int *)_stack);<br>
+	      }
+	    </code></td>
+	</tr>
+      </tbody> 
+    </table>
+          
+    <p>That is, testing the state of the thread being waited for until
+    it turns to <samp>FINISHING</samp> (line 2). To give other threads a
+    chance to run, and thus terminate, the calling thread invokes
+    <samp>yield</samp> after each test.</p>
+
+       
+    <p>You are requested to modify the implementation of
+    <samp>Thread</samp> so that <samp>join()</samp> no longer wastes
+    time sampling the waited thread status. It must be set to sleep
+    until the waited-for thread terminates, and then waken up
+    accordingly.</p>
+    
+
+    
+    <p><strong>Solution:</strong></p>
+
+    <p> Consists on a Queue of joined threads on each Thread instance, everytime a thread call the <samp>join()</samp> method 
+        the caller thread is suspended and put on the Queue of joined threads of the callee thread. 
+        When the callee thread exits it will resume all the threads that are suspended on the joined threads Queue. 
+        This way CPU will not be wasted, since the caller threads will stay suspended until que the callee thread exits. </p>
+
+    <p> The changes where made on the <samp> join() </samp> and <samp> exit() </samp> methods. 
+        Here is the source code implementing the changes and the source code to test it. </p>
+
+    <p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec1/thread.cc">Implementation of the Thread Class.</a></p>
+    <p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec1/thread.h">Header of the Thread Class.</a></p>
+    <p><a href="http://www.inf.ufsc.br/~katcipis/SO2/exec1/exec1_test.cc">Implementation of the Thread test.</a></p>
+
+
+    <p><strong>Team: </strong></p>
+    <p> Felipe Teixeira   </p>
+    <p> Patricia Dousseau </p>
+    <p> Tiago Katcipis    </p>
+
+</body></html>

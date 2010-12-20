@@ -1,0 +1,15 @@
+#Sat Jun 28 20:56:59 BRT 2008
+eclipse.preferences.version=1
+encoding//src/grafo/Digrafo.py=latin1
+encoding//src/grafo/DigrafoValorado.py=latin1
+encoding//src/grafo/Grafo.py=latin1
+encoding//src/grafo/GrafoValorado.py=latin1
+encoding//src/grafo/Rede.py=latin1
+encoding//src/grafo/testes/TesteRede.py=latin1
+encoding//src/u2/IntegranteU2.py=latin1
+encoding//src/u2/VerticeU2.py=latin1
+encoding//src/u2/buscador_resposta.py=latin1
+encoding//src/u2/construtor_de_grafo.py=latin1
+encoding//src/u2/main_u2.py=latin1
+encoding//src/u2/testes/TesteIntegranteU2.py=latin1
+encoding//src/u2/testes/TesteVerticeU2.py=latin1

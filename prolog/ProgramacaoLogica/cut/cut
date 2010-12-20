@@ -1,0 +1,8 @@
+
+:- dynamic cc/2.
+
+cc(NumeroDaConta, Saldo).
+
+inserirConta(NumeroDaConta, Saldo):-
+	assert(cc(NumeroDaConta, Saldo)).
+	

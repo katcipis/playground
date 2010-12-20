@@ -1,0 +1,23 @@
+tamanho([], 0).
+tamanho([_|R], T):-
+	tamanho(R, TR),
+	T is 1 + TR.
+
+pertence(X, [X |_ ]).
+pertence(X, [P|R]):-
+	
+	pertence(X,R).
+
+ultimo([X], X).
+ultimo([_,S|R], U) :-
+	ultimo([S|R], U).
+
+primeiro([P|_], P).
+
+segundo([_,S|_], S).
+
+penultimo([P,_], P).
+penultimo([_,S,T|R], Pen):-
+	penultimo([S,T|R], Pen).
+
+

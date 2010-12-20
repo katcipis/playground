@@ -1,0 +1,5 @@
+# =========================================================================== # 
+  To compile you must have the AVR Atmel SDK instaled on your system.
+  With the SDK installed all you should have to do is run "make" to compile
+  and "make prog" to generate the ".hex" file.
+# =========================================================================== #

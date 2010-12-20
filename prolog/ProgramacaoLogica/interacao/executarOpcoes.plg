@@ -1,0 +1,37 @@
+vai :-
+     mostrarInicio,
+     mostrarOpcoes,
+     obterOpcaoEscolhida(OpcaoEscolhida),
+     executarOpcao(OpcaoEscolhida).
+     
+     
+ mostrarInicio :-
+     print('** Menu **'),
+     nl.
+         
+ mostrarOpcoes :-
+     print('Opcao 1 : 1'), nl,
+     print('Opcao 2 : 2'), nl,
+     print('Sair : 0'),nl.
+     
+     
+ obterOpcaoEscolhida(OpcaoEscolhida) :-
+     print('Opcao Escolhida: '),
+     read(OpcaoEscolhida),nl.
+     
+ executarOpcao(1) :-
+     print('Executando Opcao 1'), nl,
+     print('Opcao 1 Executada com Sucesso'),nl,nl,nl,
+     vai.
+     
+ executarOpcao(2) :-
+     print('Executando Opcao 2'), nl,
+     print('Opcao 2 Executada com Sucesso'),nl,nl,nl,
+     vai.
+     
+ executarOpcao(0) :-
+     print('**Saiu do Programa**').
+     
+  executarOpcao(_):-
+     print('Opcao Invalida'),nl,nl,nl,
+     vai. 

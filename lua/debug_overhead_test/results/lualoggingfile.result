@@ -1,0 +1,19 @@
+Node name	Total time
+prepareLogMsg	47.889999999999
+log	        46.259999999999
+gsub	        35.000000000002
+append	        31.690000000002
+tostring	31.690000000002
+debug	        28.890000000002
+simulate_calc	23.08
+write	        18.79
+date	        15.59
+concat	        13.04
+type	        12.12
+format	        11.73
+cos	        4.9599999999999
+assert	        3.99
+sin	        3.92
+square	        3.6
+profiler_init	0.000000
+stop	        0.000000

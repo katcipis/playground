@@ -1,0 +1,31 @@
+
+:- dynamic reg/1, cc/2.
+
+cc(1, 1000).
+cc(2, 500).
+cc(3, 100).
+
+
+
+
+
+/*ob(Numero_da_operacao_bancaria, Tipo, Numero_da_conta, Valor) :-
+	Tipo = "c",
+	cc(Numero_da_conta, Saldo),
+	Saldo2 is Saldo + Valor,
+	assert(cc(Numero_da_conta, Saldo2)),	
+	retract(cc(Numero_da_conta, Saldo)),
+	ob(Numero, _, _, _),
+	Numero_da_operacao_bancaria is Numero + 1,
+	assert(ob(Numero_da_operacao_bancaria, Tipo, Numero_da_conta, Valor)),
+	!,
+	fail.	*/
+
+
+
+
+
+
+
+
+	

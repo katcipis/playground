@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="file:/home/guilherme/eclipse/plugins/br.ufsc.edugraf.dix_2007.10.23/transformacao/dix.xml"?>
+<página nome="CatalogoDeLivros" título="Catalogo de Livros" tema="campeche">
+
+<campoDeTexto nome="localizacao" esquerda="20" topo="30" largura="400" altura="17" legenda="Caminho do Arquivo:">
+</campoDeTexto>
+<botão nome="carregar" esquerda="270" topo="57" largura="80" altura="23">
+Carregar
+</botão>
+<botão nome="criar" esquerda="360" topo="57" largura="60" altura="23">
+Criar
+</botão>
+<listaDeEscolha nome="estruturas" esquerda="150" topo="60" largura="110" altura="20" posiçãoDaLegenda="àEsquerda" legenda="Estrutura:">
+	<opção nome="arvoreAVL">Arvore AVL</opção>
+	<opção nome="tabelaHash">Tabela Hash</opção>
+</listaDeEscolha>
+
+
+<campoDeTexto nome="status" esquerda="75" topo="110" largura="345" altura="17" posiçãoDaLegenda="àEsquerda" legenda="Status:">
+Nenhum arquivo carregado
+</campoDeTexto>
+<campoDeTexto nome="tempo" esquerda="140" topo="140" largura="50" altura="15" posiçãoDaLegenda="àEsquerda" legenda="Tempo Decorrido:">
+0
+</campoDeTexto>
+<etiqueta nome="segundos" esquerda="200" topo="140">
+milisegundos.
+</etiqueta>
+
+
+<campoDeTexto nome="codigoDoLivro" esquerda="120" topo="205" largura="180" altura="17" posiçãoDaLegenda="àEsquerda" legenda="Codigo do Livro:">
+1
+</campoDeTexto>
+<botão nome="buscarPorCodigo" esquerda="310" topo="205" largura="60" altura="20">
+Buscar
+</botão>
+<campoDeTexto nome="nomeDoLivro" esquerda="120" topo="230" largura="180" altura="17" posiçãoDaLegenda="àEsquerda" legenda="Nome do Livro:">
+Livro 1
+</campoDeTexto>
+<botão nome="buscarPorNome" esquerda="310" topo="230" largura="60" altura="20">
+Buscar
+</botão>
+<campoDeTexto nome="autorDoLivro" esquerda="120" topo="255" largura="180" altura="17" posiçãoDaLegenda="àEsquerda" legenda="Autor do Livro:">
+Autor 1
+</campoDeTexto>
+<campoDeTexto nome="precoDoLivro" esquerda="120" topo="280" largura="180" altura="17" posiçãoDaLegenda="àEsquerda" legenda="Preço do Livro:">
+1.11
+</campoDeTexto>
+<campoDeTexto nome="quantidadeDeLivros" esquerda="120" topo="305" largura="180" altura="17" posiçãoDaLegenda="àEsquerda" legenda="Qtde de Livros:">
+1
+</campoDeTexto>
+
+<botão nome="inserir" esquerda="100" topo="330" largura="120" altura="25">
+Inserir
+</botão>
+
+<áreaSensível nome="areaAguarde" esquerda="0" topo="0" largura="440" altura="385" profundidade="1"/>
+<botão nome="botaoAguarde" esquerda="160" topo="180" largura="120" altura="25" profundidade="1">
+Aguarde...
+</botão>
+
+<aplique nome="aplique" linguagem="Java" localizaçãoDasClasses="bin" classe="fachada.Controlador" jar="../fontes/infraEstrutura/ine5384-bin.jar"/>
+	
+</página>
