@@ -1,7 +1,7 @@
 #include <gst/gst.h>
 
-#define SEEK_TIMEOUT   15
-#define DELETE_TIMEOUT 30
+#define SEEK_TIMEOUT   30
+#define DELETE_TIMEOUT 45
 
 static GstElement* pipeline = NULL;
 static GMainLoop *loop      = NULL;
