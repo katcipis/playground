@@ -147,7 +147,7 @@ main (int argc, char *argv[])
     g_debug("Set to play returned [%s]!!!", gst_element_state_change_return_get_name(play_ret));
 
     g_debug("Starting timer to seek pipeline, will seek in [%d] seconds!!!", SEEK_TIMEOUT);
-    g_timeout_add_seconds(DELETE_TIMEOUT, seek_pipe, NULL);
+    g_timeout_add_seconds(SEEK_TIMEOUT, seek_pipe, NULL);
 
     g_debug("Starting timer to set pipeline to NULL, will set to null in [%d] seconds!!!", DELETE_TIMEOUT);
     g_timeout_add_seconds(DELETE_TIMEOUT, destroy_pipe, NULL);
