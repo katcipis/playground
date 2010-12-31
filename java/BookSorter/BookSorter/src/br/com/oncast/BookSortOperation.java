@@ -26,8 +26,16 @@ public abstract class BookSortOperation {
 	 * Get the book's Set reordered according to a implemented sort operation.
 	 *
 	 * @return a Set of Books ordered according to the implemented sort operation.
+	 * @throws OrderingException 
 	 */
-	public Set<Book> sort(Set<Book> books){
+	public Set<Book> sort(Set<Book> books) throws OrderingException{
+		if (books == null) {
+			throw new OrderingException();
+		}
+		
+		if (books.isEmpty()) {
+			return books;
+		}
 		
 		if (this.direction == Direction.ASCENDING) {
 		    return this.sortAscending(books);

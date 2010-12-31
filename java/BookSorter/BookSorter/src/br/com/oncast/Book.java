@@ -51,6 +51,13 @@ public class Book {
 	}
 	
 	@Override
+	public String toString(){
+		return this.title + "\n" +
+		       this.author + "\n" + 
+		       this.editionYear.toString();
+	}
+	
+	@Override
 	public int hashCode(){
 		String hashGen = this.title + this.author + this.editionYear.toString();
 		return  hashGen.hashCode();
@@ -68,8 +75,8 @@ public class Book {
 		
 		Book other = (Book) o;
 		
-		return (this.author == other.author) &&
-		       (this.title == other.title) &&
-		       (this.editionYear == other.editionYear);
+		return (this.author.equals(other.author)) &&
+		       (this.title.equals(other.title)) &&
+		       (this.editionYear.equals(other.editionYear));
 	}
 }

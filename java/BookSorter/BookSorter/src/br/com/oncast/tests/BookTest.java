@@ -63,7 +63,9 @@ public class BookTest {
 	@Test
 	public void ifTwoBooksHaveTheSameTitleAuthorAndEditionYearThenTheyAreEqual(){
 		
-		Book otherBook = new Book(deitelBook.getTitle(), deitelBook.getAuthor(), deitelBook.getEditionYear());
+		Book otherBook = new Book(new String(deitelBook.getTitle()), 
+				                  new String(deitelBook.getAuthor()), 
+				                  deitelBook.getEditionYear());
 		assertEquals(otherBook, deitelBook);
 	}
 }

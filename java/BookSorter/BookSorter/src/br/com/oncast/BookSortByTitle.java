@@ -1,5 +1,7 @@
 package br.com.oncast;
+import java.util.Comparator;
 import java.util.Set;
+import java.util.TreeSet;
 
 import br.com.oncast.BookSortOperation;
 
@@ -11,6 +13,59 @@ import br.com.oncast.BookSortOperation;
 
 public class BookSortByTitle extends BookSortOperation {
 
+	private class titleAscendingComparator<T> implements Comparator<Book> {
+
+		@Override
+		public int compare(Book book1, Book book2) {
+			if (book1.equals(book2)) {
+				/* 
+				 * Must be consistent with equals or nasty things can
+				 * happen on the TreeSet algorithm.
+				 * */
+			    return 0;
+			}
+			
+			if (book1.getTitle().equals(book2.getTitle())) {
+				/* 
+				 * Again guarantee consistency with equals
+				 * Avoiding to return zero since the books aren't equal
+				 *  */
+				return -1;
+			}
+			
+			System.out.println("OK");
+			return book1.getTitle().compareTo(book2.getTitle());
+		}
+
+		
+	}
+	
+	private class titleDescendingComparator<T> implements Comparator<Book> {
+
+		@Override
+		public int compare(Book book1, Book book2) {
+			
+			if (book1.equals(book2)) {
+				/* 
+				 * Must be consistent with equals or nasty things can
+				 * happen on the TreeSet algorithm.
+				 * */
+			    return 0;
+			}
+			
+			if (book1.getTitle().equals(book2.getTitle())) {
+				/* 
+				 * Again guarantee consistency with equals
+				 * Avoiding to return zero since the books aren't equal
+				 *  */
+				return -1;
+			}
+			
+			return book2.getTitle().compareTo(book1.getTitle());
+		}
+	}
+	
+	
 	/**
 	 * Constructs a BookSortByTitle with the given direction.
 	 *
@@ -27,7 +82,9 @@ public class BookSortByTitle extends BookSortOperation {
 	 */
 	@Override
 	protected Set<Book> sortAscending(Set<Book> books) {
-		return null;
+		TreeSet<Book> ordered = new TreeSet<Book>(new titleAscendingComparator<Book>());
+		ordered.addAll(books);
+		return ordered;
 	}
 	
 	/**
@@ -37,7 +94,9 @@ public class BookSortByTitle extends BookSortOperation {
 	 */
 	@Override
 	protected Set<Book> sortDescending(Set<Book> books) {
-		return null;
+		TreeSet<Book> ordered = new TreeSet<Book>(new titleDescendingComparator<Book>());
+		ordered.addAll(books);
+		return ordered;
 	}
 
 }

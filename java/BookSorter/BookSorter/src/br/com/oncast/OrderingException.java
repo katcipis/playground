@@ -4,7 +4,7 @@ package br.com.oncast;
  * @author Tiago Katcipis <tiagokatcipis@gmail.com>
  *
  */
-public class OrderingException extends Exception {
+public class OrderingException extends RuntimeException {
 
 	/**
 	 * The serial UID.
