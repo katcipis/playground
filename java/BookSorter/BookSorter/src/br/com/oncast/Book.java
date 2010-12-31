@@ -1,10 +1,7 @@
-/**
- * 
- */
 package br.com.oncast;
 
 /**
- * @author Katcipis
+ * @author Tiago Katcipis <tiagokatcipis@gmail.com>
  *
  */
 public class Book {
@@ -13,20 +10,42 @@ public class Book {
 	private String author;
 	private Integer editionYear;
 	
+	/**
+	 * Constructs a book with the given parameters.
+	 *
+	 * @param title Book's title.
+	 * @param author Book's author.
+	 * @param editionYear Book's edition year.
+	 */
 	public Book(String title, String author, Integer editionYear){
 		this.title       = title;
 		this.author      = author;
 		this.editionYear = editionYear;
 	}
 
+	/**
+	 * Get the title of the Book.
+	 *
+	 * @return Book's title.
+	 */
 	public String getTitle() {
 		return this.title;
 	}
 	
+	/**
+	 * Get the author of the Book.
+	 *
+	 * @return Book's author.
+	 */
 	public String getAuthor() {
 		return this.author;
 	}
 	
+	/**
+	 * Get the edition year of the Book.
+	 *
+	 * @return Book's edition year.
+	 */
 	public Integer getEditionYear() {
 		return this.editionYear;
 	}
