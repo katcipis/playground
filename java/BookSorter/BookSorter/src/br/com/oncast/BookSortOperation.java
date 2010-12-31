@@ -18,7 +18,7 @@ public abstract class BookSortOperation {
 	 *
 	 * @param direction The direction of the sort operation.
 	 */
-	BookSortOperation(Direction direction) {
+	public BookSortOperation(Direction direction) {
 	    this.direction = direction;	
 	}
 	

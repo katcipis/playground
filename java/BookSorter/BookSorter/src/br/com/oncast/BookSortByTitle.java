@@ -16,7 +16,7 @@ public class BookSortByTitle extends BookSortOperation {
 	 *
 	 * @param direction The direction of the sort operation.
 	 */
-	BookSortByTitle(Direction direction) {
+	public BookSortByTitle(Direction direction) {
 		super(direction);
 	}
 
