@@ -1,16 +1,10 @@
 package br.com.oncast;
 import java.util.Comparator;
-import br.com.oncast.BookSortOperation;
 
 
-/**
- * @author Tiago Katcipis <tiagokatcipis@gmail.com>
- *
- */
+public class BookSortByEditionYear extends BookSortOperation {
 
-public class BookSortByTitle extends BookSortOperation {
-
-	private class TitleAscendingComparator<T> implements Comparator<Book> {
+	private class EditionYearAscendingComparator<T> implements Comparator<Book> {
 
 		@Override
 		public int compare(Book book1, Book book2) {
@@ -22,7 +16,7 @@ public class BookSortByTitle extends BookSortOperation {
 			    return 0;
 			}
 			
-			if (book1.getTitle().equals(book2.getTitle())) {
+			if (book1.getEditionYear().equals(book2.getEditionYear())) {
 				/* 
 				 * Again guarantee consistency with equals
 				 * Avoiding to return zero since the books aren't equal
@@ -30,15 +24,14 @@ public class BookSortByTitle extends BookSortOperation {
 				return -1;
 			}
 			
-			return book1.getTitle().compareTo(book2.getTitle());
+			return book1.getEditionYear().compareTo(book2.getEditionYear());
 		}	
 	}
 	
-	private class TitleDescendingComparator<T> implements Comparator<Book> {
+	private class EditionYearDescendingComparator<T> implements Comparator<Book> {
 
 		@Override
 		public int compare(Book book1, Book book2) {
-			
 			if (book1.equals(book2)) {
 				/* 
 				 * Must be consistent with equals or nasty things can
@@ -47,7 +40,7 @@ public class BookSortByTitle extends BookSortOperation {
 			    return 0;
 			}
 			
-			if (book1.getTitle().equals(book2.getTitle())) {
+			if (book1.getEditionYear().equals(book2.getEditionYear())) {
 				/* 
 				 * Again guarantee consistency with equals
 				 * Avoiding to return zero since the books aren't equal
@@ -55,30 +48,22 @@ public class BookSortByTitle extends BookSortOperation {
 				return -1;
 			}
 			
-			return book2.getTitle().compareTo(book1.getTitle());
-		}
+			return book2.getEditionYear().compareTo(book1.getEditionYear());
+		}	
 	}
 	
-	
-	/**
-	 * Constructs a BookSortByTitle with the given direction.
-	 *
-	 * @param direction The direction of the sort operation.
-	 */
-	public BookSortByTitle(Direction direction) {
+	public BookSortByEditionYear(Direction direction) {
 		super(direction);
 	}
 
-
 	@Override
 	protected Comparator<Book> getAscendingComparator() {
-		return new TitleAscendingComparator<Book>();
+		return new EditionYearAscendingComparator<Book>();
 	}
-
 
 	@Override
 	protected Comparator<Book> getDescendingComparator() {
-		return new TitleDescendingComparator<Book>();
+		return new EditionYearDescendingComparator<Book>();
 	}
 
 }
