@@ -5,11 +5,9 @@ import br.com.oncast.Book;
 import br.com.oncast.BookSortOperation;
 import br.com.oncast.OrderingException;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.junit.Test;
 
@@ -24,7 +22,7 @@ public abstract class BookSortOperationTest {
 	
 	protected abstract BookSortOperation getDescendingOperation();
 	
-	protected abstract Set<Book> getUnordered();
+	protected abstract List<Book> getUnordered();
 	
 	protected abstract List<Book> getAscending();
 	
@@ -32,7 +30,7 @@ public abstract class BookSortOperationTest {
 	
 	@Test
 	public void canSortBooksOnAscendingOrder() {
-		Set<Book> result    = getAscendingOperation().sort(getUnordered());
+		List<Book> result    = getAscendingOperation().sort(getUnordered());
 		Iterator<Book> iter = result.iterator();
 		int i               = 0;
 		
@@ -48,7 +46,7 @@ public abstract class BookSortOperationTest {
 
 	@Test
 	public void canSortBooksOnDescendingOrder() {
-		Set<Book> result    = getDescendingOperation().sort(new HashSet<Book>(getUnordered()));
+		List<Book> result    = getDescendingOperation().sort(new ArrayList<Book>(getUnordered()));
 		Iterator<Book> iter = result.iterator();
 		int i               = 0;
 		
@@ -62,15 +60,15 @@ public abstract class BookSortOperationTest {
 	}
 	
 	@Test
-	public void ifAnEmptySetIsGivenReturnsAEmptySet() {
+	public void ifAnEmptyListIsGivenReturnsAEmptyList() {
 		BookSortOperation oper = getDescendingOperation();
-		Set<Book> empty = new TreeSet<Book>();
+		List<Book> empty = new ArrayList<Book>();
 		
-		assertEquals(new TreeSet<Book>(), oper.sort(empty));
+		assertEquals(new ArrayList<Book>(), oper.sort(empty));
 	}
 	
 	@Test(expected = OrderingException.class)
-	public void ifTheGivenSetIsNullThrowsAOrderingException(){
+	public void ifTheGivenListIsNullThrowsAOrderingException(){
 		BookSortOperation oper = getDescendingOperation();
 		oper.sort(null);
 	}

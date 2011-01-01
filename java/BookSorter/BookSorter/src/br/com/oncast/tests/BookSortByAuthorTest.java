@@ -1,8 +1,6 @@
 package br.com.oncast.tests;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import br.com.oncast.tests.BookSortOperationTest;
 import br.com.oncast.Book;
 import br.com.oncast.BookSortByAuthor;
@@ -25,7 +23,7 @@ public class BookSortByAuthorTest extends BookSortOperationTest {
 
 
 	@Override
-	protected Set<Book> getUnordered() {
+	protected List<Book> getUnordered() {
 		List<Book> unordered = new ArrayList<Book>();
 		
 		unordered.add(new Book("Java how to program", 
@@ -37,7 +35,7 @@ public class BookSortByAuthorTest extends BookSortOperationTest {
         unordered.add(new Book("Design Patterns", 
                 "Elishabeth Freeman", 2004));
         
-        return new HashSet<Book>(unordered);
+        return new ArrayList<Book>(unordered);
 	}
 
 

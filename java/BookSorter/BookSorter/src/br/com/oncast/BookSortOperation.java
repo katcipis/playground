@@ -1,6 +1,8 @@
 package br.com.oncast;
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Set;
+import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 import br.com.oncast.Book;
 
@@ -25,13 +27,13 @@ public abstract class BookSortOperation {
 	}
 	
 	/**
-	 * Get the book's Set reordered according to a implemented sort operation.
+	 * Get the book's List reordered according to a implemented sort operation.
 	 *
-	 * @param books The Set of books to be sorted.
-	 * @return a Set of Books sorted according to the implemented sort operation.
+	 * @param books The List of books to be sorted.
+	 * @return a List of Books sorted according to the implemented sort operation.
 	 * @throws OrderingException 
 	 */
-	public Set<Book> sort(Set<Book> books) throws OrderingException{
+	public List<Book> sort(List<Book> books) throws OrderingException{
 		if (books == null) {
 			throw new OrderingException();
 		}
@@ -46,29 +48,52 @@ public abstract class BookSortOperation {
 		
 		return this.sortDescending(books);
 	}
-
+	
 	/**
-	 * Get the book's Set sorted according to a implemented comparator on ascending direction.
+	 * Checks if two books have the same sorting attribute, indicating that they still need to be sorted by another BookSortOperation.
 	 *
-	 * @param books The Set of books to be sorted.
-	 * @return a Set of Books ordered according to a implemented comparator on ascending direction.
+	 * @param book A book instance.
+	 * @param otherBook Another book instance.
+	 * @return a List of Books ordered according to a implemented comparator on ascending direction.
 	 */
-	private  Set<Book> sortAscending(Set<Book> books){
+	public abstract boolean stillNeedSorting(Book book, Book otherBook);
+	
+	/**
+	 * Get the book's List sorted according to a implemented comparator on ascending direction.
+	 *
+	 * @param books The List of books to be sorted.
+	 * @return a List of Books ordered according to a implemented comparator on ascending direction.
+	 */
+	private  List<Book> sortAscending(List<Book> books){
 		TreeSet<Book> ordered = new TreeSet<Book>(getAscendingComparator());
 		ordered.addAll(books);
-		return ordered;
+		List<Book> result = new ArrayList<Book>();
+		Iterator<Book> orderedIterator = ordered.iterator();
+		
+		while (orderedIterator.hasNext()) {
+			result.add(orderedIterator.next());
+		}
+		
+		return result;
 	}
 	
 	/**
-	 * Get the book's Set sorted according to a implemented comparator on descending direction.
+	 * Get the book's List sorted according to a implemented comparator on descending direction.
 	 *
-	 * @param books The Set of books to be sorted.
-	 * @return a Set of Books ordered according to a implemented comparator on descending direction.
+	 * @param books The List of books to be sorted.
+	 * @return a List of Books ordered according to a implemented comparator on descending direction.
 	 */
-	private Set<Book> sortDescending(Set<Book> books){
+	private List<Book> sortDescending(List<Book> books){
 		TreeSet<Book> ordered = new TreeSet<Book>(getDescendingComparator());
 		ordered.addAll(books);
-		return ordered;
+		List<Book> result = new ArrayList<Book>();
+		Iterator<Book> orderedIterator = ordered.iterator();
+		
+		while (orderedIterator.hasNext()) {
+			result.add(orderedIterator.next());
+		}
+		
+		return result;
 	}
 	
 	/**

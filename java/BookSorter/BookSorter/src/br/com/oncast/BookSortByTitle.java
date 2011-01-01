@@ -81,4 +81,10 @@ public class BookSortByTitle extends BookSortOperation {
 		return new TitleDescendingComparator<Book>();
 	}
 
+
+	@Override
+	public boolean stillNeedSorting(Book book, Book otherBook) {
+		return book.getTitle().equals(otherBook.getTitle());
+	}
+
 }

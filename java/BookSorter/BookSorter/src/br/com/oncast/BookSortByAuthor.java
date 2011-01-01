@@ -3,6 +3,11 @@ package br.com.oncast;
 import java.util.Comparator;
 import br.com.oncast.BookSortOperation;
 
+/**
+ * @author Tiago Katcipis <tiagokatcipis@gmail.com>
+ *
+ */
+
 public class BookSortByAuthor extends BookSortOperation {
 
 	private class AuthorAscendingComparator<T> implements Comparator<Book> {
@@ -67,4 +72,8 @@ public class BookSortByAuthor extends BookSortOperation {
 		return new AuthorDescendingComparator<Book>();
 	}
 
+	@Override
+	public boolean stillNeedSorting(Book book, Book otherBook) {
+		return book.getAuthor().equals(otherBook.getAuthor());
+	}
 }

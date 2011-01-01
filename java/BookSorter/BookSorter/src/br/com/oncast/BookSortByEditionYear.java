@@ -1,6 +1,10 @@
 package br.com.oncast;
 import java.util.Comparator;
 
+/**
+ * @author Tiago Katcipis <tiagokatcipis@gmail.com>
+ *
+ */
 
 public class BookSortByEditionYear extends BookSortOperation {
 
@@ -64,6 +68,11 @@ public class BookSortByEditionYear extends BookSortOperation {
 	@Override
 	protected Comparator<Book> getDescendingComparator() {
 		return new EditionYearDescendingComparator<Book>();
+	}
+	
+	@Override
+	public boolean stillNeedSorting(Book book, Book otherBook) {
+		return book.getEditionYear().equals(otherBook.getEditionYear());
 	}
 
 }
