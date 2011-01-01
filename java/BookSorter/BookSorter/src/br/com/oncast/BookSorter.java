@@ -38,6 +38,7 @@ public class BookSorter {
 		for (int i = 0; i < books.size(); i++){
 			ordered.add(books.get(i));
 		}
+		
 		this.sort(ordered, 0);
 		return ordered;
 	}
@@ -54,16 +55,15 @@ public class BookSorter {
 		books.clear();
 		books.addAll(sortedBooks);
 	
-		for (int i = 0; i < books.size() - 1; i++) {
+		for (int i = 0; i + 1 < books.size(); i++) {
+			
 			if (operation.stillNeedSorting(books.get(i), books.get(i + 1))) {
 				
 				int j = i + 1;
 				
-				while (operation.stillNeedSorting(books.get(j), books.get(j + 1))) {
+				while ( (j + 1 < books.size()) &&
+						(operation.stillNeedSorting(books.get(j), books.get(j + 1))) ) {
 					j++;
-					if (j >= (books.size() - 1)) {
-						break;
-					}
 				}
 				
 				List<Book> sortedSubList = books.subList(i, j + 1);

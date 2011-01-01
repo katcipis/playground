@@ -31,7 +31,7 @@ public class BookSorterTest {
 	}
 
 	
-	//@Test
+	@Test
 	public void canOrderByTitleOnAscendingDirection(){
 		List<Book> orderedBooks            = new ArrayList<Book>();
 		List<BookSortOperation> operations = new ArrayList<BookSortOperation>();
@@ -79,20 +79,14 @@ public class BookSorterTest {
 		Iterator<Book> iter = result.iterator();
 		int i               = 0;
 		
-		System.out.println("<<<<<<<<<<< TEST START >>>>>>>>>>>>>");
-		
 		while(iter.hasNext()) {
 			Book a = iter.next();
 			Book b = orderedBooks.get(i);
 			
 			assertEquals(a,b);
-			
-			System.out.println(a);
-				
 			i++;
 		}
 		
-		System.out.println("<<<<<<<<<<<< TEST END >>>>>>>>>>>");
 	}
 	
 	@Test
