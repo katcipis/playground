@@ -63,6 +63,8 @@ cleanup:
     if (result == NULL)
         cvReleaseImage(&image);
 
+    cvCvtColor(result, result, CV_YCrCb2BGR);
+
     return result;
 }
 
