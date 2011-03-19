@@ -13,7 +13,8 @@ cvLoadImageYUV(FILE *fin, int w, int h)
     IplImage *pu_big  = cvCreateImage(cvSize(w,    h), IPL_DEPTH_8U, 1);
     IplImage *pv_big  = cvCreateImage(cvSize(w,    h), IPL_DEPTH_8U, 1);
     IplImage *image   = cvCreateImage(cvSize(w,    h), IPL_DEPTH_8U, 3);
-    IplImage *result  = NULL;
+
+    IplImage *result  = cvCreateImage(cvSize(w,    h), IPL_DEPTH_8U, 1);
 
     assert(py);
     assert(pu);
@@ -50,8 +51,6 @@ cvLoadImageYUV(FILE *fin, int w, int h)
     cvResize(pv, pv_big, CV_INTER_NN);
     cvMerge(py, pu_big, pv_big, NULL, image);
 
-    result = image;
-
 cleanup:
     cvReleaseImage(&pu);
     cvReleaseImage(&pv);
@@ -63,7 +62,8 @@ cleanup:
     if (result == NULL)
         cvReleaseImage(&image);
 
-    cvCvtColor(result, result, CV_YCrCb2BGR);
+    cvCvtColor(image, image, CV_YCrCb2BGR);
+    cvCvtColor(image, result, CV_BGR2GRAY);
 
     return result;
 }
