@@ -5,67 +5,31 @@
 IplImage * 
 cvLoadImageYUV(FILE *fin, int w, int h)
 {
+    /* On grayscale Y = R = B = G. Pretty easy :-) */
+    IplImage *image   = cvCreateImage(cvSize(w, h), IPL_DEPTH_8U, 3);
+    int j = 0;    
+
+    assert(image);
     assert(fin);
 
-    IplImage *py      = cvCreateImage(cvSize(w,    h), IPL_DEPTH_8U, 1);
-    IplImage *pu      = cvCreateImage(cvSize(w/2,h/2), IPL_DEPTH_8U, 1);
-    IplImage *pv      = cvCreateImage(cvSize(w/2,h/2), IPL_DEPTH_8U, 1);
-    IplImage *pu_big  = cvCreateImage(cvSize(w,    h), IPL_DEPTH_8U, 1);
-    IplImage *pv_big  = cvCreateImage(cvSize(w,    h), IPL_DEPTH_8U, 1);
-    IplImage *image   = cvCreateImage(cvSize(w,    h), IPL_DEPTH_8U, 3);
-
-    IplImage *result  = cvCreateImage(cvSize(w,    h), IPL_DEPTH_8U, 1);
-
-    assert(py);
-    assert(pu);
-    assert(pv);
-    assert(pu_big);
-    assert(pv_big);
-    assert(image);
-
+    /* We read only Y information */
     for (int i = 0; i < w*h; ++i)
     {
-        int j = fgetc(fin);
-        if (j < 0)
-            goto cleanup;
-        py->imageData[i] = (unsigned char) j;
+        unsigned char y_sample = fgetc(fin);
+
+        if (y_sample < 0) {
+            printf("Error, dont have enough samples !!!\n");
+            exit(-1);
+        }
+
+        /* We must write R G B with the same Y*/
+        image->imageData[j] = y_sample;
+        image->imageData[j + 1] = y_sample;
+        image->imageData[j + 2] = y_sample;
+        j += 3;
     }
 
-    for (int i = 0; i < w*h/4; ++i)
-    {
-        int j = fgetc(fin);
-        if (j < 0)
-            goto cleanup;
-        pu->imageData[i] = (unsigned char) j;
-    }
-
-    for (int i = 0; i < w*h/4; ++i)
-    {
-        int j = fgetc(fin);
-        if (j < 0)
-            goto cleanup;
-        pv->imageData[i] = (unsigned char) j;
-    }
-
-    cvResize(pu, pu_big, CV_INTER_NN);
-    cvResize(pv, pv_big, CV_INTER_NN);
-    cvMerge(py, pu_big, pv_big, NULL, image);
-
-cleanup:
-    cvReleaseImage(&pu);
-    cvReleaseImage(&pv);
-
-    cvReleaseImage(&py);
-    cvReleaseImage(&pu_big);
-    cvReleaseImage(&pv_big);
-
-    if (result == NULL)
-        cvReleaseImage(&image);
-
-    cvCvtColor(image, image, CV_YCrCb2BGR);
-    cvCvtColor(image, result, CV_BGR2GRAY);
-
-    return result;
+    return image;
 }
 
 
