@@ -22,10 +22,14 @@
 
 #include <glib.h>
 
+G_BEGIN_DECLS
+
 gint libbar_a (void);
 
 gboolean libbar_b (void);
 
 void libbar_c (gdouble a);
+
+G_END_DECLS
 
 #endif /* __LIBBAR_H__ */

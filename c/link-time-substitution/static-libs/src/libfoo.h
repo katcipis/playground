@@ -22,10 +22,14 @@
 
 #include <glib.h>
 
+G_BEGIN_DECLS
+
 gint libfoo_a (void);
 
 gboolean libfoo_b (void);
 
 void libfoo_c (gdouble a);
+
+G_END_DECLS
 
 #endif /* __LIBFOO_H__ */

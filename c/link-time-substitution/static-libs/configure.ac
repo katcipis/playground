@@ -20,4 +20,5 @@ PKG_CHECK_MODULES(LIBFOOBAR, [glib-2.0 ])
 AC_OUTPUT([
 Makefile
 src/Makefile
+tests/Makefile
 ])
