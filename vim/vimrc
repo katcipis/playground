@@ -1,0 +1,34 @@
+syntax on
+set is scs magic "Opções de Busca
+set history=10000 "Grava as últimas linhas do código
+set nu "Numeração de linhas
+set ai "Identação automática
+set sm "Par de parênteses
+set ts=4 "Seta aonde o tab para
+set sw=4 "Número de colunas para ShiftWidth
+set et "Espaços no lugar de tabulação
+set showcmd "Mostra comandos incompletos
+set nocp
+filetype plugin on
+
+"Move faster when screen is splitted
+map <C-DOWN> <C-w><DOWN>
+map <C-UP> <C-w><UP>
+map <C-LEFT> <C-w><LEFT>
+map <C-RIGHT> <C-w><RIGHT>
+
+"Faster navigation in buffer (hacking vim, kim schulz)
+map <A-right> <ESC>:bn<CR>
+map <A-left> <ESC>:bp<CR>
+
+set wildmenu
+set wildmode=list:longest,full
+
+"Fast Tab navigation 
+nnoremap <C-S-left> :tabprevious<CR>
+nnoremap <C-S-right>   :tabnext<CR>
+inoremap <C-S-left> <Esc>:tabprevious<CR>
+inoremap <C-S-right>   <Esc>:tabnext<CR>
+
+set tags+=~/.vim/ctags/system
+set tags+=~/.vim/ctags/tip03plus
