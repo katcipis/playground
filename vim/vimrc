@@ -30,5 +30,9 @@ nnoremap <C-S-right>   :tabnext<CR>
 inoremap <C-S-left> <Esc>:tabprevious<CR>
 inoremap <C-S-right>   <Esc>:tabnext<CR>
 
+"Fast building with tests ;-)
+nnoremap <C-b> :!make check<CR>
+inoremap <C-b> :!make check<CR>
+
 set tags+=~/.vim/ctags/system
 set tags+=~/.vim/ctags/tip03plus
