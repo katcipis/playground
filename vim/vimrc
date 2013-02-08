@@ -8,6 +8,7 @@ set ts=4 "Seta aonde o tab para
 set sw=4 "Número de colunas para ShiftWidth
 set et "Espaços no lugar de tabulação
 set showcmd "Mostra comandos incompletos
+set hlsearch "Prints searched words
 set nocp
 filetype plugin on
 
@@ -32,7 +33,9 @@ inoremap <C-S-right>   <Esc>:tabnext<CR>
 
 "Fast building with tests ;-)
 nnoremap <C-b> :!make check<CR>
-inoremap <C-b> :!make check<CR>
+
+"Fast commiting, also with tests ;-)
+"nnoremap <C-c-i> :!svn commit<CR>
 
 set tags+=~/.vim/ctags/system
 set tags+=~/.vim/ctags/tip03plus
