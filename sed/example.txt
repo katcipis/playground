@@ -1,0 +1,4 @@
+/kmlo/example
+set tags+=~/path/to-your/ctags
+another stuff that has notthing to do with anything
+sed rlz all :D
