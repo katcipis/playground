@@ -37,5 +37,5 @@ nnoremap <C-b> :!make check<CR>
 "Fast commiting, also with tests ;-)
 "nnoremap <C-c-i> :!svn commit<CR>
 
-set tags+=~/.vim/ctags/system
-set tags+=~/.vim/ctags/tip03plus
+"Example of how to add awesome ctags
+"set tags+=~/path/to-your/ctags
