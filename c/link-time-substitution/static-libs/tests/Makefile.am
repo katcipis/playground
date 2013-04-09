@@ -13,6 +13,8 @@ AM_CFLAGS = -g\
     -Werror\
     $(LIBFOOBAR_CFLAGS)
 
+AM_LDFLAGS = -z muldefs
+
 
 TEST_PROGS           = libfoo_test
 libfoo_test_SOURCES  = \
@@ -22,7 +24,6 @@ libfoo_test_SOURCES  = \
 libfoo_test_LDADD = \
     $(libfoo_lib)
 
-
 TEST_PROGS          += libbar_test
 libbar_test_SOURCES  = \
 	libbar-test.c \
@@ -31,6 +32,6 @@ libbar_test_SOURCES  = \
 libbar_test_LDADD = \
     $(libbar_lib)
 
-check_PROGRAMS = $(test_programs)
+check_PROGRAMS = $(TEST_PROGS)
 
-TESTS = $(test_programs)
+TESTS = $(TEST_PROGS)
