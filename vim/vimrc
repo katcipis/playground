@@ -34,8 +34,17 @@ inoremap <C-S-right>   <Esc>:tabnext<CR>
 "Fast building with tests ;-)
 nnoremap <C-b> :!make check<CR>
 
-"Fast commiting, also with tests ;-)
-"nnoremap <C-c-i> :!svn commit<CR>
+"Making code navigation with CTAGS easier :-)
+"map <TODO> <C-o>
+"inoremap <TODO> <C-o>
+"map <TODO> <C-S-]>
+"inoremap <TODO> <C-S-]>
 
-"Example of how to add awesome ctags
-"set tags+=~/path/to-your/ctags
+"Fast commiting/diffing, also with tests ;-)
+"nnoremap <TODO> :!svn commit<CR>
+"inoremap <TODO> :!svn commit<CR>
+"nnoremap <TODO> :!svn diff<CR>
+"inoremap <TODO> :!svn diff<CR>
+
+set tags+=~/.vim/ctags/system
+set tags+=~/.vim/ctags/embedded-dev-environment
