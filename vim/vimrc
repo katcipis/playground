@@ -45,6 +45,3 @@ nnoremap <C-b> :!make check<CR>
 "inoremap <TODO> :!svn commit<CR>
 "nnoremap <TODO> :!svn diff<CR>
 "inoremap <TODO> :!svn diff<CR>
-
-set tags+=~/.vim/ctags/system
-set tags+=~/.vim/ctags/embedded-dev-environment
