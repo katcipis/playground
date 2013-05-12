@@ -34,12 +34,6 @@ inoremap <C-S-right>   <Esc>:tabnext<CR>
 "Fast building with tests ;-)
 nnoremap <C-b> :!make check<CR>
 
-"Making code navigation with CTAGS easier :-)
-"map <TODO> <C-o>
-"inoremap <TODO> <C-o>
-"map <TODO> <C-S-]>
-"inoremap <TODO> <C-S-]>
-
 "Fast commiting/diffing, also with tests ;-)
 "nnoremap <TODO> :!svn commit<CR>
 "inoremap <TODO> :!svn commit<CR>
