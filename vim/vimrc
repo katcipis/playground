@@ -1,8 +1,15 @@
-syntax on
-set is scs magic "Opções de Busca
+" This must be first, because it changes other options as side effect
+set nocompatible
+set autoindent       " always set autoindenting on
+set copyindent       " copy the previous indentation on autoindenting
+set smarttab         " insert tabs on the start of a line according to shiftwidth, not tabstop
+set undolevels=1000  " use many muchos levels of undo
+set nobackup
+set noswapfile
+set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.so
+set is scs magic  "Opções de Busca
 set history=10000 "Grava as últimas linhas do código
 set nu "Numeração de linhas
-set ai "Identação automática
 set sm "Par de parênteses
 set ts=4 "Seta aonde o tab para
 set sw=4 "Número de colunas para ShiftWidth
@@ -11,7 +18,18 @@ set showcmd "Mostra comandos incompletos
 set hlsearch "Prints searched words
 set nocp
 set hidden "Dont have to save changes on current buffer when opening new buffer
+set showmode
+set wildmenu
+set wildmode=list:longest,full
+
+" Get that filetype stuff happening
+filetype on
 filetype plugin on
+filetype indent on
+
+syntax on
+
+autocmd filetype python set expandtab
 
 "Move faster when screen is splitted
 map <C-DOWN> <C-w><DOWN>
@@ -22,9 +40,6 @@ map <C-RIGHT> <C-w><RIGHT>
 "Faster navigation in buffer (hacking vim, kim schulz)
 map <A-right> <ESC>:bn<CR>
 map <A-left> <ESC>:bp<CR>
-
-set wildmenu
-set wildmode=list:longest,full
 
 "Fast Tab navigation 
 nnoremap <C-S-left> :tabprevious<CR>
