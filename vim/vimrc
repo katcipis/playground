@@ -10,6 +10,7 @@ set et "Espaços no lugar de tabulação
 set showcmd "Mostra comandos incompletos
 set hlsearch "Prints searched words
 set nocp
+set hidden "Dont have to save changes on current buffer when opening new buffer
 filetype plugin on
 
 "Move faster when screen is splitted
