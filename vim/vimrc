@@ -21,6 +21,7 @@ set hidden "Dont have to save changes on current buffer when opening new buffer
 set showmode
 set wildmenu
 set wildmode=list:longest,full
+:match Error /\t/
 
 " Get that filetype stuff happening
 filetype on
