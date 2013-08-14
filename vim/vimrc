@@ -32,11 +32,11 @@ syntax on
 
 autocmd filetype python set expandtab
 
-"Move faster when screen is splitted
-map <C-DOWN> <C-w><DOWN>
-map <C-UP> <C-w><UP>
-map <C-LEFT> <C-w><LEFT>
-map <C-RIGHT> <C-w><RIGHT>
+"Move faster on CTags
+map <C-LEFT> :tp<CR> 
+map <C-RIGHT> :tn<CR>
+map <C-UP> <C-]>
+map <C-DOWN> <C-t>
 
 "Faster navigation in buffer (hacking vim, kim schulz)
 map <A-right> <ESC>:bn<CR>
