@@ -25,6 +25,7 @@ echo "Copying redmine database from["$REDMINE_SQLITE_DATABASE"] to ["$BACKUP_DIR
 cp -pr "$REDMINE_SQLITE_DATABASE"/* "$BACKUP_DIR"
 
 echo "The backup will be owned by["$1"]"
+chmod -R 751 "$BACKUP_BASE_DIR"
 chown -R $1 "$BACKUP_BASE_DIR"
 
 echo "Starting apache back"
