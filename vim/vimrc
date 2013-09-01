@@ -38,21 +38,11 @@ map <C-RIGHT> :tn<CR>
 map <C-UP> <C-]>
 map <C-DOWN> <C-t>
 
-"Faster navigation in buffer (hacking vim, kim schulz)
-map <A-right> <ESC>:bn<CR>
-map <A-left> <ESC>:bp<CR>
+" Press i to enter insert mode, and ii to exit.
+imap ii <Esc>
 
 "Fast Tab navigation 
 nnoremap <C-S-left> :tabprevious<CR>
 nnoremap <C-S-right>   :tabnext<CR>
 inoremap <C-S-left> <Esc>:tabprevious<CR>
 inoremap <C-S-right>   <Esc>:tabnext<CR>
-
-"Fast building with tests ;-)
-nnoremap <C-b> :!make check<CR>
-
-"Fast commiting/diffing, also with tests ;-)
-"nnoremap <TODO> :!svn commit<CR>
-"inoremap <TODO> :!svn commit<CR>
-"nnoremap <TODO> :!svn diff<CR>
-"inoremap <TODO> :!svn diff<CR>
