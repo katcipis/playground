@@ -33,6 +33,16 @@ syntax on
 autocmd filetype python set expandtab
 runtime macros/matchit.vim
 
+"Lets not work with arrows anymore :-)
+nnoremap <UP> <Nop>
+nnoremap <DOWN> <Nop>
+nnoremap <LEFT> <Nop>
+nnoremap <RIGHT> <Nop>
+inoremap <UP> <Nop>
+inoremap <DOWN> <Nop>
+inoremap <LEFT> <Nop>
+inoremap <RIGHT> <Nop>
+
 "Move faster on CTags
 map <C-LEFT> :tp<CR> 
 map <C-RIGHT> :tn<CR>
@@ -45,6 +55,7 @@ imap ii <Esc>
 "Fast Tab navigation 
 nnoremap <Leader>j :tabprevious<CR>
 nnoremap <Leader>k :tabnext<CR>
+nnoremap <Leader>t :tabnew
 
 "Fast build and test running
 nnoremap <Leader>b :!make check<CR>
