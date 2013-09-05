@@ -43,8 +43,8 @@ map <C-DOWN> <C-t>
 imap ii <Esc>
 
 "Fast Tab navigation 
-noremap <Leader>j :tabprevious<CR>
-noremap <Leader>k :tabnext<CR>
+nnoremap <Leader>j :tabprevious<CR>
+nnoremap <Leader>k :tabnext<CR>
 
 "Fast build and test running
 nnoremap <Leader>b :!make check<CR>
