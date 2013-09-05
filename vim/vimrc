@@ -31,6 +31,7 @@ filetype indent on
 syntax on
 
 autocmd filetype python set expandtab
+runtime macros/matchit.vim
 
 "Move faster on CTags
 map <C-LEFT> :tp<CR> 
@@ -42,7 +43,8 @@ map <C-DOWN> <C-t>
 imap ii <Esc>
 
 "Fast Tab navigation 
-nnoremap <C-S-left> :tabprevious<CR>
-nnoremap <C-S-right>   :tabnext<CR>
-inoremap <C-S-left> <Esc>:tabprevious<CR>
-inoremap <C-S-right>   <Esc>:tabnext<CR>
+noremap <Leader>j :tabprevious<CR>
+noremap <Leader>k :tabnext<CR>
+
+"Fast build and test running
+nnoremap <Leader>b :!make check<CR>
