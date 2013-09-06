@@ -55,7 +55,7 @@ imap ii <Esc>
 "Fast Tab navigation 
 nnoremap <Leader>j :tabprevious<CR>
 nnoremap <Leader>k :tabnext<CR>
-nnoremap <Leader>t :tabnew
+nnoremap <Leader>t :tabnew 
 
 "Fast build and test running
 nnoremap <Leader>b :!make check<CR>
