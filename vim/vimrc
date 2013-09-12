@@ -52,6 +52,14 @@ map <C-DOWN> <C-t>
 " Press i to enter insert mode, and ii to exit.
 imap ii <Esc>
 
+"Easy paste from system clipboard
+nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
+
+"Easy copy to system clipboard
+vnoremap <Leader>y "+y
+nnoremap <Leader>y "+y
+
 "Fast Tab navigation 
 nnoremap <Leader>j :tabprevious<CR>
 nnoremap <Leader>k :tabnext<CR>

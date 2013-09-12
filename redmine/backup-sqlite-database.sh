@@ -1,12 +1,6 @@
 #!/bin/sh
 
-if [ -z "$1" ]
-then
-    echo "You must provide a user to own the backup !!!"
-    echo "Usage: "$0" <user>"
-    exit
-fi
-
+USER=katcipis
 REDMINE_SQLITE_DATABASE="/var/lib/dbconfig-common/sqlite3/redmine"
 BACKUP_BASE_DIR="$HOME/Ubuntu One/redmine-backup"
 NOW=$(date +"%F")
@@ -24,9 +18,9 @@ service apache2 stop
 echo "Copying redmine database from["$REDMINE_SQLITE_DATABASE"] to ["$BACKUP_DIR"]"
 cp -pr "$REDMINE_SQLITE_DATABASE"/* "$BACKUP_DIR"
 
-echo "The backup will be owned by["$1"]"
+echo "The backup will be owned by["$USER"]"
 chmod -R 751 "$BACKUP_BASE_DIR"
-chown -R $1 "$BACKUP_BASE_DIR"
+chown -R $USER "$BACKUP_BASE_DIR"
 
 echo "Starting apache back"
 service apache2 start
