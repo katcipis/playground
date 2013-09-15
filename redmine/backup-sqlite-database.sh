@@ -1,6 +1,7 @@
 #!/bin/sh
 
 USER=katcipis
+HOME=/home/$USER
 REDMINE_SQLITE_DATABASE="/var/lib/dbconfig-common/sqlite3/redmine"
 BACKUP_BASE_DIR="$HOME/Ubuntu One/redmine-backup"
 NOW=$(date +"%F")
