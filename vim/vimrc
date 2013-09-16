@@ -61,8 +61,8 @@ vnoremap <Leader>y "+y
 nnoremap <Leader>y "+y
 
 "Fast Tab navigation 
-nnoremap <Leader>j :tabprevious<CR>
-nnoremap <Leader>k :tabnext<CR>
+nnoremap <Leader>j gT
+nnoremap <Leader>k gt
 nnoremap <Leader>t :tabnew 
 
 "Fast build and test running
