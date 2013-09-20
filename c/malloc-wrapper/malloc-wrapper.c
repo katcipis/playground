@@ -15,9 +15,9 @@ void * __wrap_malloc(size_t size)
 int main(void)
 {
     call_malloc();
-    printf("=== calling malloc inside the bynary ===\n");
+    printf("=== calling malloc on the main process ===\n");
     void * ptr = malloc(7777);
-    printf("=== done calling malloc inside the bynary ===\n");
+    printf("=== done calling malloc on the main process ===\n");
     free(ptr);
     return 0;
 }

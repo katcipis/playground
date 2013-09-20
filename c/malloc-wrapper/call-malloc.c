@@ -4,7 +4,7 @@
 
 void call_malloc(void)
 {
-    printf("=== starting call_malloc on dynamic library ===\n");
+    printf("=== starting to call malloc inside the library ===\n");
     void * a = malloc(1024);
     void * b = malloc(2048);
     void * c = malloc(3000);
@@ -12,5 +12,5 @@ void call_malloc(void)
     free(a);
     free(b);
     free(c);
-    printf("=== call_malloc on dynamic library done ===\n\n");
+    printf("=== all calls to malloc inside the library are done ===\n\n");
 }
