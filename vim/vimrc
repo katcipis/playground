@@ -65,5 +65,8 @@ nnoremap <Leader>j gT
 nnoremap <Leader>k gt
 nnoremap <Leader>t :tabnew 
 
+"Disable highlighting for current search only
+nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+
 "Fast build and test running
 nnoremap <Leader>b :!make check<CR>
