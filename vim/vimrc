@@ -73,4 +73,4 @@ nnoremap <Leader><RIGHT> :cnext<CR>
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 
 "Fast build and test running
-nnoremap <Leader>b :!make check<CR>
+nnoremap <Leader>b :make check<CR>
