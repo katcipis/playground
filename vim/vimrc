@@ -68,6 +68,7 @@ nnoremap <Leader>t :tabnew
 "Fast QuickFix navigation 
 nnoremap <Leader><LEFT> :cprev<CR>
 nnoremap <Leader><RIGHT> :cnext<CR>
+nnoremap <Leader><DOWN> 'B<CR>
 
 "Disable highlighting for current search only
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
@@ -75,5 +76,5 @@ nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 "Adding new lines without going to insert mode
 nnoremap <Leader>o o<Esc>
 
-"Fast build and test running
-nnoremap <Leader>b :make check<CR>
+"Fast build and test running, giving a way to go back from QuickFix
+nnoremap <Leader>b mB:wall<CR>:make check<CR>
