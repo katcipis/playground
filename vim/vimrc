@@ -28,9 +28,8 @@ filetype on
 filetype plugin on
 filetype indent on
 
+"More interesting stuff
 syntax on
-
-autocmd filetype python set expandtab
 runtime macros/matchit.vim
 
 "Lets not work with arrows anymore :-)
