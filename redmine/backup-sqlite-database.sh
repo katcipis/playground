@@ -16,10 +16,10 @@ mkdir -p "$BACKUP_DIR"
 echo "Stopping apache to avoid redmine being used while we backup"
 service apache2 stop
 
-echo "Copying redmine database from["$REDMINE_SQLITE_DATABASE"] to ["$BACKUP_DIR"]"
+echo "Copying redmine database from ["$REDMINE_SQLITE_DATABASE"] to ["$BACKUP_DIR"]"
 cp -pr "$REDMINE_SQLITE_DATABASE"/* "$BACKUP_DIR"
 
-echo "The backup will be owned by["$USER"]"
+echo "The backup will be owned by ["$USER"]"
 chmod -R 751 "$BACKUP_BASE_DIR"
 chown -R $USER "$BACKUP_BASE_DIR"
 
