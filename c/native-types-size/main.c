@@ -3,8 +3,9 @@
 
 int main ()
 {
-    printf("long: %zu\n", sizeof(long));
     printf("int: %zu\n", sizeof(int));
+    printf("size_t: %zu\n", sizeof(size_t));
+    printf("long: %zu\n", sizeof(long));
     printf("void*: %zu\n", sizeof(void*));
     return EXIT_SUCCESS;
 }
