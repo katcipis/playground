@@ -82,3 +82,6 @@ nnoremap <Leader>b :make check<CR>
 "Better spell checking
 hi clear SpellBad
 hi SpellBad cterm=underline
+
+"Indent entire file
+nnoremap <Leader>= mmgg=G'mzz
