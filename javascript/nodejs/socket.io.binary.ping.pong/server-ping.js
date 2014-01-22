@@ -32,7 +32,12 @@ io.sockets.on('connection', function (socket) {
 
     var pong_filename = filename + '.pong';
     socket.on("pong", function (data) {
-        fs.writeFile(pong_filename, data, function (err) {
+        var buffer = new Buffer(data.length);
+        for (var i=0; i < data.length; i++) {
+            console.log("writing: " + data[i]);
+            buffer.writeUInt8(data[i], i);
+        }
+        fs.writeFile(pong_filename, buffer, function (err) {
             if (err) throw err;
             console.log("\n\nreceived data: " + data);
             console.log(pong_filename + ' is saved!');
