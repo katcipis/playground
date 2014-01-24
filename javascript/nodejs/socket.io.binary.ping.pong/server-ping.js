@@ -26,7 +26,6 @@ io.sockets.on('connection', function (socket) {
 
     fs.readFile(filename, function (err, data) {
         if (err) throw err;
-        console.log("sending data: " + data);
         socket.emit("ping", data);
     });
 
@@ -34,15 +33,15 @@ io.sockets.on('connection', function (socket) {
     socket.on("pong", function (data) {
         var buffer = new Buffer(data.length);
         for (var i=0; i < data.length; i++) {
-            console.log("writing: " + data[i]);
             buffer.writeUInt8(data[i], i);
         }
         fs.writeFile(pong_filename, buffer, function (err) {
             if (err) throw err;
-            console.log("\n\nreceived data: " + data);
             console.log(pong_filename + ' is saved!');
+            socket.disconnect();
         });
     });
 });
 
+io.set('log level', 1);
 console.log('Server running at port '+PORT);
