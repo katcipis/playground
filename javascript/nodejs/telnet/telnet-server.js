@@ -9,8 +9,8 @@ port = 5432,
 
          connection.on('data', function(data) {
              console.log('received command: ' + data);
-             var parsed_cmd = data.toString().split(" ");
-             console.log('spawning command');
+             var parsed_cmd = data.toString().trim().split(" ");
+             console.log('parsed command: ' + parsed_cmd);
              var cmd_name = parsed_cmd[0];
              var cmd_args = parsed_cmd.slice(1);
              console.log('name: ' + cmd_name + ' args: [' + cmd_args + ']');
