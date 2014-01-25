@@ -85,3 +85,6 @@ hi SpellBad cterm=underline
 
 "Indent entire file
 nnoremap <Leader>= mmgg=G'mzz
+
+"Substitute word under cursor
+nnoremap <Leader>s yiw:%s,<C-r>",
