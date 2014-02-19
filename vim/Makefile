@@ -26,3 +26,8 @@ install-js:
 	rm -rf $(PATHOGEN_BUNDLE_DIR)/vim-javascript-indent
 	mkdir -p $(PATHOGEN_BUNDLE_DIR)/vim-javascript-indent
 	git clone git://github.com/vim-scripts/JavaScript-Indent.git $(PATHOGEN_BUNDLE_DIR)/vim-javascript-indent
+	echo "Installing Javascript Tern"
+	rm -rf $(PATHOGEN_BUNDLE_DIR)/vim-javascript-tern
+	mkdir -p $(PATHOGEN_BUNDLE_DIR)/vim-javascript-tern
+	git clone git://github.com/marijnh/tern_for_vim.git $(PATHOGEN_BUNDLE_DIR)/vim-javascript-tern
+	cd $(PATHOGEN_BUNDLE_DIR)/vim-javascript-tern; npm install
