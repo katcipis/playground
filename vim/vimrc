@@ -78,9 +78,6 @@ nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 "Adding new lines without going to insert mode
 nnoremap <Leader>o o<Esc>
 
-"Fast build and test running
-nnoremap <Leader>b :make check<CR>
-
 "Better spell checking
 hi clear SpellBad
 hi SpellBad cterm=underline
