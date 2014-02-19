@@ -87,3 +87,11 @@ nnoremap <Leader>= mmgg=G'mzz
 
 "Substitute word under cursor
 nnoremap <Leader>s yiw:%s,<C-r>",
+
+"Tabularize fun :-)
+if exists(":Tabularize")
+  nmap <Leader>a= :Tabularize /=<CR>
+  vmap <Leader>a= :Tabularize /=<CR>
+  nmap <Leader>a: :Tabularize /:<CR>
+  vmap <Leader>a: :Tabularize /:<CR>
+endif
