@@ -4,8 +4,10 @@ PATHOGEN_BUNDLE_DIR=$(HOME)/.vim/bundle
 install:
 	cp vimrc $(HOME)/.vimrc
 	cp -pr .vim $(HOME)
-	mkdir -p $(HOME)/.vim/autoload
+
+install-plugins:
 	echo "Installing Pathogen"
+	mkdir -p $(HOME)/.vim/autoload
 	mkdir -p $(PATHOGEN_BUNDLE_DIR) 
 	curl -Sso $(HOME)/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 	echo "Installing Tabular"

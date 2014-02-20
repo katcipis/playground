@@ -75,8 +75,11 @@ nnoremap <Leader><RIGHT> :cnext<CR>
 "Disable highlighting for current search only
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 
-"Adding new lines without going to insert mode
-nnoremap <Leader>o o<Esc>
+"Some svn stuff, for the old schools ;-)
+nnoremap <Leader>sc :!svn commit<CR>
+nnoremap <Leader>sd :!svn diff<CR>
+nnoremap <Leader>ss :!svn st<CR>
+nnoremap <Leader>su :!svn up<CR>
 
 "Better spell checking
 hi clear SpellBad
