@@ -46,6 +46,9 @@ inoremap <DOWN> <Nop>
 inoremap <LEFT> <Nop>
 inoremap <RIGHT> <Nop>
 
+"Load CTags for current dir
+nmap <silent> <F5> :!ctags -R <CR>
+
 "Move faster on CTags
 map <C-LEFT> :tp<CR> 
 map <C-RIGHT> :tn<CR>
@@ -67,10 +70,6 @@ nnoremap <Leader>y "+y
 nnoremap <Leader>j gT
 nnoremap <Leader>k gt
 nnoremap <Leader>t :tabnew 
-
-"Fast QuickFix navigation 
-nnoremap <Leader><LEFT> :cprev<CR>
-nnoremap <Leader><RIGHT> :cnext<CR>
 
 "Disable highlighting for current search only
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
