@@ -1,2 +1,2 @@
 "Fast build and test running
-nnoremap <Leader>b :wall<CR> :make check<CR>
+nnoremap <Leader>b :make check<CR>
