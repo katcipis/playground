@@ -1,2 +1,2 @@
 "Fast build and test running
-nnoremap :!npm test <CR>
+nnoremap <Leader>b :!npm test <CR>
