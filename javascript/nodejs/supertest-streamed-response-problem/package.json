@@ -1,0 +1,17 @@
+{
+  "name": "SupertestStreamedResponseProblem",
+  "version": "0.0.0",
+  "description": "Just to reproduce a problem :-)",
+  "main": "streamed-response-tests.js",
+  "scripts": {
+    "test": "mocha streamed-response-tests.js"
+  },
+  "repository": "",
+  "author": "Tiago Cesar Katcipis",
+  "license": "BSD",
+  "dependencies": {
+    "chai": "~1.9.1",
+    "express": "~3.5.1",
+    "supertest": "~0.10.0"
+  }
+}
