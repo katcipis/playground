@@ -1,6 +1,8 @@
-var http = require('http');
+var express    = require('express'),
+app        = express(),
+http       = require('http');
 
-var httpServer = http.createServer(function(req, res) {
+app.get('/',  function(req, res) {
     var headers = {
         'Content-Type': 'application/octet-stream'
     }
@@ -14,4 +16,5 @@ var httpServer = http.createServer(function(req, res) {
     }, 60000);
 });
 
+var httpServer = http.createServer(app);
 httpServer.listen(8606);
