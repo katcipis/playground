@@ -1,0 +1,16 @@
+{
+  "name": "express-streamed-response-load-test",
+  "version": "0.0.0",
+  "description": "Load test",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": "",
+  "author": "Tiago Katcipis",
+  "license": "BSD",
+  "dependencies": {
+    "express": "~4.0.0"
+  }
+}
