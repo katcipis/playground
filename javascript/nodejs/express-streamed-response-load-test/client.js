@@ -8,7 +8,7 @@ var getStream = function () {
         method: 'GET',
         agent:false
     }, function(res) {
-        res.on('end', function(chunk) {
+        res.on('end', function() {
             getStream();
         });
         res.on('data', function(chunk) {
@@ -16,7 +16,6 @@ var getStream = function () {
     });
 
 }
-
 
 if (process.argv.length < 3) {
     throw Error("Missing parameters.\n usage: "+process.argv[1]+" <amount of concurrent streams> \n\n");

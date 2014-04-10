@@ -7,11 +7,11 @@ app.get('/',  function(req, res) {
         'Content-Type': 'application/octet-stream'
     }
     res.writeHeader(200, headers);
-    var sendStreamedResponse = setInterval(function () {
+    var sendStreamTimerId = setInterval(function () {
         res.write(new Buffer(1024));
     }, 200);
-    setInterval(function () {
-        clearInterval(sendStreamedResponse);
+    setTimeout(function () {
+        clearInterval(sendStreamTimerId);
         res.end();
     }, 60000);
 });
