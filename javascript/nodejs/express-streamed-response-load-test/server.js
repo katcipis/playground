@@ -4,7 +4,7 @@ http       = require('http');
 
 app.get('/',  function(req, res) {
     var headers = {
-        'Content-Type': 'audio/ogg'
+        'Content-Type': 'application/octet-stream'
     }
     res.writeHeader(200, headers);
     var sendStreamedResponse = setInterval(function () {
