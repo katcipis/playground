@@ -9,9 +9,11 @@ var getStream = function () {
         agent:false
     }, function(res) {
         res.on('end', function() {
+            console.log("received end");
             getStream();
         });
         res.on('data', function(chunk) {
+            console.log("received data: " + chunk.length);
         });
     });
 
