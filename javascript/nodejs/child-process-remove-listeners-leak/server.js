@@ -1,9 +1,7 @@
-var express    = require('express'),
-app        = express(),
-childProcess = require('child_process'),
-http       = require('http');
+var childProcess = require('child_process'),
+http = require('http');
 
-app.get('/',  function(req, res) {
+var httpServer = http.createServer (function(req, res) {
     var headers = {
         'Content-Type': 'application/octet-stream'
     }
@@ -22,5 +20,4 @@ app.get('/',  function(req, res) {
     res.writeHeader(200, headers);
 });
 
-var httpServer = http.createServer(app);
 httpServer.listen(7777);
