@@ -12,8 +12,6 @@ var httpServer = http.createServer (function(req, res) {
 
     streamerProcess.on('exit', function() {
         res.end();
-        streamerProcess.removeAllListeners();
-        streamerProcess.stderr.removeAllListeners();
         streamerProcess.stdout.removeAllListeners();
     });
 
