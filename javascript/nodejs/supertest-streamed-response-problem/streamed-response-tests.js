@@ -12,7 +12,6 @@ var expectedBuffer = new Buffer(1048576);
 var getRandomFloat = function(min, max) {
   return Math.random() * (max - min + 1) + min;
 }
-
 var getRandomInt = function (min, max) {
   return Math.floor(getRandomFloat(min,max));
 }
@@ -22,8 +21,7 @@ for (var i = 0; i < expectedBuffer.length; i++) {
 }
 
 app.get('/',  function(req, res) {
-    res.write(expectedBuffer.slice(0, expectedBuffer.length/2));
-    res.write(expectedBuffer.slice(expectedBuffer.length/2));
+    res.write(expectedBuffer);
     res.end();
 });
 
