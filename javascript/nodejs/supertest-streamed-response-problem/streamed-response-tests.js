@@ -7,7 +7,7 @@ express = require('express');
 
 
 var app = express();
-var expectedBuffer = new Buffer(1048576);
+var expectedBuffer = new Buffer(524288);
 
 var getRandomFloat = function(min, max) {
   return Math.random() * (max - min + 1) + min;
