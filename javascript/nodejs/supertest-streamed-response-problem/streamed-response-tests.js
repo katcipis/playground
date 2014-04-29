@@ -21,6 +21,8 @@ for (var i = 0; i < expectedBuffer.length; i++) {
 }
 
 app.get('/',  function(req, res) {
+    res.setHeader('Content-Type', 'application/octet-stream');
+    res.setHeader('Content-Length', expectedBuffer.length);
     res.write(expectedBuffer);
     res.end();
 });
