@@ -1,4 +1,10 @@
 #FIXME: WE HAVE A SEVERE DUPLICATION ON THIS MAKE !!!
+# We need a function like:
+#echo "Installing "$PLUGIN_NAME
+#rm -rf $PLUGIN_INSTALL_DIR
+#mkdir -p $PLUGIN_INSTALL_DIR
+#git clone $PLUGIN_GIT_REPO $PLUGIN_INSTALL_DIR 
+
 PATHOGEN_BUNDLE_DIR=$(HOME)/.vim/bundle
 
 install:
@@ -9,7 +15,7 @@ install-plugins:
 	echo "Installing Pathogen"
 	mkdir -p $(HOME)/.vim/autoload
 	mkdir -p $(PATHOGEN_BUNDLE_DIR) 
-	curl -Sso $(HOME)/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+	wget -O $(HOME)/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 	echo "Installing Tabular"
 	rm -rf $(PATHOGEN_BUNDLE_DIR)/tabular
 	mkdir -p $(PATHOGEN_BUNDLE_DIR)/tabular
