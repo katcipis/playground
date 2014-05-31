@@ -73,7 +73,7 @@ nnoremap <Leader>t :tabnew
 
 "Fast quickfix navigation
 nnoremap <Leader>n :cnext<CR>
-nnoremap <Leader>p :cprev<CR>
+nnoremap <Leader>N :cprev<CR>
 
 "Disable highlighting for current search only
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
