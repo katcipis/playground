@@ -156,6 +156,7 @@ gst_app_specific_caps_init (GstAppSpecificCaps * filter)
 
   filter->srcpad = gst_pad_new_from_static_template (&src_factory, "src");
   GST_PAD_SET_PROXY_CAPS (filter->srcpad);
+  gst_pad_use_fixed_caps(filter->srcpad);
   gst_element_add_pad (GST_ELEMENT (filter), filter->srcpad);
 
   filter->silent = FALSE;
