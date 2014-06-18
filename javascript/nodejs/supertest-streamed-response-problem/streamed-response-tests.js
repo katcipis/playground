@@ -7,16 +7,16 @@ var express = require('express');
 var app = express();
 var expectedBuffer = new Buffer(10);
 
-var getRandomFloat = function(min, max) {
-  return Math.random() * (max - min + 1) + min;
-}
-var getRandomInt = function (min, max) {
-  return Math.floor(getRandomFloat(min,max));
-}
-
-for (var i = 0; i < expectedBuffer.length; i++) {
-    expectedBuffer[i] = getRandomInt(0,255);
-}
+expectedBuffer[0] = 234;
+expectedBuffer[1] = 235;
+expectedBuffer[2] = 196;
+expectedBuffer[3] = 189;
+expectedBuffer[4] = 10;
+expectedBuffer[5] = 183;
+expectedBuffer[6] = 66;
+expectedBuffer[7] = 150;
+expectedBuffer[8] = 173;
+expectedBuffer[9] = 235;
 
 app.get('/',  function(req, res) {
     res.setHeader('Content-Type', 'application/octet-stream');
@@ -32,7 +32,6 @@ describe('Streaming data test', function() {
         .get('/')
         .expect(200)
         .expect(function(res) {
-            console.log(res);
             if (expectedBuffer.length !== res.text.length) {
                 throw new Error("expected len: " + expectedBuffer.length + " received len: " + res.text.length);
             }
