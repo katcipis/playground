@@ -10,7 +10,6 @@
   "author": "Tiago Cesar Katcipis",
   "license": "BSD",
   "dependencies": {
-    "chai": "~1.9.1",
     "express": "~3.5.1",
     "supertest": "~0.10.0"
   }

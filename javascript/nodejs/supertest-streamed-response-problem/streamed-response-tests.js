@@ -1,13 +1,11 @@
 "use strict";
 
-var chai = require('chai'),
-expect = chai.expect,
-request = require('supertest'),
-express = require('express');
+var request = require('supertest');
+var express = require('express');
 
 
 var app = express();
-var expectedBuffer = new Buffer(524288);
+var expectedBuffer = new Buffer(10);
 
 var getRandomFloat = function(min, max) {
   return Math.random() * (max - min + 1) + min;
@@ -34,10 +32,13 @@ describe('Streaming data test', function() {
         .get('/')
         .expect(200)
         .expect(function(res) {
-            expect(res).to.exist;
-            expect(res.text).to.exist;
-            expect(expectedBuffer.toString().length).to.equal(res.text.length);
-            expect(expectedBuffer.toString()).to.equal(res.text);
+            console.log(res);
+            if (expectedBuffer.length !== res.text.length) {
+                throw new Error("expected len: " + expectedBuffer.length + " received len: " + res.text.length);
+            }
+            if (expectedBuffer.toString() !== res.text) {
+                throw new Error("received buffer differs from expected buffer");
+            }
         })
         .end(done);
     });
