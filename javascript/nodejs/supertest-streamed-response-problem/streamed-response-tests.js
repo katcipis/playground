@@ -32,11 +32,15 @@ describe('Streaming data test', function() {
         .get('/')
         .expect(200)
         .expect(function(res) {
-            if (expectedBuffer.length !== res.text.length) {
-                throw new Error("expected len: " + expectedBuffer.length + " received len: " + res.text.length);
-            }
-            if (expectedBuffer.toString() !== res.text) {
-                throw new Error("received buffer differs from expected buffer");
+            var receivedBuffer = new Buffer(res.text);
+
+            console.log("Expected buffer len: " + expectedBuffer.length + " data : ");
+            console.log(expectedBuffer);
+            console.log("Received buffer len: " + receivedBuffer.length + " data : ");
+            console.log(receivedBuffer);
+
+            if (expectedBuffer.length !== receivedBuffer.length) {
+                throw new Error("buffers size does not match");
             }
         })
         .end(done);
