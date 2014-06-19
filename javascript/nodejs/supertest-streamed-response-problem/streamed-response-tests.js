@@ -26,31 +26,23 @@ app.get('/',  function(req, res) {
     res.end();
 });
 
-describe('Streaming data test', function() {
+request(app)
+.get('/')
+.expect(200)
+.end(function(err, res) {
+    if (err) throw err;
 
-    it('should receive all buffer correctly', function(done) {
-        request(app)
-        .get('/')
-        .expect(200)
-        .end(function(err, res) {
-            if (err) return done(err);
+    console.log("Received response:");
+    console.log(res);
+    
+    var receivedBuffer = new Buffer(res.text);
 
-            console.log("Received response:");
-            console.log(res);
-            
-            var receivedBuffer = new Buffer(res.text);
+    console.log("\nExpected buffer len: " + expectedBuffer.length + " data : ");
+    console.log(expectedBuffer);
+    console.log("Received buffer len: " + receivedBuffer.length + " data : ");
+    console.log(receivedBuffer);
 
-            console.log("\nExpected buffer len: " + expectedBuffer.length + " data : ");
-            console.log(expectedBuffer);
-            console.log("Received buffer len: " + receivedBuffer.length + " data : ");
-            console.log(receivedBuffer);
-
-            if (expectedBuffer.length !== receivedBuffer.length) {
-                return done(Error("buffers size does not match"));
-            }
-
-            done();
-        });
-    });
-
+    if (expectedBuffer.length !== receivedBuffer.length) {
+         throw new Error("buffers size does not match");
+    }
 });
