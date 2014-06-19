@@ -18,6 +18,7 @@ expectedBuffer[7] = 150;
 expectedBuffer[8] = 173;
 expectedBuffer[9] = 235;
 
+
 app.get('/',  function(req, res) {
     res.setHeader('Content-Type', 'application/octet-stream');
     res.setHeader('Content-Length', expectedBuffer.length);
@@ -27,23 +28,29 @@ app.get('/',  function(req, res) {
 
 describe('Streaming data test', function() {
 
-    it('should send all data correctly', function(done) {
+    it('should receive all buffer correctly', function(done) {
         request(app)
         .get('/')
         .expect(200)
-        .expect(function(res) {
+        .end(function(err, res) {
+            if (err) return done(err);
+
+            console.log("Received response:");
+            console.log(res);
+            
             var receivedBuffer = new Buffer(res.text);
 
-            console.log("Expected buffer len: " + expectedBuffer.length + " data : ");
+            console.log("\nExpected buffer len: " + expectedBuffer.length + " data : ");
             console.log(expectedBuffer);
             console.log("Received buffer len: " + receivedBuffer.length + " data : ");
             console.log(receivedBuffer);
 
             if (expectedBuffer.length !== receivedBuffer.length) {
-                throw new Error("buffers size does not match");
+                return done(Error("buffers size does not match"));
             }
-        })
-        .end(done);
+
+            done();
+        });
     });
 
 });
