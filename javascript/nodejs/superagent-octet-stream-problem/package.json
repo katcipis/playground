@@ -1,0 +1,14 @@
+{
+  "name": "superagent-octet-stream-problem",
+  "version": "0.0.0",
+  "description": "Reproducing a bug",
+  "main": "receiving-octet-stream.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tiago Katcipis",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "superagent": "~0.18.0"
+  }
+}
