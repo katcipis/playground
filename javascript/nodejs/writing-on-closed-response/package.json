@@ -1,0 +1,14 @@
+{
+  "name": "writing-on-closed-response",
+  "version": "0.0.0",
+  "description": "",
+  "main": "writing-on-closed-response.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tiago Katcipis",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "~4.8.5"
+  }
+}
