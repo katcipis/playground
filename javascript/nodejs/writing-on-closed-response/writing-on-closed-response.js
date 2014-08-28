@@ -14,6 +14,10 @@ app.get('/',  function(req, res) {
         console.log("SERVER: writing data on the response");
         res.write(new Buffer(64));
     }, 1000);
+    setTimeout(function() {
+        console.log("SERVER: calling end on the response");
+        res.end();
+    }, 10000);
 });
 
 var server = http.createServer(app);
