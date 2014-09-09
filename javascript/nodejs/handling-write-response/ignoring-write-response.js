@@ -10,9 +10,9 @@ var server = http.createServer(function(req, res) {
     }, 50);
 });
 
-server.listen(8080);
+server.listen(8081);
 
-var clientReq = http.get("http://localhost:8080", function(res) {
+var clientReq = http.get("http://localhost:8081", function(res) {
     console.log("CLIENT: Got response: " + res.statusCode);
     res.on('data', function() {
         console.log("CLIENT: got data");
