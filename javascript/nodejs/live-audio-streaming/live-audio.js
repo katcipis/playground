@@ -5,7 +5,7 @@ var childProcess = require("child_process");
 var server = http.createServer(function(req, res) {
 
     if (req.url === "/live-audio") {
-        var liveStreamer = childProcess.spawn("./streamer.sh");
+        var liveStreamer = childProcess.spawn("./mp3-streamer.sh");
         res.setHeader("Content-Type", "audio/mp3");
         liveStreamer.stdout.pipe(res);
         liveStreamer.stderr.setEncoding('utf-8');
