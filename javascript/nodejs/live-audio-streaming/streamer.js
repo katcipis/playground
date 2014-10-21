@@ -1,5 +1,6 @@
+var childProcess = require("child_process");
 
-module.exports.streamAudio = function streamAudio(streamer, contentType) {
+module.exports.streamAudio = function streamAudio(streamer, contentType, res) {
     var liveStreamer = childProcess.spawn(streamer);
     res.setHeader("Content-Type", contentType);
     liveStreamer.stdout.pipe(res);
