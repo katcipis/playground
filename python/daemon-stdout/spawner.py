@@ -2,21 +2,26 @@ import tempfile
 import time
 import subprocess
 
-_stdout = tempfile.TemporaryFile()
-_stderr = tempfile.TemporaryFile()
+_stdout_fd, _stdout = tempfile.mkstemp()
+_stderr_fd, _stderr = tempfile.mkstemp()
+
+print("STDOUT_FD: " + str(_stdout_fd))
+print("STDOUT: " + _stdout)
+print("STDERR FD: " + str(_stderr_fd))
+print("STDERR: " + _stderr)
 
 print("Starting")
-daemon = subprocess.Popen(["python", "daemon.py"], stdout=_stdout, stderr=_stderr)
+daemon = subprocess.Popen(["python", "daemon.py"], stdout=_stdout_fd, stderr=_stderr_fd)
 
-time.sleep(5)
+time.sleep(20)
 
 print("File contents before terminate:")
-print("STDOUT: " + _stdout.read())
-print("STDERR: " + _stderr.read())
+print("STDOUT: " + open(_stdout).read())
+print("STDERR: " + open(_stderr).read())
 print("Terminating daemon")
 daemon.terminate()
 daemon.wait()
 
 print("\nFile contents after terminate:")
-print("STDOUT: " + _stdout.read())
-print("STDERR: " + _stderr.read())
+print("STDOUT: " + open(_stdout).read())
+print("STDERR: " + open(_stderr).read())
