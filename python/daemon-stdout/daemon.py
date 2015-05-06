@@ -1,5 +1,5 @@
 import time
 
-while True:
+for i in xrange(3):
     print("KMLO")
     time.sleep(0.5)
