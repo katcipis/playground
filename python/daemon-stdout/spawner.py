@@ -2,27 +2,32 @@ import tempfile
 import time
 import subprocess
 
-_stdout_fd, _stdout = tempfile.mkstemp()
-_stderr_fd, _stderr = tempfile.mkstemp()
 
-print("STDOUT_FD: " + str(_stdout_fd))
-print("STDOUT: " + _stdout)
-print("STDERR FD: " + str(_stderr_fd))
-print("STDERR: " + _stderr)
+def test_this_shit (proc_name):
+    print("=== Testing: " + proc_name + " ===")
+    _stdout_fd, _stdout = tempfile.mkstemp()
+    _stderr_fd, _stderr = tempfile.mkstemp()
 
-print("Starting")
-#daemon = subprocess.Popen(["python", "-u", "daemon.py"], stdout=_stdout_fd, stderr=_stderr_fd)
-daemon = subprocess.Popen(["python", "daemon.py"], stdout=_stdout_fd, stderr=_stderr_fd)
+    print("STDOUT_FD: " + str(_stdout_fd))
+    print("STDOUT: " + _stdout)
+    print("STDERR FD: " + str(_stderr_fd))
+    print("STDERR: " + _stderr)
 
-time.sleep(20)
+    print("Starting")
+    #daemon = subprocess.Popen(["python", "-u", "daemon.py"], stdout=_stdout_fd, stderr=_stderr_fd)
+    daemon = subprocess.Popen(["python", proc_name], stdout=_stdout_fd, stderr=_stderr_fd)
 
-print("File contents before terminate:")
-print("STDOUT: " + open(_stdout).read())
-print("STDERR: " + open(_stderr).read())
-print("Terminating daemon")
-daemon.terminate()
-daemon.wait()
+    time.sleep(5)
 
-print("\nFile contents after terminate:")
-print("STDOUT: " + open(_stdout).read())
-print("STDERR: " + open(_stderr).read())
+    print("Terminating daemon")
+    daemon.terminate()
+    daemon.wait()
+
+    print("\nProc output")
+    print("STDOUT: " + open(_stdout).read())
+    print("STDERR: " + open(_stderr).read())
+    print("Done Testing: " + proc_name + "\n\n")
+
+
+test_this_shit("daemon.py")
+test_this_shit("command.py")
