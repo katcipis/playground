@@ -11,7 +11,7 @@ print("STDERR FD: " + str(_stderr_fd))
 print("STDERR: " + _stderr)
 
 print("Starting")
-daemon = subprocess.Popen(["python", "daemon.py"], stdout=_stdout_fd, stderr=_stderr_fd)
+daemon = subprocess.Popen(["python", "-u", "daemon.py"], stdout=_stdout_fd, stderr=_stderr_fd)
 
 time.sleep(20)
 
