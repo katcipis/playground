@@ -1,0 +1,21 @@
+Projeto de 24 MB:
+
+/tmp % time git clone git@github.com:katcipis/playground.git
+Cloning into 'playground'...
+remote: Counting objects: 3820, done.
+remote: Total 3820 (delta 0), reused 0 (delta 0), pack-reused 3820
+Receiving objects: 100% (3820/3820), 24.70 MiB | 5.61 MiB/s, done.
+Resolving deltas: 100% (1371/1371), done.
+Checking connectivity... done.
+git clone git@github.com:katcipis/playground.git  1,60s user 0,42s system 26% cpu 7,514 total
+
+
+➜  /tmp % time git clone ssh://git@gitlab.neoway.com.br:10022/tiago.katcipis/playground.git
+Cloning into 'playground'...
+remote: Counting objects: 3820, done.
+remote: Compressing objects: 100% (2239/2239), done.
+remote: Total 3820 (delta 1371), reused 3820 (delta 1371)
+Receiving objects: 100% (3820/3820), 24.70 MiB | 11.21 MiB/s, done.
+Resolving deltas: 100% (1371/1371), done.
+Checking connectivity... done.
+git clone ssh://git@gitlab.neoway.com.br:10022/tiago.katcipis/playground.git  1,46s user 0,44s system 57% cpu 3,264 total
