@@ -2,10 +2,6 @@
   (:gen-class))
 
 (defn -main
-  "Order hackers"
   [& [filename _]]
-  (use 'clojure.java.io)
-  (println "Sorting hackers file: " filename)
-  (with-open [rdr (reader filename)]
-    (doseq [line (line-seq rdr)]
-      (println line))))
+  (with-open [rdr (clojure.java.io/reader filename)]
+    (doseq [name (sort (fn [a,b] (> (count a) (count b))) (line-seq rdr))] (println name))))
