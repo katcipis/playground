@@ -15,3 +15,9 @@
     (is (= 2 (calc.core/divide 4 2))))
   (testing "cant divide by zero"
     (is (thrown? AssertionError (calc.core/divide 4 0)))))
+
+(deftest dividing-numbers
+  (testing "dividing two numbers"
+    (is (= 2 (calc.core/divide :num 4 :denom 2))))
+  (testing "cant divide by zero"
+    (is (thrown? AssertionError (calc.core/divide :num 4 :denom 0)))))

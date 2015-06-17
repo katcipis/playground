@@ -6,11 +6,11 @@
   ([& args]
   (apply + args)))
 
-;Pre conditions
+;Pre conditions and keyword args
 (defn divide 
-  ([a b]
-   {:pre [(> b 0)]}
-  (/ a b)))
+  ([& {:keys [num denom]}]
+   {:pre [(> denom 0)]}
+  (/ num denom)))
 
 (defn -main
   "I don't do a whole lot ... yet."
