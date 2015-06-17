@@ -6,7 +6,7 @@
   [& args]
   (apply + args))
 
-;Pre conditions and keyword args
+;Pre conditions and keyword args (keyword args uses variadic args)
 (defn divide 
   [& {:keys [num denom]}]
    {:pre [(> denom 0)]}
