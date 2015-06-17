@@ -20,4 +20,6 @@
   (testing "calculates the factorial of 0"
     (is (= 1 (calc.core/factorial 0))))
   (testing "calculates the factorial of 1"
-    (is (= 1 (calc.core/factorial 1)))))
+    (is (= 1 (calc.core/factorial 1))))
+  (testing "calculates the factorial of 8"
+    (is (= 40320 (calc.core/factorial 8)))))

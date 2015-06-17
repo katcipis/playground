@@ -15,7 +15,7 @@
 ;Recursion
 (defn factorial 
   [n]
-  1)
+  (if (== n 0) 1 (* n (factorial (- n 1)))))
 
 (defn -main
   "I don't do a whole lot ... yet."
