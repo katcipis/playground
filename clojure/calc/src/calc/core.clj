@@ -3,14 +3,14 @@
 
 ;Variadic stuff: http://clojure-doc.org/articles/language/functions.html#variadic-functions
 (defn add 
-  ([& args]
-  (apply + args)))
+  [& args]
+  (apply + args))
 
 ;Pre conditions and keyword args
 (defn divide 
-  ([& {:keys [num denom]}]
+  [& {:keys [num denom]}]
    {:pre [(> denom 0)]}
-  (/ num denom)))
+  (/ num denom))
 
 (defn -main
   "I don't do a whole lot ... yet."
