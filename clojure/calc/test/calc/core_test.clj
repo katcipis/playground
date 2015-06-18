@@ -10,6 +10,14 @@
   (testing "Adding five numbers"
     (is (= 17 (calc.core/add 1 1 3 5 7)))))
 
+(deftest adding-numbers2
+  (testing "Adding two numbers"
+    (is (= 2 (calc.core/add2 1 1))))
+  (testing "Adding three numbers"
+    (is (= 5 (calc.core/add2 1 1 3))))
+  (testing "Adding five numbers"
+    (is (= 17 (calc.core/add2 1 1 3 5 7)))))
+
 (deftest dividing-numbers
   (testing "dividing two numbers"
     (is (= 2 (calc.core/divide :num 4 :denom 2))))

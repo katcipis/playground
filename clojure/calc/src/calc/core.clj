@@ -6,6 +6,12 @@
   [& args]
   (apply + args))
 
+;defn is just a macro
+(def add2 
+  (fn
+    [& args]
+    (apply + args)))
+
 ;Pre conditions and keyword args (keyword args uses variadic args)
 (defn divide 
   [& {:keys [num denom]}]
