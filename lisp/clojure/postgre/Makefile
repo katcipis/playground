@@ -9,3 +9,10 @@ shell:
 
 new-app:
 	$(LEIN) new app $(name)
+
+stop-pg:
+	docker stop test-pg
+	docker rm test-pg
+
+start-pg:
+	docker run --name="test-pg" --net="host" -d postgres:9.2
