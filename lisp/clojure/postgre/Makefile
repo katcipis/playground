@@ -1,4 +1,4 @@
-DEV=docker run --rm -ti -v `pwd`:/app -w /app clojure
+DEV=docker run --rm -ti --net="host" -v `pwd`:/app -w /app clojure
 LEIN=$(DEV) lein
 
 run: 

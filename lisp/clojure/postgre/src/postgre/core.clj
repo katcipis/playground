@@ -15,6 +15,6 @@
   "Checking postgre connection on clojure"
   [& args]
   (println "Creating table")
-  (defentity address (table :__addresses :address))
+  (defentity address)
   (println "Searching")
   (select address))
