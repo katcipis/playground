@@ -33,6 +33,5 @@ func main() {
 		Add: add,
 		Sub: sub,
 	}
-	fmt.Println("Result: %d", complexCalculation(10, 20, calc))
-	fmt.Println("Not as OO as you would think")
+	fmt.Println("Result: ", complexCalculation(10, 20, calc))
 }
