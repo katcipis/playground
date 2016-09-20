@@ -1,3 +1,5 @@
+from memory_profiler import profile
+
 def iterate_the_iterator(iterator, size):
     i = 0
     for x in iterator:
@@ -24,6 +26,10 @@ def iterate_with_list(size):
     iterate_the_iterator(list_iterator(size), size)
 
 
-SIZE = 100000
-iterate_with_generator(SIZE)
-iterate_with_list(SIZE)
+@profile
+def run():
+    SIZE = 100000
+    iterate_with_list(SIZE)
+    iterate_with_generator(SIZE)
+
+run()
