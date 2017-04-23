@@ -56,10 +56,14 @@ func main() {
 	var c string
 	var d float32
 	var e float64
+	var f rtype
+	var g eface
 
 	fmt.Printf("a int:\n%s\n\n", getEface(a))
 	fmt.Printf("b int:\n%s\n\n", getEface(b))
 	fmt.Printf("c string:\n%s\n\n", getEface(c))
 	fmt.Printf("d float32:\n%s\n\n", getEface(d))
 	fmt.Printf("e float64:\n%s\n\n", getEface(e))
+	fmt.Printf("f rtype:\n%s\n\n", getEface(f))
+	fmt.Printf("g eface:\n%s\n\n", getEface(g))
 }
