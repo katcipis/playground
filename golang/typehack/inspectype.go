@@ -42,6 +42,10 @@ type eface struct {
 	word unsafe.Pointer
 }
 
+func (e eface) String() string {
+	return fmt.Sprintf("type: %#v\n\ndataptr: %v", *e.typ, e.word)
+}
+
 func getEface(i interface{}) eface {
 	return *(*eface)(unsafe.Pointer(&i))
 }
@@ -50,8 +54,12 @@ func main() {
 	var a int
 	var b int
 	var c string
+	var d float32
+	var e float64
 
-	fmt.Printf("a int: %#v\n", getEface(a))
-	fmt.Printf("b int: %#v\n", getEface(b))
-	fmt.Printf("c string: %#v\n", getEface(c))
+	fmt.Printf("a int:\n%s\n\n", getEface(a))
+	fmt.Printf("b int:\n%s\n\n", getEface(b))
+	fmt.Printf("c string:\n%s\n\n", getEface(c))
+	fmt.Printf("d float32:\n%s\n\n", getEface(d))
+	fmt.Printf("e float64:\n%s\n\n", getEface(e))
 }
