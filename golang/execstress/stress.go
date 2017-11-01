@@ -13,7 +13,7 @@ func main() {
 
 	for i := 0; i < workers; i++ {
 		go func() {
-			cmd := exec.Command("sleep", "1")
+			cmd := exec.Command("sleep", "10")
 			err := cmd.Run()
 			if err != nil {
 				fmt.Println(err)
