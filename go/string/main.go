@@ -29,7 +29,7 @@ Iterating the string with a numeric for will also get you byte slice behavior:
 	fmt.Println(`
 But iterating the string with range will get you rune slice behavior.
 This is so inconsistent that you will see something very odd happening, the index
-on the for loop will jump in steps of two:
+on the for loop will increment by two on some iterations.
 `)
 	runesCount := 0
 	for i, r := range samplestr {
@@ -39,10 +39,12 @@ on the for loop will jump in steps of two:
 	fmt.Printf("iterations through range: %d\n", runesCount)
 
 	fmt.Println(`
-Summing up: len and index operations behave as byte slice")
+Summing up: len and index operations behave as byte slice
 but range iteration behaves as a rune slice.
+
 Quite inconsistent and showcases that it is not safe to use
 len or index a string (it will only work for ASCII).
+
 A string is a set of 'something' that has different
 cardinality and values depending on how you iterate or access it.
 `)
