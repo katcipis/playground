@@ -11,7 +11,7 @@ strings are actually byte slices and they behave as one to almost
 all operations, but not all, hence inconsistent.
 `)
 	samplestr := "canção"
-	fmt.Printf("string[%s]: len[%d] type[%T]\n", samplestr, len(samplestr), samplestr)
+	fmt.Printf("string[%s]: len[%d] type[%[1]T]\n", samplestr, len(samplestr))
 
 	fmt.Println(`
 The length of a string behaves as a byte slice, giving a size in bytes,
@@ -21,7 +21,7 @@ Iterating the string with a numeric for will also get you byte slice behavior:
 	bytesCount := 0
 	for i := 0; i < len(samplestr); i++ {
 		b := samplestr[i]
-		fmt.Printf("index[%d] value[%v] type[%T]\n", i, b, b)
+		fmt.Printf("index[%d] value[%v] type[%[2]T]\n", i, b)
 		bytesCount += 1
 	}
 	fmt.Printf("iterations through len: %d\n", bytesCount)
@@ -33,7 +33,7 @@ on the for loop will increment by two on some iterations.
 `)
 	runesCount := 0
 	for i, r := range samplestr {
-		fmt.Printf("index[%d] value[%v] type[%T]\n", i, r, r)
+		fmt.Printf("index[%d] value[%v] type[%[2]T]\n", i, r)
 		runesCount += 1
 	}
 	fmt.Printf("iterations through range: %d\n", runesCount)
