@@ -1,11 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"unsafe"
+)
 
 func lala() int {
 	var a int
 	var b int
 	var c int
+
+	aAddr := uintptr(unsafe.Pointer(&a))
+	fmt.Println(aAddr)
 
 	return a + b + c
 }
