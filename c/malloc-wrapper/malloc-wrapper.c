@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-extern void * __real_malloc(size_t size);
+void * __real_malloc(size_t size);
 
 void * __wrap_malloc(size_t size)
 {
