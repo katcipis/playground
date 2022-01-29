@@ -1,2 +1,2 @@
 bench:
-	go test -bench=. -benchmem
+	go test -bench=. -benchmem -memprofile=mem.prof
