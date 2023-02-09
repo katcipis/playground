@@ -1,5 +1,4 @@
 import logging
-import sys
 from google.cloud.logging.handlers import StructuredLogHandler
 
 handler = StructuredLogHandler()
