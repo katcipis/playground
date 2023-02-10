@@ -9,7 +9,7 @@ client = OpenSearch(
     use_ssl=True,
 )
 
-index_name = 'my-dsl-index'
+index_name = 'test-opensearch-index'
 index_body = {
   'settings': {
     'index': {
