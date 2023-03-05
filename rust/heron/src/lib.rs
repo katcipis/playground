@@ -1,4 +1,6 @@
-// Inspired from SICP lectures :-)
+// Inspired from SICP lecture:
+//
+//  - https://youtu.be/eJeMOEiHv8c?t=1390
 //
 // This is very closure heavy and inneficient, but it is a good exercise to:
 //
