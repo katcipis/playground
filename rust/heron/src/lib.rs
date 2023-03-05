@@ -16,7 +16,7 @@
 //
 // It is intuitive but very inneficient, so this is for educational purposes only.
 
-pub fn sqrt(x: f64) -> f64 {
+pub fn sqrt(x: f64) -> Option<f64> {
     let dampened_guesser = avg_damp(move |y| x / y);
     let find_fixed_point = fixed_point(dampened_guesser);
     let initial_guess = 1.0;
@@ -29,18 +29,17 @@ pub fn sqrt(x: f64) -> f64 {
 // - https://doc.rust-lang.org/book/ch19-05-advanced-functions-and-closures.html#returning-closures
 // - https://doc.rust-lang.org/reference/types/closure.html
 
-fn fixed_point<F: Fn(f64) -> f64 + 'static>(f: F) -> Box<dyn Fn(f64) -> f64> {
+fn fixed_point<F: Fn(f64) -> f64 + 'static>(f: F) -> Box<dyn Fn(f64) -> Option<f64>> {
     Box::new(move |x| {
         let mut x = x;
         for _ in 1..10000 {
             let next = f(x);
             if next == x {
-                return x;
+                return Some(x);
             }
             x = next;
         }
-        // Ugly hack =P
-        panic!("fixed point failed to converge")
+        None // it did not converge
     })
 }
 
@@ -54,10 +53,11 @@ mod test {
 
     #[test]
     fn test_sqrt() {
-        assert_eq!(sqrt(1.0), 1.0);
-        assert_eq!(sqrt(4.0), 2.0);
-        assert_eq!(sqrt(9.0), 3.0);
-        assert_eq!(sqrt(16.0), 4.0);
-        assert_eq!(sqrt(25.0), 5.0);
+        assert_eq!(sqrt(0.0), None);
+        assert_eq!(sqrt(1.0), Some(1.0));
+        assert_eq!(sqrt(4.0), Some(2.0));
+        assert_eq!(sqrt(9.0), Some(3.0));
+        assert_eq!(sqrt(16.0), Some(4.0));
+        assert_eq!(sqrt(25.0), Some(5.0));
     }
 }
