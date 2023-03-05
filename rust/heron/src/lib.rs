@@ -1,7 +1,18 @@
 // Inspired from SICP lectures :-)
+//
 // This is very closure heavy and inneficient, but it is a good exercise to:
+//
 // - understand the overall algorithm (guess + avg dampener + fixed point searching)
 // - check how dynamic closures are used/defined in Rust
+//
+// The algorithm is quite simple, even though my code sux. Basically:
+//
+// - You have a function that the fixed point will be the square root of X, given a guess
+// - The function will oscilate forever
+// - You implement a simple signal dampener, it will make the function converge to the fixed point
+// - You have a function that searches for the fixed point of another function
+//
+// It is intuitive but very inneficient, so this is for educational purposes only.
 
 pub fn sqrt(x: f64) -> f64 {
     let dampened_guesser = avg_damp(move |y| x / y);
