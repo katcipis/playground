@@ -3,7 +3,7 @@
 First run the emulator:
 
 ```sh
-docker run --rm --network host gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators gcloud beta emulators pubsub start --project=jojo
+docker run --rm -p 8085:8085 gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators gcloud beta emulators pubsub start --host-port=0.0.0.0:8085 --project=jojo
 ```
 
 Then export this env var before running any other code:
