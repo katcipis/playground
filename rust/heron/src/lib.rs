@@ -34,6 +34,9 @@ fn fixed_point<F: Fn(f64) -> f64 + 'static>(f: F) -> Box<dyn Fn(f64) -> Option<f
         let mut x = x;
         for _ in 1..10000 {
             let next = f(x);
+            // We are missing a tolerance here, but it works for exact squares
+            // But since we are dealing with floats, it would be more correct to
+            // have an explicit tolerance, like what is done on SICP.
             if next == x {
                 return Some(x);
             }
