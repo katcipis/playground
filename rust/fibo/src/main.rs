@@ -1,5 +1,5 @@
 use fibo::fib;
 
 fn main() {
-    println!("0 {}", fib(0));
+    println!("{}", fib(10000000000000));
 }
