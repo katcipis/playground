@@ -1,14 +1,4 @@
 pub fn fib(n: i64) -> i64 {
-    if n == 0 {
-        return 0;
-    }
-    if n == 1 {
-        return 1;
-    }
-    return fib(n - 1) + fib(n - 2);
-}
-
-pub fn fibt(n: i64) -> i64 {
     fn fibrec(n: i64, a: i64, b: i64) -> i64 {
         if n <= 0 {
             return a;
@@ -20,7 +10,7 @@ pub fn fibt(n: i64) -> i64 {
 
 #[cfg(test)]
 mod test {
-    use super::{fib, fibt};
+    use super::fib;
 
     const TESTCASES: &[(i64, i64)] = &[
         (0, 0),
@@ -43,18 +33,6 @@ mod test {
             let want = tcase.1;
 
             let got = fib(n);
-
-            assert_eq!(want, got);
-        }
-    }
-
-    #[test]
-    fn test_fibt() {
-        for tcase in TESTCASES.iter() {
-            let n = tcase.0;
-            let want = tcase.1;
-
-            let got = fibt(n);
 
             assert_eq!(want, got);
         }
