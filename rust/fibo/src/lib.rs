@@ -9,13 +9,13 @@ pub fn fib(n: i64) -> i64 {
 }
 
 pub fn fibt(n: i64) -> i64 {
-    if n == 0 {
-        return 0;
+    fn fibrec(n: i64, a: i64, b: i64) -> i64 {
+        if n <= 0 {
+            return a;
+        }
+        fibrec(n - 1, b, a + b)
     }
-    if n == 1 {
-        return 1;
-    }
-    return fib(n - 1) + fib(n - 2);
+    fibrec(n, 0, 1)
 }
 
 #[cfg(test)]
