@@ -23,6 +23,8 @@ func main() {
 		n, err := io.Copy(w, res.Body)
 		log.Printf("written %d, error: %v", n, err)
 		panicerr(err)
+		err = res.Body.Close()
+		log.Printf("closed: error: %v", err)
 	})
 
 	log.Println("starting to listen")
