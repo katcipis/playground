@@ -21,11 +21,16 @@ func main() {
 		client := &http.Client{}
 		res, err := client.Do(httpReq)
 		panicerr(err)
+		defer func() {
+			err = res.Body.Close()
+			log.Printf("closed: error: %v", err)
+		}()
+
+		w.Header().Set("Content-Type", "text/event-stream; charset=utf-8")
+		w.Header().Set("Transfer-Encoding", "chunked")
+		w.WriteHeader(http.StatusOK)
 		n, err := io.Copy(w, res.Body)
-		log.Printf("written %d, error: %v", n, err)
-		panicerr(err)
-		err = res.Body.Close()
-		log.Printf("closed: error: %v", err)
+		log.Printf("written %d, error %v", n, err)
 	})
 
 	log.Println("starting to listen")
