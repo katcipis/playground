@@ -16,7 +16,8 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		httpReq, err := http.NewRequest(http.MethodPost, "http://localhost:8081", r.Body)
 		panicerr(err)
-		//httpReq.TransferEncoding = []string{"identity"}
+		httpReq.TransferEncoding = []string{"identity"}
+		httpReq.ContentLength = r.ContentLength
 		client := &http.Client{}
 		res, err := client.Do(httpReq)
 		panicerr(err)
