@@ -22,6 +22,7 @@ func main() {
 	duration := flag.Duration("duration", time.Minute, "how long the test will run")
 	maxFiles := flag.Int("maxfiles", 1_000_000, "max files that will be created")
 	writers := flag.Int("writers", 1, "how many concurrent writers")
+	flag.Parse()
 
 	ctx, cancel1 := context.WithTimeout(context.Background(), *duration)
 	defer cancel1()
