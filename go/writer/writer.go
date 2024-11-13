@@ -62,8 +62,8 @@ func main() {
 
 	elapsed := time.Since(start)
 	fmt.Println("\n\n========= RESULTS =========")
-	fmt.Printf("files created: %d", successCount)
-	fmt.Printf("throughput: %d/s", float64(successCount)/elapsed.Seconds())
-	fmt.Printf("errors: %d", errorsCount)
-	fmt.Printf("error rate: %d", errorsCount/(errorsCount+successCount))
+	fmt.Printf("files created: %d\n", successCount)
+	fmt.Printf("throughput: %d/s\n", float64(successCount)/elapsed.Seconds())
+	fmt.Printf("errors: %d\n", errorsCount)
+	fmt.Printf("error rate: %d\n", errorsCount/(errorsCount+successCount))
 }
