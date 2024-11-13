@@ -20,6 +20,7 @@ import (
 func main() {
 	fileSize := flag.Int("filesize", 1024, "filesize")
 	duration := flag.Duration("duration", time.Minute, "how long the test will run")
+	maxFiles := flag.Int("maxfiles", 1_000_000, "max files that will be created")
 	writers := flag.Int("writers", 1, "how many concurrent writers")
 
 	ctx, cancel1 := context.WithTimeout(context.Background(), *duration)
@@ -30,7 +31,12 @@ func main() {
 	buffer := make([]byte, *fileSize)
 	_, _ = rand.Read(buffer)
 
-	fmt.Printf("running writer for %v with %d writers and file size %d\n", *duration, *writers, *fileSize)
+	fmt.Printf("==== running writer ====\n")
+	fmt.Printf("duration: %v\n", *duration)
+	fmt.Printf("maxfiles: %v\n", *maxFiles)
+	fmt.Printf("writers: %d\n", *writers)
+	fmt.Printf("file size: %d\n", *fileSize)
+	fmt.Printf("========================\n")
 
 	wg := &sync.WaitGroup{}
 	wg.Add(*writers)
@@ -46,7 +52,7 @@ func main() {
 		go func() {
 			defer wg.Done()
 
-			for ctx.Err() == nil {
+			for ctx.Err() == nil && atomic.LoadInt64(&successCount) < int64(*maxFiles) {
 				filename := uuid.NewString()
 				if err := os.WriteFile(filename, buffer, 0644); err != nil {
 					log.Printf("error writing file %q: %v", filename, err)
