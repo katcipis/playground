@@ -40,6 +40,8 @@ func main() {
 		successCount int64
 	)
 
+	start := time.Now()
+
 	for range *writers {
 		go func() {
 			defer wg.Done()
@@ -57,8 +59,11 @@ func main() {
 	}
 
 	wg.Wait()
+
+	elapsed := time.Since(start)
 	fmt.Println("\n\n========= RESULTS =========")
 	fmt.Printf("files created: %d", successCount)
+	fmt.Printf("throughput: %d/s", float64(successCount)/elapsed.Seconds())
 	fmt.Printf("errors: %d", errorsCount)
 	fmt.Printf("error rate: %d", errorsCount/(errorsCount+successCount))
 }
