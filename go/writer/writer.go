@@ -20,6 +20,7 @@ import (
 func main() {
 	fileSize := flag.Int("filesize", 1024, "filesize")
 	duration := flag.Duration("duration", time.Minute, "how long the test will run")
+	file := flag.String("file", "", "write always on the this file instead of creating new ones")
 	maxFiles := flag.Int("maxfiles", 1_000_000, "max files that will be created")
 	writers := flag.Int("writers", 1, "how many concurrent writers")
 	flag.Parse()
@@ -54,7 +55,10 @@ func main() {
 			defer wg.Done()
 
 			for ctx.Err() == nil && atomic.LoadInt64(&successCount) < int64(*maxFiles) {
-				filename := uuid.NewString()
+				filename := *file
+				if filename == "" {
+					filename = uuid.NewString()
+				}
 				if err := os.WriteFile(filename, buffer, 0644); err != nil {
 					log.Printf("error writing file %q: %v", filename, err)
 					atomic.AddInt64(&errorsCount, 1)
@@ -69,7 +73,7 @@ func main() {
 
 	elapsed := time.Since(start)
 	fmt.Println("\n\n========= RESULTS =========")
-	fmt.Printf("files created: %d\n", successCount)
+	fmt.Printf("written: %d\n", successCount)
 	fmt.Printf("throughput: %f/s\n", float64(successCount)/elapsed.Seconds())
 	fmt.Printf("errors: %d\n", errorsCount)
 	fmt.Printf("error rate: %d\n", errorsCount/(errorsCount+successCount))
